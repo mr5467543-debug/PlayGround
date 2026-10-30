@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Echoes of the 100th Floor · Design Dossier</title>
+<meta name="description" content="A design-first dossier for a hardcore mobile tactical RPG roguelike: 50 Stat-Lock classes, 3,003 builds, 100 persistent floors, and the Echo death loop.">
+<meta property="og:title" content="Echoes of the 100th Floor · Design Dossier">
+<meta property="og:description" content="A design-first dossier for a hardcore mobile tactical RPG roguelike: 50 Stat-Lock classes, 3,003 builds, 100 persistent floors, and the Echo death loop.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="landing">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">E</span>Echoes of the 100th Floor</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html" aria-current="page">Overview</a>
+      <a href="gdd.html">Game design</a>
+      <a href="tech.html">Technical plan</a>
+      <a href="classes.html">Class matrix</a>
+    </nav>
+    <span class="version-tag">Dossier v1.0</span>
+  </div>
+</header>
+<main id="main">
+
+<section class="hero">
+  <div class="shell">
+    <div class="hero-grid">
+      <div>
+        <p class="kicker">Mobile tactical roguelike · design dossier v1.0</p>
+        <h1>Every death becomes a boss on the <span class="accent">100th floor.</span></h1>
+        <p class="hero-lede">A portrait, offline-first tactical RPG where your corpse keeps your build. Ten stat points derive one of <strong>50 callings</strong>. The hero you lose becomes the enemy you must fight back down to reclaim.</p>
+        <div class="hero-actions">
+          <a class="btn" href="gdd.html">Read the game design doc</a>
+          <a class="btn ghost" href="#classes">Explore the 50 classes</a>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><strong>50</strong><span>Callings</span></div>
+          <div class="stat"><strong>3,003</strong><span>Legal builds</span></div>
+          <div class="stat"><strong>100</strong><span>Persistent floors</span></div>
+          <div class="stat"><strong>0</strong><span>Respecs</span></div>
+        </div>
+      </div>
+      <div class="obelisk-wrap" aria-hidden="true">
+      <div class="obelisk">
+        <p class="obelisk-title">Persistent dungeon · 100 floors</p>
+        <div class="floors"><div class="floor-band"><span>91–100</span><span class="cells" aria-hidden="true"><span class="cell" title="Floor 91"></span><span class="cell" title="Floor 92"></span><span class="cell" title="Floor 93"></span><span class="cell" title="Floor 94"></span><span class="cell" title="Floor 95"></span><span class="cell" title="Floor 96"></span><span class="cell" title="Floor 97"></span><span class="cell" title="Floor 98"></span><span class="cell" title="Floor 99"></span><span class="cell gate" title="Floor 100"></span></span></div><div class="floor-band"><span>81–90</span><span class="cells" aria-hidden="true"><span class="cell" title="Floor 81"></span><span class="cell" title="Floor 82"></span><span class="cell" title="Floor 83"></span><span class="cell" title="Floor 84"></span><span class="cell" title="Floor 85"></span><span class="cell" title="Floor 86"></span><span class="cell" title="Floor 87"></span><span class="cell" title="Floor 88"></span><span class="cell" title="Floor 89"></span><span class="cell cap" title="Floor 90"></span></span></div><div class="floor-band"><span>71–80</span><span class="cells" aria-hidden="true"><span class="cell" title="Floor 71"></span><span class="cell" title="Floor 72"></span><span class="cell" title="Floor 73"></span><span class="cell" title="Floor 74"></span><span class="cell" title="Floor 75"></span><span class="cell" title="Floor 76"></span><span class="cell" title="Floor 77"></span><span class="cell" title="Floor 78"></span><span class="cell" title="Floor 79"></span><span class="cell cap" title="Floor 80"></span></span></div><div class="floor-band"><span>61–70</span><span class="cells" aria-hidden="true"><span class="cell" title="Floor 61"></span><span class="cell" title="Floor 62"></span><span class="cell" title="Floor 63"></span><span class="cell" title="Floor 64"></span><span class="cell" title="Floor 65"></span><span class="cell" title="Floor 66"></span><span class="cell" title="Floor 67"></span><span class="cell" title="Floor 68"></span><span class="cell" title="Floor 69"></span><span class="cell cap" title="Floor 70"></span></span></div><div class="floor-band"><span>51–60</span><span class="cells" aria-hidden="true"><span class="cell" title="Floor 51"></span><span class="cell" title="Floor 52"></span><span class="cell" title="Floor 53"></span><span class="cell" title="Floor 54"></span><span class="cell" title="Floor 55"></span><span class="cell" title="Floor 56"></span><span class="cell" title="Floor 57"></span><span class="cell" title="Floor 58"></span><span class="cell" title="Floor 59"></span><span class="cell cap" title="Floor 60"></span></span></div><div class="floor-band"><span>41–50</span><span class="cells" aria-hidden="true"><span class="cell" title="Floor 41"></span><span class="cell" title="Floor 42"></span><span class="cell" title="Floor 43"></span><span class="cell" title="Floor 44"></span><span class="cell" title="Floor 45"></span><span class="cell" title="Floor 46"></span><span class="cell" title="Floor 47"></span><span class="cell" title="Floor 48"></span><span class="cell" title="Floor 49"></span><span class="cell cap" title="Floor 50"></span></span></div><div class="floor-band"><span>31–40</span><span class="cells" aria-hidden="true"><span class="cell" title="Floor 31"></span><span class="cell" title="Floor 32"></span><span class="cell" title="Floor 33"></span><span class="cell" title="Floor 34"></span><span class="cell" title="Floor 35"></span><span class="cell" title="Floor 36"></span><span class="cell" title="Floor 37"></span><span class="cell" title="Floor 38"></span><span class="cell" title="Floor 39"></span><span class="cell cap" title="Floor 40"></span></span></div><div class="floor-band"><span>21–30</span><span class="cells" aria-hidden="true"><span class="cell" title="Floor 21"></span><span class="cell" title="Floor 22"></span><span class="cell" title="Floor 23"></span><span class="cell" title="Floor 24"></span><span class="cell" title="Floor 25"></span><span class="cell" title="Floor 26"></span><span class="cell" title="Floor 27"></span><span class="cell" title="Floor 28"></span><span class="cell" title="Floor 29"></span><span class="cell cap" title="Floor 30"></span></span></div><div class="floor-band"><span>11–20</span><span class="cells" aria-hidden="true"><span class="cell" title="Floor 11"></span><span class="cell" title="Floor 12"></span><span class="cell" title="Floor 13"></span><span class="cell" title="Floor 14"></span><span class="cell" title="Floor 15"></span><span class="cell" title="Floor 16"></span><span class="cell" title="Floor 17"></span><span class="cell" title="Floor 18"></span><span class="cell" title="Floor 19"></span><span class="cell cap" title="Floor 20"></span></span></div><div class="floor-band"><span>1–10</span><span class="cells" aria-hidden="true"><span class="cell" title="Floor 1"></span><span class="cell" title="Floor 2"></span><span class="cell" title="Floor 3"></span><span class="cell" title="Floor 4"></span><span class="cell" title="Floor 5"></span><span class="cell" title="Floor 6"></span><span class="cell" title="Floor 7"></span><span class="cell" title="Floor 8"></span><span class="cell" title="Floor 9"></span><span class="cell cap" title="Floor 10"></span></span></div></div>
+        <p class="obelisk-caption">Boss floor · every 10</p>
+      </div>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="loop">
+  <div class="shell">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="eyebrow">The Echo loop</p>
+        <h2>Death is a place, not a reset.</h2>
+      </div>
+      <p>The only true loss is the time you choose not to spend. The dungeon keeps everything else.</p>
+    </div>
+    <div class="loop">
+      <article class="loop-step death" data-reveal>
+        <h3>The hero falls</h3>
+        <p>HP reaches zero. The run ends permanently. Kit, gear, and the death tile are stamped into the floor.</p>
+      </article>
+      <article class="loop-step echo" data-reveal>
+        <h3>The Echo wakes</h3>
+        <p>A named AI combatant now holds that floor, scored from the same skills you used — desaturated, slower, wrong.</p>
+      </article>
+      <article class="loop-step descent" data-reveal>
+        <h3>A new hero descends</h3>
+        <p>Ten points make a different calling. Layouts, secrets, shortcuts, and corpses are exactly where you left them.</p>
+      </article>
+      <article class="loop-step reclaim" data-reveal>
+        <h3>Reclaim or fall again</h3>
+        <p>Beat the Echo to recover its gear and memory. Fail, and the floor keeps another corpse with your name on it.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="classes">
+  <div class="shell">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="eyebrow">Stat-Lock engine</p>
+        <h2>50 callings from one allocation.</h2>
+      </div>
+      <p>Allocate 10 points across six stats. Secrets resolve first, the two highest stats pick a lane, and thresholds inside the lane pick the class. Every legal build resolves to exactly one calling.</p>
+    </div>
+    <div class="explorer-controls" role="group" aria-label="Filter classes">
+      <button class="filter-btn" type="button" data-filter="all" aria-pressed="true">All 50</button>
+      <button class="filter-btn" type="button" data-filter="pure" aria-pressed="false">Pure 10</button>
+      <button class="filter-btn" type="button" data-filter="hybrid" aria-pressed="false">Hybrid 20</button>
+      <button class="filter-btn" type="button" data-filter="tank" aria-pressed="false">Tank 10</button>
+      <button class="filter-btn" type="button" data-filter="secret" aria-pressed="false">Secret 10</button>
+      <input class="search" type="search" data-class-search placeholder="Search name, lane, role…" aria-label="Search classes">
+      <span class="result-count" data-result-count>50 / 50 callings</span>
+    </div>
+    <div class="class-grid" data-class-grid>
+      <article class="class-card" data-class-card data-kind="secret" data-search="the equilibrium equilibrium  secret adaptive generalist perfect balance: the first skill you use each combat costs 0 ap. even hand">
+        <div class="class-top"><span class="lane">Global</span><span class="builds">15 builds</span></div>
+        <h3>The Equilibrium</h3>
+        <p class="epithet">“Six hungers, one perfect stillness.”</p>
+        <p class="req">Spread 2 / 2 / 2 / 2 / 1 / 1</p>
+        <p class="passive">Perfect Balance: the first skill you use each combat costs 0 AP.</p>
+        <div class="sig"><span>Adaptive generalist</span><b>Even Hand</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="secret" data-search="the gambler gambler  secret high-variance ranged striker house edge: critical hits refund 1 ap; critical misses deal 1 damage to self. coin flip">
+        <div class="class-top"><span class="lane">Global</span><span class="builds">17 builds</span></div>
+        <h3>The Gambler</h3>
+        <p class="epithet">“Luck is not a stat. It is a debt.”</p>
+        <p class="req">LUK ≥ 6 · DEX ≥ 2 · LUK &gt; DEX · STR ≤ 1 · INT ≤ 1 · VIT ≤ 1 · WIS ≤ 1</p>
+        <p class="passive">House Edge: critical hits refund 1 AP; critical misses deal 1 damage to self.</p>
+        <div class="sig"><span>High-variance ranged striker</span><b>Coin Flip</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="secret" data-search="the berserker berserker  secret all-in melee executioner no defense: cannot equip armor or shields. gains +1 ap while below 50% hp. reckless swing">
+        <div class="class-top"><span class="lane">Global</span><span class="builds">14 builds</span></div>
+        <h3>The Berserker</h3>
+        <p class="epithet">“Eight parts fury. Two parts meat. No defense.”</p>
+        <p class="req">STR ≥ 8 · VIT ≤ 2 · INT ≤ 1 · WIS = 0</p>
+        <p class="passive">No Defense: cannot equip armor or shields. Gains +1 AP while below 50% HP.</p>
+        <div class="sig"><span>All-in melee executioner</span><b>Reckless Swing</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="secret" data-search="the oathbreaker oathbreaker  secret tri-stat skirmisher broken word: enemies adjacent to you lose 10% of their magic resistance. broken vow">
+        <div class="class-top"><span class="lane">Global</span><span class="builds">15 builds</span></div>
+        <h3>The Oathbreaker</h3>
+        <p class="epithet">“Three vows, broken in perfect measure.”</p>
+        <p class="req">STR = INT · INT = WIS · STR ≥ 2</p>
+        <p class="passive">Broken Word: enemies adjacent to you lose 10% of their magic resistance.</p>
+        <div class="sig"><span>Tri-stat skirmisher</span><b>Broken Vow</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="secret" data-search="the ascetic ascetic  secret evasion mystic empty vessel: immune to bleed and poison. max hp is halved, but evasion is doubled. empty palm">
+        <div class="class-top"><span class="lane">Global</span><span class="builds">89 builds</span></div>
+        <h3>The Ascetic</h3>
+        <p class="epithet">“No body to wound. No fortune to steal.”</p>
+        <p class="req">VIT = 0 · LUK = 0 · WIS ≥ 3 · STR ≤ 4 · DEX ≤ 4 · INT ≤ 4</p>
+        <p class="passive">Empty Vessel: immune to Bleed and Poison. Max HP is halved, but evasion is doubled.</p>
+        <div class="sig"><span>Evasion mystic</span><b>Empty Palm</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="secret" data-search="the blind prophet blind_prophet  secret support caster / trap oracle unseen sight: all traps and secret doors on the floor are revealed on entry. foreseen blow">
+        <div class="class-top"><span class="lane">Global</span><span class="builds">40 builds</span></div>
+        <h3>The Blind Prophet</h3>
+        <p class="epithet">“The dungeon shows them everything. That is the problem.”</p>
+        <p class="req">WIS ≥ 6 · DEX = 0 · LUK ≤ 1</p>
+        <p class="passive">Unseen Sight: all traps and secret doors on the floor are revealed on entry.</p>
+        <div class="sig"><span>Support caster / trap oracle</span><b>Foreseen Blow</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="secret" data-search="the heretic heretic  secret melee warlock profane fuel: spells may be paid with hp instead of mp at 2 hp per 1 mp. profane bolt">
+        <div class="class-top"><span class="lane">Global</span><span class="builds">5 builds</span></div>
+        <h3>The Heretic</h3>
+        <p class="epithet">“Faith is a resource. He spends it.”</p>
+        <p class="req">INT ≥ 5 · WIS = 0 · STR ≥ 2 · VIT ≥ 2</p>
+        <p class="passive">Profane Fuel: spells may be paid with HP instead of MP at 2 HP per 1 MP.</p>
+        <div class="sig"><span>Melee warlock</span><b>Profane Bolt</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="secret" data-search="the martyr martyr  secret sacrificial tank offering: when you die, your echo spawns with -20% hp and grants double memory shards. offering">
+        <div class="class-top"><span class="lane">Global</span><span class="builds">20 builds</span></div>
+        <h3>The Martyr</h3>
+        <p class="epithet">“The body is the only offering the dungeon accepts.”</p>
+        <p class="req">VIT ≥ 7 · STR = 0 · DEX = 0</p>
+        <p class="passive">Offering: when you die, your Echo spawns with -20% HP and grants double Memory Shards.</p>
+        <div class="sig"><span>Sacrificial tank</span><b>Offering</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="secret" data-search="the thing that waits thing_that_waits  secret attrition horror patience: at the start of your third consecutive turn in combat, gain +2 ap. linger">
+        <div class="class-top"><span class="lane">Global</span><span class="builds">75 builds</span></div>
+        <h3>The Thing That Waits</h3>
+        <p class="epithet">“It has been on the 100th floor longer than the floor has existed.”</p>
+        <p class="req">STR ≥ 1 · DEX ≥ 1 · INT ≥ 1 · VIT ≥ 1 · WIS ≥ 1 · LUK ≥ 1 · STR ≤ 3 · DEX ≤ 3 · INT ≤ 3 · VIT ≤ 3 · WIS ≤ 3 · LUK ≤ 3</p>
+        <p class="passive">Patience: at the start of your third consecutive turn in combat, gain +2 AP.</p>
+        <div class="sig"><span>Attrition horror</span><b>Linger</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="secret" data-search="the singularity singularity  secret perfect specialization absolute: +25% to your highest stat's derived effects; all other stats count as 0 for requirements. perfect strike">
+        <div class="class-top"><span class="lane">Global</span><span class="builds">3 builds</span></div>
+        <h3>The Singularity</h3>
+        <p class="epithet">“One number. Ten points. No remainder.”</p>
+        <p class="req">Spread 10 / 0 / 0 / 0 / 0 / 0</p>
+        <p class="passive">Absolute: +25% to your highest stat's derived effects; all other stats count as 0 for requirements.</p>
+        <div class="sig"><span>Perfect specialization</span><b>Perfect Strike</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="pure" data-search="the muscle wizard muscle_wizard pure_str pure unarmed burst fist of the fifth circle: unarmed strikes scale with str and ignore 20% of def. haymaker">
+        <div class="class-top"><span class="lane">PURE_STR</span><span class="builds">5 builds</span></div>
+        <h3>The Muscle Wizard</h3>
+        <p class="epithet">“Arcane theory, physical delivery.”</p>
+        <p class="req">STR ≥ 7 · INT ≥ 2</p>
+        <p class="passive">Fist of the Fifth Circle: unarmed strikes scale with STR and ignore 20% of DEF.</p>
+        <div class="sig"><span>Unarmed burst</span><b>Haymaker</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="pure" data-search="the ghost ghost pure_dex pure evasion assassin untouchable: +15% evasion while wearing no armor. ghost step">
+        <div class="class-top"><span class="lane">PURE_DEX</span><span class="builds">19 builds</span></div>
+        <h3>The Ghost</h3>
+        <p class="epithet">“Armor is a confession that you intend to be hit.”</p>
+        <p class="req">DEX ≥ 8 · VIT ≤ 1</p>
+        <p class="passive">Untouchable: +15% evasion while wearing no armor.</p>
+        <div class="sig"><span>Evasion assassin</span><b>Ghost Step</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="pure" data-search="the glass cannon glass_cannon pure_int pure ranged nuker fragile genius: +30% spell damage, -30% max hp. meteor shard">
+        <div class="class-top"><span class="lane">PURE_INT</span><span class="builds">20 builds</span></div>
+        <h3>The Glass Cannon</h3>
+        <p class="epithet">“One perfect spell. One fatal mistake.”</p>
+        <p class="req">INT ≥ 8</p>
+        <p class="passive">Fragile Genius: +30% spell damage, -30% max HP.</p>
+        <div class="sig"><span>Ranged nuker</span><b>Meteor Shard</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="pure" data-search="the wall wall pure_vit pure anchor tank immovable: cannot be pushed, pulled, or knocked back. shield bash">
+        <div class="class-top"><span class="lane">PURE_VIT</span><span class="builds">11 builds</span></div>
+        <h3>The Wall</h3>
+        <p class="epithet">“Some doors are made of people.”</p>
+        <p class="req">VIT ≥ 8</p>
+        <p class="passive">Immovable: cannot be pushed, pulled, or knocked back.</p>
+        <div class="sig"><span>Anchor tank</span><b>Shield Bash</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="pure" data-search="the hearth hearth pure_vit pure sustain tank warmth: regenerate 3% max hp at the start of each turn; adjacent summons regenerate 3% as well. warm light">
+        <div class="class-top"><span class="lane">PURE_VIT</span><span class="builds">12 builds</span></div>
+        <h3>The Hearth</h3>
+        <p class="epithet">“A fire that does not go out, no matter how deep the dark.”</p>
+        <p class="req">WIS ≥ 2</p>
+        <p class="passive">Warmth: regenerate 3% max HP at the start of each turn; adjacent summons regenerate 3% as well.</p>
+        <div class="sig"><span>Sustain tank</span><b>Warm Light</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the monk monk str+dex hybrid mobile bruiser flowing form: moving 2+ tiles before an attack grants +1 ap next turn. flurry">
+        <div class="class-top"><span class="lane">STR+DEX</span><span class="builds">129 builds</span></div>
+        <h3>The Monk</h3>
+        <p class="epithet">“The body is a weapon. The mind is the sheath.”</p>
+        <p class="req">STR ≥ DEX</p>
+        <p class="passive">Flowing Form: moving 2+ tiles before an attack grants +1 AP next turn.</p>
+        <div class="sig"><span>Mobile bruiser</span><b>Flurry</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the paladin paladin str+int hybrid holy frontline aegis: you and adjacent summons take 10% less damage. smite">
+        <div class="class-top"><span class="lane">STR+INT</span><span class="builds">26 builds</span></div>
+        <h3>The Paladin</h3>
+        <p class="epithet">“Strength above intellect. Intellect above faith. Faith above all.”</p>
+        <p class="req">STR &gt; INT · INT &gt; WIS · WIS ≥ 1</p>
+        <p class="passive">Aegis: you and adjacent summons take 10% less damage.</p>
+        <div class="sig"><span>Holy frontline</span><b>Smite</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="tank" data-search="the crusader crusader str+vit tank holy bruiser zeal: below 50% hp, gain +20% damage and +10% damage reduction. shield charge">
+        <div class="class-top"><span class="lane">STR+VIT</span><span class="builds">41 builds</span></div>
+        <h3>The Crusader</h3>
+        <p class="epithet">“The body is a ram. The faith is the fuse.”</p>
+        <p class="req">WIS ≥ 2</p>
+        <p class="passive">Zeal: below 50% HP, gain +20% damage and +10% damage reduction.</p>
+        <div class="sig"><span>Holy bruiser</span><b>Shield Charge</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the bruiser bruiser str+vit hybrid frontline brawler second wind: the first time you drop below 30% hp each combat, heal 15% max hp. body blow">
+        <div class="class-top"><span class="lane">STR+VIT</span><span class="builds">69 builds</span></div>
+        <h3>The Bruiser</h3>
+        <p class="epithet">“The plan is to still be standing.”</p>
+        <p class="req">STR ≥ VIT</p>
+        <p class="passive">Second Wind: the first time you drop below 30% HP each combat, heal 15% max HP.</p>
+        <div class="sig"><span>Frontline brawler</span><b>Body Blow</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the reaver reaver str+luk hybrid crit-fishing bruiser bloodlust: killing an enemy restores 2 ap and 5% max hp. rend">
+        <div class="class-top"><span class="lane">STR+LUK</span><span class="builds">41 builds</span></div>
+        <h3>The Reaver</h3>
+        <p class="epithet">“Luck is what you take from the corpse.”</p>
+        <p class="req">STR &gt; LUK</p>
+        <p class="passive">Bloodlust: killing an enemy restores 2 AP and 5% max HP.</p>
+        <div class="sig"><span>Crit-fishing bruiser</span><b>Rend</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the spellblade spellblade dex+int hybrid magic melee enchanted edge: basic attacks deal +25% of your magic damage as elemental damage. arcane slash">
+        <div class="class-top"><span class="lane">DEX+INT</span><span class="builds">70 builds</span></div>
+        <h3>The Spellblade</h3>
+        <p class="epithet">“Six parts theory. Four parts violence.”</p>
+        <p class="req">INT &gt; DEX</p>
+        <p class="passive">Enchanted Edge: basic attacks deal +25% of your magic damage as elemental damage.</p>
+        <div class="sig"><span>Magic melee</span><b>Arcane Slash</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the spellthief spellthief dex+int hybrid anti-caster disruptor siphon: damaging an enemy with a spell steals 2 mp from them. mana siphon">
+        <div class="class-top"><span class="lane">DEX+INT</span><span class="builds">33 builds</span></div>
+        <h3>The Spellthief</h3>
+        <p class="epithet">“Your magic. Her hands. No receipt.”</p>
+        <p class="req">DEX &gt; INT · DEX ≥ 5</p>
+        <p class="passive">Siphon: damaging an enemy with a spell steals 2 MP from them.</p>
+        <div class="sig"><span>Anti-caster disruptor</span><b>Mana Siphon</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="tank" data-search="the bulwark bulwark dex+vit tank shield tank shield wall: block chance +25% when you did not move last turn. shield wall">
+        <div class="class-top"><span class="lane">DEX+VIT</span><span class="builds">6 builds</span></div>
+        <h3>The Bulwark</h3>
+        <p class="epithet">“The safest place on the floor is behind him. Usually.”</p>
+        <p class="req">VIT ≥ 6</p>
+        <p class="passive">Shield Wall: block chance +25% when you did not move last turn.</p>
+        <div class="sig"><span>Shield tank</span><b>Shield Wall</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the skirmisher skirmisher dex+vit hybrid mobile frontline harrier: +1 ap on any turn in which you both move and attack. hit and run">
+        <div class="class-top"><span class="lane">DEX+VIT</span><span class="builds">93 builds</span></div>
+        <h3>The Skirmisher</h3>
+        <p class="epithet">“Hold the line? She would rather move it.”</p>
+        <p class="req">DEX ≥ VIT</p>
+        <p class="passive">Harrier: +1 AP on any turn in which you both move and attack.</p>
+        <div class="sig"><span>Mobile frontline</span><b>Hit and Run</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the ranger ranger dex+wis hybrid ranged scout trailcraft: reveal adjacent rooms on entry and gain +1 tile attack range. hunter's mark">
+        <div class="class-top"><span class="lane">DEX+WIS</span><span class="builds">38 builds</span></div>
+        <h3>The Ranger</h3>
+        <p class="epithet">“Every floor has a trail. Most of them end badly.”</p>
+        <p class="req">LUK ≥ 2</p>
+        <p class="passive">Trailcraft: reveal adjacent rooms on entry and gain +1 tile attack range.</p>
+        <div class="sig"><span>Ranged scout</span><b>Hunter's Mark</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="pure" data-search="the colossus colossus pure_str pure heavy melee unstoppable: overkill damage carries to the next enemy in an adjacent tile. cleave">
+        <div class="class-top"><span class="lane">PURE_STR</span><span class="builds">77 builds</span></div>
+        <h3>The Colossus</h3>
+        <p class="epithet">“Strength, with just enough sense to keep swinging.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Unstoppable: overkill damage carries to the next enemy in an adjacent tile.</p>
+        <div class="sig"><span>Heavy melee</span><b>Cleave</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="pure" data-search="the duelist duelist pure_dex pure single-target finesse riposte: the first melee attack that misses you each turn is countered for 50% damage. lunge">
+        <div class="class-top"><span class="lane">PURE_DEX</span><span class="builds">76 builds</span></div>
+        <h3>The Duelist</h3>
+        <p class="epithet">“One blade. One opening. One hundred floors.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Riposte: the first melee attack that misses you each turn is countered for 50% damage.</p>
+        <div class="sig"><span>Single-target finesse</span><b>Lunge</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="pure" data-search="the archivist archivist pure_int pure control caster marginalia: status effects you apply last one extra turn. ink blot">
+        <div class="class-top"><span class="lane">PURE_INT</span><span class="builds">74 builds</span></div>
+        <h3>The Archivist</h3>
+        <p class="epithet">“Every floor is a page. She is cataloguing them all.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Marginalia: status effects you apply last one extra turn.</p>
+        <div class="sig"><span>Control caster</span><b>Ink Blot</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="tank" data-search="the anchor anchor pure_vit tank pure bodyguard ballast: cannot be moved. you and adjacent summons gain +15% physical resistance. hold fast">
+        <div class="class-top"><span class="lane">PURE_VIT</span><span class="builds">56 builds</span></div>
+        <h3>The Anchor</h3>
+        <p class="epithet">“Some heroes hold the line. He is the line.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Ballast: cannot be moved. You and adjacent summons gain +15% physical resistance.</p>
+        <div class="sig"><span>Pure bodyguard</span><b>Hold Fast</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="pure" data-search="the oracle oracle pure_wis pure support / reveal prescience: once per floor, reroll a failed trap check or a lethal hit. foresight">
+        <div class="class-top"><span class="lane">PURE_WIS</span><span class="builds">42 builds</span></div>
+        <h3>The Oracle</h3>
+        <p class="epithet">“She has already seen the floor. She is not impressed.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Prescience: once per floor, reroll a failed trap check or a lethal hit.</p>
+        <div class="sig"><span>Support / reveal</span><b>Foresight</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="pure" data-search="the fool fool pure_luk pure loot-driven wildcard fortune's fool: 25% chance to completely negate any damage instance. trip">
+        <div class="class-top"><span class="lane">PURE_LUK</span><span class="builds">84 builds</span></div>
+        <h3>The Fool</h3>
+        <p class="epithet">“The dungeon has killed wiser heroes than you. That is the joke.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Fortune's Fool: 25% chance to completely negate any damage instance.</p>
+        <div class="sig"><span>Loot-driven wildcard</span><b>Trip</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the buccaneer buccaneer str+dex hybrid hit-and-run duelist sea legs: no movement penalty on hazard tiles; disengage costs 0 ap once per turn. saber slash">
+        <div class="class-top"><span class="lane">STR+DEX</span><span class="builds">84 builds</span></div>
+        <h3>The Buccaneer</h3>
+        <p class="epithet">“Fast hands, faster exit.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Sea Legs: no movement penalty on hazard tiles; disengage costs 0 AP once per turn.</p>
+        <div class="sig"><span>Hit-and-run duelist</span><b>Saber Slash</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the hexblade hexblade str+int hybrid cursed melee hex: enemies you hit take +15% damage from all sources until your next turn. cursed edge">
+        <div class="class-top"><span class="lane">STR+INT</span><span class="builds">163 builds</span></div>
+        <h3>The Hexblade</h3>
+        <p class="epithet">“The sword is cursed. So is the hand.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Hex: enemies you hit take +15% damage from all sources until your next turn.</p>
+        <div class="sig"><span>Cursed melee</span><b>Cursed Edge</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="tank" data-search="the juggernaut juggernaut str+vit tank charging tank momentum: each tile moved in a straight line adds +5% damage to your next attack (max +30%). ram">
+        <div class="class-top"><span class="lane">STR+VIT</span><span class="builds">68 builds</span></div>
+        <h3>The Juggernaut</h3>
+        <p class="epithet">“Momentum is a form of armor.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Momentum: each tile moved in a straight line adds +5% damage to your next attack (max +30%).</p>
+        <div class="sig"><span>Charging tank</span><b>Ram</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the warpriest warpriest str+wis hybrid battle support litany: healing also grants the target +10% damage for one turn. war hymn">
+        <div class="class-top"><span class="lane">STR+WIS</span><span class="builds">144 builds</span></div>
+        <h3>The Warpriest</h3>
+        <p class="epithet">“The sermon is short. The hammer is long.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Litany: healing also grants the target +10% damage for one turn.</p>
+        <div class="sig"><span>Battle support</span><b>War Hymn</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the corsair corsair str+luk hybrid loot-driven duelist plunder: +20% gold and a 10% chance to steal an enemy's equipped item on kill. cutlass">
+        <div class="class-top"><span class="lane">STR+LUK</span><span class="builds">114 builds</span></div>
+        <h3>The Corsair</h3>
+        <p class="epithet">“The dungeon owes her money. She intends to collect.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Plunder: +20% gold and a 10% chance to steal an enemy's equipped item on kill.</p>
+        <div class="sig"><span>Loot-driven duelist</span><b>Cutlass</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the nightblade nightblade dex+int hybrid stealth caster umbral step: teleport up to 3 tiles once per combat; next attack is a guaranteed critical. umbral cut">
+        <div class="class-top"><span class="lane">DEX+INT</span><span class="builds">75 builds</span></div>
+        <h3>The Nightblade</h3>
+        <p class="epithet">“She learned magic to become harder to see.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Umbral Step: teleport up to 3 tiles once per combat; next attack is a guaranteed critical.</p>
+        <div class="sig"><span>Stealth caster</span><b>Umbral Cut</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="tank" data-search="the ironclad ironclad dex+vit tank defensive brawler iron skin: physical damage taken is reduced by 2 flat per hit. hammerfall">
+        <div class="class-top"><span class="lane">DEX+VIT</span><span class="builds">65 builds</span></div>
+        <h3>The Ironclad</h3>
+        <p class="epithet">“Plate, patience, and a very large hammer.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Iron Skin: physical damage taken is reduced by 2 flat per hit.</p>
+        <div class="sig"><span>Defensive brawler</span><b>Hammerfall</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the stalker stalker dex+wis hybrid scout / ranged control hunter's patience: attacks from fog of war or flanking deal +20% damage. silent shot">
+        <div class="class-top"><span class="lane">DEX+WIS</span><span class="builds">94 builds</span></div>
+        <h3>The Stalker</h3>
+        <p class="epithet">“The dungeon is loud. She is not.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Hunter's Patience: attacks from fog of war or flanking deal +20% damage.</p>
+        <div class="sig"><span>Scout / ranged control</span><b>Silent Shot</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the trickster trickster dex+luk hybrid debuff skirmisher misdirection: the first attack each combat targets the nearest enemy instead of you. sleight">
+        <div class="class-top"><span class="lane">DEX+LUK</span><span class="builds">135 builds</span></div>
+        <h3>The Trickster</h3>
+        <p class="epithet">“The trap was never for you. It was for the thing behind you.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Misdirection: the first attack each combat targets the nearest enemy instead of you.</p>
+        <div class="sig"><span>Debuff skirmisher</span><b>Sleight</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="tank" data-search="the necrophage necrophage int+vit tank corpse-fed tank carrion feast: killing an enemy heals 10% max hp and restores 1 mp. carrion bite">
+        <div class="class-top"><span class="lane">INT+VIT</span><span class="builds">38 builds</span></div>
+        <h3>The Necrophage</h3>
+        <p class="epithet">“The dungeon keeps its dead. He keeps them closer.”</p>
+        <p class="req">LUK ≥ 2</p>
+        <p class="passive">Carrion Feast: killing an enemy heals 10% max HP and restores 1 MP.</p>
+        <div class="sig"><span>Corpse-fed tank</span><b>Carrion Bite</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="tank" data-search="the warlock warlock int+vit tank drain tank pact: spell damage heals you for 15% of the damage dealt. drain life">
+        <div class="class-top"><span class="lane">INT+VIT</span><span class="builds">111 builds</span></div>
+        <h3>The Warlock</h3>
+        <p class="epithet">“The patron asked for a body. He brought his own.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Pact: spell damage heals you for 15% of the damage dealt.</p>
+        <div class="sig"><span>Drain tank</span><b>Drain Life</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the theurge theurge int+wis hybrid hybrid caster confluence: spells cost 1 less mp for each summon on the field (max 2); with no summon, gain +1 mp at the start of each turn. twin bolt">
+        <div class="class-top"><span class="lane">INT+WIS</span><span class="builds">74 builds</span></div>
+        <h3>The Theurge</h3>
+        <p class="epithet">“Two heavens, one argument.”</p>
+        <p class="req">INT ≥ WIS</p>
+        <p class="passive">Confluence: spells cost 1 less MP for each summon on the field (max 2); with no summon, gain +1 MP at the start of each turn.</p>
+        <div class="sig"><span>Hybrid caster</span><b>Twin Bolt</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the inquisitor inquisitor int+wis hybrid anti-magic caster inquisition: enemies you damage lose 2 mp and cannot heal for one turn. brand">
+        <div class="class-top"><span class="lane">INT+WIS</span><span class="builds">45 builds</span></div>
+        <h3>The Inquisitor</h3>
+        <p class="epithet">“Faith first. Questions later. Answers never.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Inquisition: enemies you damage lose 2 MP and cannot heal for one turn.</p>
+        <div class="sig"><span>Anti-magic caster</span><b>Brand</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the wild mage wild_mage int+luk hybrid chaos nuker wild surge: every spell has a 20% chance to cost 0 mp and deal +50% damage. chaos bolt">
+        <div class="class-top"><span class="lane">INT+LUK</span><span class="builds">128 builds</span></div>
+        <h3>The Wild Mage</h3>
+        <p class="epithet">“The spell works. The question is how.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Wild Surge: every spell has a 20% chance to cost 0 MP and deal +50% damage.</p>
+        <div class="sig"><span>Chaos nuker</span><b>Chaos Bolt</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="tank" data-search="the shaman shaman vit+wis tank totem support totem: summon a 1 hp totem once per combat that taunts enemies for 2 turns. totem">
+        <div class="class-top"><span class="lane">VIT+WIS</span><span class="builds">32 builds</span></div>
+        <h3>The Shaman</h3>
+        <p class="epithet">“The spirits are not guests. They are tenants. She collects rent.”</p>
+        <p class="req">LUK ≥ 2</p>
+        <p class="passive">Totem: summon a 1 HP totem once per combat that taunts enemies for 2 turns.</p>
+        <div class="sig"><span>Totem support</span><b>Totem</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="tank" data-search="the templar templar vit+wis tank protection tank bulwark: you take 10% less damage. 20% of damage taken by adjacent summons is redirected to you. shield of faith">
+        <div class="class-top"><span class="lane">VIT+WIS</span><span class="builds">58 builds</span></div>
+        <h3>The Templar</h3>
+        <p class="epithet">“A shield is a prayer with edges.”</p>
+        <p class="req">VIT ≥ WIS</p>
+        <p class="passive">Bulwark: you take 10% less damage. 20% of damage taken by adjacent summons is redirected to you.</p>
+        <div class="sig"><span>Protection tank</span><b>Shield of Faith</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="tank" data-search="the sentinel sentinel vit+wis tank magic-defense tank ward: you and summons within 2 tiles gain +20% magic resistance. ward">
+        <div class="class-top"><span class="lane">VIT+WIS</span><span class="builds">32 builds</span></div>
+        <h3>The Sentinel</h3>
+        <p class="epithet">“She does not guard the door. She is the door.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Ward: you and summons within 2 tiles gain +20% magic resistance.</p>
+        <div class="sig"><span>Magic-defense tank</span><b>Ward</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the gravewarden gravewarden vit+luk hybrid necrotic tank grave tithe: each echo you defeat grants +10% max hp for the rest of the run. grave bolt">
+        <div class="class-top"><span class="lane">VIT+LUK</span><span class="builds">117 builds</span></div>
+        <h3>The Gravewarden</h3>
+        <p class="epithet">“Someone has to count the dead. Someone has to feed them.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Grave Tithe: each Echo you defeat grants +10% max HP for the rest of the run.</p>
+        <div class="sig"><span>Necrotic tank</span><b>Grave Bolt</b></div>
+      </article>
+      <article class="class-card" data-class-card data-kind="hybrid" data-search="the pilgrim pilgrim wis+luk hybrid support / utility wayfarer: shrines and healing fountains restore 50% more. lantern">
+        <div class="class-top"><span class="lane">WIS+LUK</span><span class="builds">111 builds</span></div>
+        <h3>The Pilgrim</h3>
+        <p class="epithet">“Faith is a lantern you carry into places that hate light.”</p>
+        <p class="req">Lane default</p>
+        <p class="passive">Wayfarer: shrines and healing fountains restore 50% more.</p>
+        <div class="sig"><span>Support / utility</span><b>Lantern</b></div>
+      </article>
+    </div>
+    <p class="empty-state" data-empty-state hidden>No calling matches that filter. The dungeon is empty — for now.</p>
+  </div>
+</section>
+
+<section class="block" id="floors">
+  <div class="shell">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="eyebrow">The descent</p>
+        <h2>Five bands. One hundred floors.</h2>
+      </div>
+      <p>Each band changes a rule, not just a tileset. Floors 1–10 teach; 11–90 procedurally vary; 91–100 become a fixed gauntlet.</p>
+    </div>
+    <div class="table-scroll" data-reveal>
+      <table>
+        <thead><tr><th>Floors</th><th>Band</th><th>Theme</th><th>New rule</th><th>Bosses</th></tr></thead>
+        <tbody>
+          <tr><td><strong>1–10</strong></td><td><strong>The Threshold</strong></td><td>Collapsed guild barracks, moss, candlelight</td><td>Tutorial: AP, flanking, traps, extraction</td><td>The Gatekeeper</td></tr>
+          <tr><td><strong>11–30</strong></td><td><strong>The Warrens</strong></td><td>Flooded tunnels, fungus, fire vents</td><td>Elemental hazards; WIS trap detection</td><td>The Flood · The Brood Mother</td></tr>
+          <tr><td><strong>31–60</strong></td><td><strong>The Depths</strong></td><td>Black masonry, forges, bone cathedrals</td><td>Elites; mini-bosses every 5; durability pressure</td><td>The Forge Saint · The Choir · The Warden</td></tr>
+          <tr><td><strong>61–90</strong></td><td><strong>The Abyss</strong></td><td>Inverted rooms, starless voids, mirror halls</td><td>Reality rules per floor: gravity, mirrors, loops</td><td>The Mirror · The Hollow King · The Unmade</td></tr>
+          <tr><td><strong>91–100</strong></td><td><strong>The Zenith</strong></td><td>Gold, white marble, impossible light</td><td>Fixed gauntlet; no extraction until 100</td><td>The First Echo</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="documents">
+  <div class="shell">
+    <div class="section-head" data-reveal>
+      <div>
+        <p class="eyebrow">The dossier</p>
+        <h2>Rules, budgets, and the whole graveyard.</h2>
+      </div>
+      <p>Everything below is generated from the repository's design source. The class engine is executable and exhaustively tested.</p>
+    </div>
+    <div class="doc-cards">
+      <a class="doc-card" href="gdd.html" data-reveal>
+        <span class="doc-index">Document 01</span>
+        <h3>Game Design Document</h3>
+        <p>Pillars, the Echo system, the Guild Hall, 100 floors, 9×9 combat, mobile UX, art, audio, balance, and risks.</p>
+        <span class="doc-meta">17 sections · full GDD</span>
+      </a>
+      <a class="doc-card" href="tech.html" data-reveal>
+        <span class="doc-index">Document 02</span>
+        <h3>Technical Plan</h3>
+        <p>Godot 4.4 architecture, deterministic simulation, RNG streams, dungeon generation, persistence, budgets, and roadmap.</p>
+        <span class="doc-meta">16 sections · implementation</span>
+      </a>
+      <a class="doc-card" href="classes.html" data-reveal>
+        <span class="doc-index">Reference</span>
+        <h3>The 50-Class Matrix</h3>
+        <p>Every calling, lane, requirement, signature skill, and exact build count — generated from <code>design/classes.json</code>.</p>
+        <span class="doc-meta">Generated · 3,003 builds</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <p>Echoes of the 100th Floor · design dossier v1.0 · 3,003 legal builds, 50 callings</p>
+    <div class="footer-links">
+      <a href="gdd.html">GDD</a>
+      <a href="tech.html">Tech plan</a>
+      <a href="classes.html">Class matrix</a>
+      <a href="design/classes.json">classes.json</a>
+    </div>
+  </div>
+</footer>
+<script src="assets/app.js" defer></script>
+</body>
+</html>

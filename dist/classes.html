@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>The 50-Class Matrix · Echoes of the 100th Floor</title>
+<meta name="description" content="Every calling, lane, requirement, signature skill, and exact build count for Echoes of the 100th Floor.">
+<meta property="og:title" content="The 50-Class Matrix · Echoes of the 100th Floor">
+<meta property="og:description" content="Every calling, lane, requirement, signature skill, and exact build count for Echoes of the 100th Floor.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="doc-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">E</span>Echoes of the 100th Floor</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">Overview</a>
+      <a href="gdd.html">Game design</a>
+      <a href="tech.html">Technical plan</a>
+      <a href="classes.html" aria-current="page">Class matrix</a>
+    </nav>
+    <span class="version-tag">Dossier v1.0</span>
+  </div>
+</header>
+<main id="main">
+
+<section class="doc-hero">
+  <div class="shell">
+    <a class="back" href="index.html">← Overview</a>
+    <p class="eyebrow" style="margin-top:1rem">Reference · design dossier</p>
+    <h1>The 50-Class Matrix</h1>
+    <p>Every calling, lane, requirement, signature skill, and exact build count for Echoes of the 100th Floor.</p>
+  </div>
+</section>
+<div class="shell doc-layout">
+  <aside class="doc-toc" data-toc aria-label="On this page">
+    <p class="toc-label">On this page</p>
+    <ol><li><a href="#pure-10">Pure (10)</a></li><li><a href="#hybrid-20">Hybrid (20)</a></li><li><a href="#tank-10">Tank (10)</a></li><li><a href="#specialized-secret-10">Specialized / Secret (10)</a></li><li><a href="#lane-coverage">Lane coverage</a></li></ol>
+  </aside>
+  <article class="prose">
+<blockquote><p>Generated from <code>design/classes.json</code> by <code>tools/validate-classes.mjs --matrix</code>. <strong>Do not edit by hand.</strong> Edit the JSON, then regenerate.</p></blockquote>
+<p>Every legal distribution of 10 points across the six stats (3003 builds) maps to exactly one class. Secret callings are checked globally first. Otherwise the two highest stats select a lane (<code>PURE_&lt;STAT&gt;</code> when the top stat is 6+ and the second is 2 or less, else the canonical pair). Within a lane, classes are checked by descending priority; the last class in each lane is the lane default.</p>
+<h2 id="pure-10">Pure (10)</h2>
+<div class="table-scroll"><table><thead><tr><th>Class</th><th>Lane</th><th>Requirement</th><th>Signature skill</th><th style="text-align:right">Builds</th></tr></thead><tbody><tr><td><strong>The Muscle Wizard</strong></td><td>PURE_STR</td><td>STR &gt;= 7, INT &gt;= 2</td><td>Haymaker</td><td style="text-align:right">5</td></tr><tr><td><strong>The Ghost</strong></td><td>PURE_DEX</td><td>DEX &gt;= 8, VIT &lt;= 1</td><td>Ghost Step</td><td style="text-align:right">19</td></tr><tr><td><strong>The Glass Cannon</strong></td><td>PURE_INT</td><td>INT &gt;= 8</td><td>Meteor Shard</td><td style="text-align:right">20</td></tr><tr><td><strong>The Wall</strong></td><td>PURE_VIT</td><td>VIT &gt;= 8</td><td>Shield Bash</td><td style="text-align:right">11</td></tr><tr><td><strong>The Hearth</strong></td><td>PURE_VIT</td><td>WIS &gt;= 2</td><td>Warm Light</td><td style="text-align:right">12</td></tr><tr><td><strong>The Colossus</strong></td><td>PURE_STR</td><td>— (lane default)</td><td>Cleave</td><td style="text-align:right">77</td></tr><tr><td><strong>The Duelist</strong></td><td>PURE_DEX</td><td>— (lane default)</td><td>Lunge</td><td style="text-align:right">76</td></tr><tr><td><strong>The Archivist</strong></td><td>PURE_INT</td><td>— (lane default)</td><td>Ink Blot</td><td style="text-align:right">74</td></tr><tr><td><strong>The Oracle</strong></td><td>PURE_WIS</td><td>— (lane default)</td><td>Foresight</td><td style="text-align:right">42</td></tr><tr><td><strong>The Fool</strong></td><td>PURE_LUK</td><td>— (lane default)</td><td>Trip</td><td style="text-align:right">84</td></tr></tbody></table></div>
+<h2 id="hybrid-20">Hybrid (20)</h2>
+<div class="table-scroll"><table><thead><tr><th>Class</th><th>Lane</th><th>Requirement</th><th>Signature skill</th><th style="text-align:right">Builds</th></tr></thead><tbody><tr><td><strong>The Monk</strong></td><td>STR+DEX</td><td>STR &gt;= DEX</td><td>Flurry</td><td style="text-align:right">129</td></tr><tr><td><strong>The Paladin</strong></td><td>STR+INT</td><td>STR &gt; INT, INT &gt; WIS, WIS &gt;= 1</td><td>Smite</td><td style="text-align:right">26</td></tr><tr><td><strong>The Bruiser</strong></td><td>STR+VIT</td><td>STR &gt;= VIT</td><td>Body Blow</td><td style="text-align:right">69</td></tr><tr><td><strong>The Reaver</strong></td><td>STR+LUK</td><td>STR &gt; LUK</td><td>Rend</td><td style="text-align:right">41</td></tr><tr><td><strong>The Spellblade</strong></td><td>DEX+INT</td><td>INT &gt; DEX</td><td>Arcane Slash</td><td style="text-align:right">70</td></tr><tr><td><strong>The Spellthief</strong></td><td>DEX+INT</td><td>DEX &gt; INT, DEX &gt;= 5</td><td>Mana Siphon</td><td style="text-align:right">33</td></tr><tr><td><strong>The Skirmisher</strong></td><td>DEX+VIT</td><td>DEX &gt;= VIT</td><td>Hit and Run</td><td style="text-align:right">93</td></tr><tr><td><strong>The Ranger</strong></td><td>DEX+WIS</td><td>LUK &gt;= 2</td><td>Hunter's Mark</td><td style="text-align:right">38</td></tr><tr><td><strong>The Buccaneer</strong></td><td>STR+DEX</td><td>— (lane default)</td><td>Saber Slash</td><td style="text-align:right">84</td></tr><tr><td><strong>The Hexblade</strong></td><td>STR+INT</td><td>— (lane default)</td><td>Cursed Edge</td><td style="text-align:right">163</td></tr><tr><td><strong>The Warpriest</strong></td><td>STR+WIS</td><td>— (lane default)</td><td>War Hymn</td><td style="text-align:right">144</td></tr><tr><td><strong>The Corsair</strong></td><td>STR+LUK</td><td>— (lane default)</td><td>Cutlass</td><td style="text-align:right">114</td></tr><tr><td><strong>The Nightblade</strong></td><td>DEX+INT</td><td>— (lane default)</td><td>Umbral Cut</td><td style="text-align:right">75</td></tr><tr><td><strong>The Stalker</strong></td><td>DEX+WIS</td><td>— (lane default)</td><td>Silent Shot</td><td style="text-align:right">94</td></tr><tr><td><strong>The Trickster</strong></td><td>DEX+LUK</td><td>— (lane default)</td><td>Sleight</td><td style="text-align:right">135</td></tr><tr><td><strong>The Theurge</strong></td><td>INT+WIS</td><td>INT &gt;= WIS</td><td>Twin Bolt</td><td style="text-align:right">74</td></tr><tr><td><strong>The Inquisitor</strong></td><td>INT+WIS</td><td>— (lane default)</td><td>Brand</td><td style="text-align:right">45</td></tr><tr><td><strong>The Wild Mage</strong></td><td>INT+LUK</td><td>— (lane default)</td><td>Chaos Bolt</td><td style="text-align:right">128</td></tr><tr><td><strong>The Gravewarden</strong></td><td>VIT+LUK</td><td>— (lane default)</td><td>Grave Bolt</td><td style="text-align:right">117</td></tr><tr><td><strong>The Pilgrim</strong></td><td>WIS+LUK</td><td>— (lane default)</td><td>Lantern</td><td style="text-align:right">111</td></tr></tbody></table></div>
+<h2 id="tank-10">Tank (10)</h2>
+<div class="table-scroll"><table><thead><tr><th>Class</th><th>Lane</th><th>Requirement</th><th>Signature skill</th><th style="text-align:right">Builds</th></tr></thead><tbody><tr><td><strong>The Crusader</strong></td><td>STR+VIT</td><td>WIS &gt;= 2</td><td>Shield Charge</td><td style="text-align:right">41</td></tr><tr><td><strong>The Bulwark</strong></td><td>DEX+VIT</td><td>VIT &gt;= 6</td><td>Shield Wall</td><td style="text-align:right">6</td></tr><tr><td><strong>The Anchor</strong></td><td>PURE_VIT</td><td>— (lane default)</td><td>Hold Fast</td><td style="text-align:right">56</td></tr><tr><td><strong>The Juggernaut</strong></td><td>STR+VIT</td><td>— (lane default)</td><td>Ram</td><td style="text-align:right">68</td></tr><tr><td><strong>The Ironclad</strong></td><td>DEX+VIT</td><td>— (lane default)</td><td>Hammerfall</td><td style="text-align:right">65</td></tr><tr><td><strong>The Necrophage</strong></td><td>INT+VIT</td><td>LUK &gt;= 2</td><td>Carrion Bite</td><td style="text-align:right">38</td></tr><tr><td><strong>The Warlock</strong></td><td>INT+VIT</td><td>— (lane default)</td><td>Drain Life</td><td style="text-align:right">111</td></tr><tr><td><strong>The Shaman</strong></td><td>VIT+WIS</td><td>LUK &gt;= 2</td><td>Totem</td><td style="text-align:right">32</td></tr><tr><td><strong>The Templar</strong></td><td>VIT+WIS</td><td>VIT &gt;= WIS</td><td>Shield of Faith</td><td style="text-align:right">58</td></tr><tr><td><strong>The Sentinel</strong></td><td>VIT+WIS</td><td>— (lane default)</td><td>Ward</td><td style="text-align:right">32</td></tr></tbody></table></div>
+<h2 id="specialized-secret-10">Specialized / Secret (10)</h2>
+<div class="table-scroll"><table><thead><tr><th>Class</th><th>Lane</th><th>Requirement</th><th>Signature skill</th><th style="text-align:right">Builds</th></tr></thead><tbody><tr><td><strong>The Equilibrium</strong></td><td>Global</td><td>shape 2/2/2/2/1/1</td><td>Even Hand</td><td style="text-align:right">15</td></tr><tr><td><strong>The Gambler</strong></td><td>Global</td><td>LUK &gt;= 6, DEX &gt;= 2, LUK &gt; DEX, STR &lt;= 1, INT &lt;= 1, VIT &lt;= 1, WIS &lt;= 1</td><td>Coin Flip</td><td style="text-align:right">17</td></tr><tr><td><strong>The Berserker</strong></td><td>Global</td><td>STR &gt;= 8, VIT &lt;= 2, INT &lt;= 1, WIS == 0</td><td>Reckless Swing</td><td style="text-align:right">14</td></tr><tr><td><strong>The Oathbreaker</strong></td><td>Global</td><td>STR == INT, INT == WIS, STR &gt;= 2</td><td>Broken Vow</td><td style="text-align:right">15</td></tr><tr><td><strong>The Ascetic</strong></td><td>Global</td><td>VIT == 0, LUK == 0, WIS &gt;= 3, STR &lt;= 4, DEX &lt;= 4, INT &lt;= 4</td><td>Empty Palm</td><td style="text-align:right">89</td></tr><tr><td><strong>The Blind Prophet</strong></td><td>Global</td><td>WIS &gt;= 6, DEX == 0, LUK &lt;= 1</td><td>Foreseen Blow</td><td style="text-align:right">40</td></tr><tr><td><strong>The Heretic</strong></td><td>Global</td><td>INT &gt;= 5, WIS == 0, STR &gt;= 2, VIT &gt;= 2</td><td>Profane Bolt</td><td style="text-align:right">5</td></tr><tr><td><strong>The Martyr</strong></td><td>Global</td><td>VIT &gt;= 7, STR == 0, DEX == 0</td><td>Offering</td><td style="text-align:right">20</td></tr><tr><td><strong>The Thing That Waits</strong></td><td>Global</td><td>STR &gt;= 1, DEX &gt;= 1, INT &gt;= 1, VIT &gt;= 1, WIS &gt;= 1, LUK &gt;= 1, STR &lt;= 3, DEX &lt;= 3, INT &lt;= 3, VIT &lt;= 3, WIS &lt;= 3, LUK &lt;= 3</td><td>Linger</td><td style="text-align:right">75</td></tr><tr><td><strong>The Singularity</strong></td><td>Global</td><td>shape 10/0/0/0/0/0</td><td>Perfect Strike</td><td style="text-align:right">3</td></tr></tbody></table></div>
+<h2 id="lane-coverage">Lane coverage</h2>
+<div class="table-scroll"><table><thead><tr><th>Lane</th><th style="text-align:right">Builds</th><th>Class(es)</th></tr></thead><tbody><tr><td>DEX+INT</td><td style="text-align:right">191</td><td>The Spellblade, The Spellthief, The Nightblade</td></tr><tr><td>DEX+LUK</td><td style="text-align:right">145</td><td>The Trickster</td></tr><tr><td>DEX+VIT</td><td style="text-align:right">171</td><td>The Bulwark, The Skirmisher, The Ironclad</td></tr><tr><td>DEX+WIS</td><td style="text-align:right">156</td><td>The Ranger, The Stalker</td></tr><tr><td>INT+LUK</td><td style="text-align:right">131</td><td>The Wild Mage</td></tr><tr><td>INT+VIT</td><td style="text-align:right">157</td><td>The Necrophage, The Warlock</td></tr><tr><td>INT+WIS</td><td style="text-align:right">142</td><td>The Theurge, The Inquisitor</td></tr><tr><td>PURE_DEX</td><td style="text-align:right">96</td><td>The Ghost, The Duelist</td></tr><tr><td>PURE_INT</td><td style="text-align:right">96</td><td>The Glass Cannon, The Archivist</td></tr><tr><td>PURE_LUK</td><td style="text-align:right">96</td><td>The Fool</td></tr><tr><td>PURE_STR</td><td style="text-align:right">96</td><td>The Muscle Wizard, The Colossus</td></tr><tr><td>PURE_VIT</td><td style="text-align:right">96</td><td>The Wall, The Hearth, The Anchor</td></tr><tr><td>PURE_WIS</td><td style="text-align:right">96</td><td>The Oracle</td></tr><tr><td>STR+DEX</td><td style="text-align:right">236</td><td>The Monk, The Buccaneer</td></tr><tr><td>STR+INT</td><td style="text-align:right">209</td><td>The Paladin, The Hexblade</td></tr><tr><td>STR+LUK</td><td style="text-align:right">163</td><td>The Reaver, The Corsair</td></tr><tr><td>STR+VIT</td><td style="text-align:right">189</td><td>The Crusader, The Bruiser, The Juggernaut</td></tr><tr><td>STR+WIS</td><td style="text-align:right">174</td><td>The Warpriest</td></tr><tr><td>VIT+LUK</td><td style="text-align:right">120</td><td>The Gravewarden</td></tr><tr><td>VIT+WIS</td><td style="text-align:right">131</td><td>The Shaman, The Templar, The Sentinel</td></tr><tr><td>WIS+LUK</td><td style="text-align:right">112</td><td>The Pilgrim</td></tr></tbody></table></div>
+    <nav class="doc-footer" aria-label="Document navigation">
+      <a href="index.html">← All documents</a>
+      <a href="gdd.html">Game Design Document →</a>
+    </nav>
+  </article>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <p>Echoes of the 100th Floor · design dossier v1.0 · 3,003 legal builds, 50 callings</p>
+    <div class="footer-links">
+      <a href="gdd.html">GDD</a>
+      <a href="tech.html">Tech plan</a>
+      <a href="classes.html">Class matrix</a>
+      <a href="design/classes.json">classes.json</a>
+    </div>
+  </div>
+</footer>
+<script src="assets/app.js" defer></script>
+</body>
+</html>

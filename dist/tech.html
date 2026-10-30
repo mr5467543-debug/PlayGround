@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Technical Implementation Plan · Echoes of the 100th Floor</title>
+<meta name="description" content="Godot 4.4 architecture, deterministic simulation, dungeon generation, persistence, mobile budgets, CI, and roadmap for Echoes of the 100th Floor.">
+<meta property="og:title" content="Technical Implementation Plan · Echoes of the 100th Floor">
+<meta property="og:description" content="Godot 4.4 architecture, deterministic simulation, dungeon generation, persistence, mobile budgets, CI, and roadmap for Echoes of the 100th Floor.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="doc-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">E</span>Echoes of the 100th Floor</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">Overview</a>
+      <a href="gdd.html">Game design</a>
+      <a href="tech.html" aria-current="page">Technical plan</a>
+      <a href="classes.html">Class matrix</a>
+    </nav>
+    <span class="version-tag">Dossier v1.0</span>
+  </div>
+</header>
+<main id="main">
+
+<section class="doc-hero">
+  <div class="shell">
+    <a class="back" href="index.html">← Overview</a>
+    <p class="eyebrow" style="margin-top:1rem">Document 02 · design dossier</p>
+    <h1>Echoes of the 100th Floor</h1>
+    <p>Technical Implementation Plan v1.0</p>
+  </div>
+</section>
+<div class="shell doc-layout">
+  <aside class="doc-toc" data-toc aria-label="On this page">
+    <p class="toc-label">On this page</p>
+    <ol><li><a href="#1-why-godot">1. Why Godot</a></li><li><a href="#2-quality-attributes-and-budgets">2. Quality attributes and budgets</a></li><li><a href="#3-architecture">3. Architecture</a><ol><li><a href="#3-1-layers">3.1 Layers</a></li><li><a href="#3-2-command-event-flow">3.2 Command → event flow</a></li><li><a href="#3-3-repository-layout">3.3 Repository layout</a></li></ol></li><li><a href="#4-determinism">4. Determinism</a><ol><li><a href="#4-1-rng-streams">4.1 RNG streams</a></li><li><a href="#4-2-tie-breaks">4.2 Tie-breaks</a></li><li><a href="#4-3-golden-matrix">4.3 Golden matrix</a></li></ol></li><li><a href="#5-class-engine">5. Class engine</a><ol><li><a href="#5-1-data-contract">5.1 Data contract</a></li><li><a href="#5-2-gdscript-port">5.2 GDScript port</a></li><li><a href="#5-3-class-test">5.3 Class test</a></li><li><a href="#5-4-skill-tree-construction">5.4 Skill tree construction</a></li></ol></li><li><a href="#6-data-schemas">6. Data schemas</a><ol><li><a href="#6-1-save-and-echo">6.1 Save and Echo</a></li><li><a href="#6-2-item-and-enemy-data-next">6.2 Item and enemy data (next)</a></li><li><a href="#6-3-runtime-dtos">6.3 Runtime DTOs</a></li></ol></li><li><a href="#7-dungeon-generation">7. Dungeon generation</a><ol><li><a href="#7-1-inputs">7.1 Inputs</a></li><li><a href="#7-2-algorithm-floors-11-90">7.2 Algorithm (floors 11–90)</a></li><li><a href="#7-3-persistence-model">7.3 Persistence model</a></li><li><a href="#7-4-performance">7.4 Performance</a></li></ol></li><li><a href="#8-combat-engine">8. Combat engine</a><ol><li><a href="#8-1-core-types">8.1 Core types</a></li><li><a href="#8-2-turn-pipeline">8.2 Turn pipeline</a></li><li><a href="#8-3-geometry">8.3 Geometry</a></li><li><a href="#8-4-damage">8.4 Damage</a></li><li><a href="#8-5-auto-battle">8.5 Auto-battle</a></li></ol></li><li><a href="#9-echo-service">9. Echo service</a><ol><li><a href="#9-1-lifecycle">9.1 Lifecycle</a></li><li><a href="#9-2-snapshot-rules">9.2 Snapshot rules</a></li><li><a href="#9-3-atomic-write">9.3 Atomic write</a></li><li><a href="#9-4-overflow-and-fading">9.4 Overflow and fading</a></li><li><a href="#9-5-ai">9.5 AI</a></li></ol></li><li><a href="#10-persistence-and-migrations">10. Persistence and migrations</a><ol><li><a href="#10-1-files">10.1 Files</a></li><li><a href="#10-2-integrity">10.2 Integrity</a></li><li><a href="#10-3-migrations">10.3 Migrations</a></li><li><a href="#10-4-cloud-sync">10.4 Cloud sync</a></li></ol></li><li><a href="#11-mobile-implementation">11. Mobile implementation</a><ol><li><a href="#11-1-display">11.1 Display</a></li><li><a href="#11-2-input">11.2 Input</a></li><li><a href="#11-3-ui-performance">11.3 UI performance</a></li><li><a href="#11-4-audio">11.4 Audio</a></li><li><a href="#11-5-export">11.5 Export</a></li></ol></li><li><a href="#12-testing-and-ci">12. Testing and CI</a><ol><li><a href="#12-1-test-pyramid">12.1 Test pyramid</a></li><li><a href="#12-2-ci-pipeline">12.2 CI pipeline</a></li><li><a href="#12-3-definition-of-done-vertical-slice">12.3 Definition of done (vertical slice)</a></li></ol></li><li><a href="#13-telemetry">13. Telemetry</a></li><li><a href="#14-roadmap">14. Roadmap</a><ol><li><a href="#phase-0-rules-and-sandbox-weeks-1-3">Phase 0 — Rules and sandbox (weeks 1–3)</a></li><li><a href="#phase-1-vertical-slice-weeks-4-8">Phase 1 — Vertical slice (weeks 4–8)</a></li><li><a href="#phase-2-systems-weeks-9-15">Phase 2 — Systems (weeks 9–15)</a></li><li><a href="#phase-3-content-and-balance-weeks-16-23">Phase 3 — Content and balance (weeks 16–23)</a></li><li><a href="#phase-4-beta-and-ship-weeks-24-28">Phase 4 — Beta and ship (weeks 24–28)</a></li><li><a href="#scope-tiers">Scope tiers</a></li></ol></li><li><a href="#15-technical-risks">15. Technical risks</a></li><li><a href="#16-appendices">16. Appendices</a><ol><li><a href="#a-class-matrix-commands">A. Class-matrix commands</a></li><li><a href="#b-echo-file-example">B. Echo file example</a></li><li><a href="#c-status-pipeline-order">C. Status pipeline order</a></li><li><a href="#d-balance-simulation-harness">D. Balance simulation harness</a></li><li><a href="#e-accessibility-test-checklist">E. Accessibility test checklist</a></li></ol></li></ol>
+  </aside>
+  <article class="prose">
+<p><strong>Engine:</strong> Godot 4.4 (stable), GDScript with static typing; C# optional for tooling only<br>
+<strong>Targets:</strong> iOS 15+, Android 9+ (API 28), 1080×1920 reference, portrait, offline-first<br>
+<strong>Simulation:</strong> headless, deterministic, event-sourced; rendering is a subscriber<br>
+<strong>Repository state:</strong> design-first. The rules, kits, schemas, and exhaustive class test exist today. The Godot project is the next deliverable.</p>
+<hr>
+<h2 id="1-why-godot">1. Why Godot</h2>
+<div class="table-scroll"><table><thead><tr><th>Requirement</th><th>Godot 4.4</th><th>Notes</th></tr></thead><tbody><tr><td>2D pixel/isometric</td><td>Excellent <code>TileMapLayer</code>, Y-sort, 2D lights, normal maps</td><td>Core look without custom renderer</td></tr><tr><td>Mobile export</td><td>Android AAB + iOS, one-click</td><td>Test on device early; avoid 4.4-only plugins</td></tr><tr><td>Small install</td><td>~30–40 MB base</td><td>Fits the &lt; 150 MB budget</td></tr><tr><td>Fast iteration</td><td>GDScript hot reload, scenes as text</td><td>Critical for 50 classes / 100 floors</td></tr><tr><td>Headless tests</td><td><code>--headless --script</code></td><td>Deterministic sim can run in CI</td></tr><tr><td>Cost</td><td>MIT, no royalties</td><td>Premium-friendly</td></tr></tbody></table></div>
+<p><strong>Alternative:</strong> Unity 6 if the team is C#-native. The architecture below is engine-agnostic; only the scene/UI layer changes. Do not split the simulation across engine nodes in either engine.</p>
+<hr>
+<h2 id="2-quality-attributes-and-budgets">2. Quality attributes and budgets</h2>
+<div class="table-scroll"><table><thead><tr><th>Attribute</th><th>Budget</th></tr></thead><tbody><tr><td>Frame rate</td><td>60 fps on iPhone 11 / Pixel 5; 30 fps fallback on low tier</td></tr><tr><td>Frame time</td><td>Sim ≤ 2 ms, render ≤ 8 ms, UI ≤ 2 ms, audio ≤ 1 ms, 3.6 ms slack</td></tr><tr><td>Draw calls</td><td>&lt; 80; tilemap chunks 16×16; one atlas per band</td></tr><tr><td>Memory</td><td>&lt; 300 MB RSS; &lt; 180 MB texture</td></tr><tr><td>Install</td><td>&lt; 150 MB (base + band 1 art)</td></tr><tr><td>Cold start</td><td>&lt; 3 s to Guild Hall on mid-tier</td></tr><tr><td>Save latency</td><td>&lt; 50 ms, off the main thread; Echo file &lt; 8 KB</td></tr><tr><td>Combat resolution</td><td>&lt; 4 ms for a 12-unit turn</td></tr><tr><td>Floor generation</td><td>&lt; 120 ms p95, including validation</td></tr><tr><td>Battery</td><td>Pause render/audio on focus loss; cap 60 fps; no idle 3D</td></tr></tbody></table></div>
+<hr>
+<h2 id="3-architecture">3. Architecture</h2>
+<h3 id="3-1-layers">3.1 Layers</h3>
+<pre><code>┌─────────────────────────────────────────────┐
+│ Presentation (Godot scenes, UI, VFX, audio) │
+│  reads events, never mutates state          │
+└──────────────────────┬──────────────────────┘
+                       │ commands / event log
+┌──────────────────────▼──────────────────────┐
+│ Application (run controller, screens, input)│
+└──────────────────────┬──────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────┐
+│ Simulation (pure GDScript, no Node)         │
+│  ClassEngine · Combat · Dungeon · Echo · AI │
+│  Loot · Progression · Save models           │
+└──────────────────────┬──────────────────────┘
+                       │
+┌──────────────────────▼──────────────────────┐
+│ Persistence (JSON, schema, migrations)      │
+└─────────────────────────────────────────────┘</code></pre>
+<p><strong>Hard rule:</strong> <code>sim/</code> must not import <code>Node</code>, <code>SceneTree</code>, <code>Input</code>, or <code>OS</code>. It receives plain data and returns events. This makes the game testable, replayable, and auto-battle-able at 20× without rendering.</p>
+<h3 id="3-2-command-event-flow">3.2 Command → event flow</h3>
+<pre><code class="language-gdscript"># sim/combat/combat_session.gd
+class_name CombatSession
+
+func submit(action: CombatAction) -&gt; Array[CombatEvent]:
+    assert(state == State.ACTIVE)
+    if not rules.can_perform(state, action):
+        return [CombatEvent.rejected(action, rules.last_error)]
+    var events := rules.resolve(state, action)   # pure; advances state
+    state.rng.commit(action.seed_draws)
+    history.append(action)
+    return events</code></pre>
+<ul><li>Every event is serializable: <code>{type, actor, target, amount, element, status, tile, ...}</code>.</li><li>The UI animates the event list; it never computes damage.</li><li>Replays = <code>(seed, [actions])</code>. A hash of the final state is stored for verification.</li><li>Undo = snapshot the state before the action (once per combat).</li></ul>
+<h3 id="3-3-repository-layout">3.3 Repository layout</h3>
+<pre><code>design/
+  classes.json            # 50 lane rules (source of truth)
+  skills.json             # 50 kits: 3 actives + capstone each
+  save.schema.json        # Echo + save contract
+  items.json              # (next) item bases and affixes
+  enemies.json            # (next) enemy templates
+  passives.json           # (next) generated discipline nodes
+  floors/                 # (next) handcrafted floors 1-10, 91-100
+tools/
+  class-engine.mjs        # executable spec for the class engine
+  validate-classes.mjs    # exhaustive 3,003-build test + matrix generator
+docs/
+  GDD.md
+  TECH_PLAN.md
+  CLASS_MATRIX.md         # generated, do not edit
+game/                     # Godot project (next)
+  project.godot
+  sim/
+    class_engine.gd
+    combat/
+    dungeon/
+    echo/
+    ai/
+  game/
+    screens/
+    battle/
+    hub/
+  ui/
+  data/                   # imported JSON, validated at build
+tests/
+  class_matrix_test.gd
+  combat_properties_test.gd
+  dungeon_fuzz_test.gd
+  echo_lifecycle_test.gd
+  save_migration_test.gd</code></pre>
+<hr>
+<h2 id="4-determinism">4. Determinism</h2>
+<p>Determinism is a feature, not a nicety: it powers replays, auto-battle, bug reports, and the class test.</p>
+<h3 id="4-1-rng-streams">4.1 RNG streams</h3>
+<p>Use <strong>PCG32</strong> with named streams, never <code>randf()</code>:</p>
+<pre><code class="language-gdscript"># sim/rng.gd
+class_name Rng
+
+var _state: int
+var _inc: int
+
+func _init(seed: int, stream: int) -&gt; void:
+    _state = 0
+    _inc = (stream &lt;&lt; 1) | 1
+    next_u32()
+    _state += seed
+    next_u32()
+
+static func stream_seed(run_seed: int, floor: int, domain: String) -&gt; int:
+    return hash(&quot;%d:%d:%s&quot; % [run_seed, floor, domain])</code></pre>
+<p>Streams: <code>map</code>, <code>loot</code>, <code>combat</code>, <code>ai</code>, <code>echo_ai</code>, <code>events</code>. Each subsystem owns one. Never share a stream across systems; a draw in the wrong order desyncs everything.</p>
+<h3 id="4-2-tie-breaks">4.2 Tie-breaks</h3>
+<ul><li>Stat ties: canonical <code>STR &gt; DEX &gt; INT &gt; VIT &gt; WIS &gt; LUK</code>.</li><li>Initiative ties: player first, then unit id (stable).</li><li>AI action ties: lower AP, then action id.</li><li>Loot table ties: sorted item id.</li><li>Every unordered collection is sorted before iteration.</li></ul>
+<h3 id="4-3-golden-matrix">4.3 Golden matrix</h3>
+<p>The class validator enumerates every build and writes the canonical matrix:</p>
+<pre><code class="language-bash">node tools/validate-classes.mjs --strict --matrix docs/CLASS_MATRIX.md</code></pre>
+<p>The JS engine is the executable spec. The Godot test must reproduce the same 3,003-build classification table; CI fails if the GDScript port diverges.</p>
+<hr>
+<h2 id="5-class-engine">5. Class engine</h2>
+<h3 id="5-1-data-contract">5.1 Data contract</h3>
+<p><code>design/classes.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;paladin&quot;,
+  &quot;name&quot;: &quot;The Paladin&quot;,
+  &quot;archetype&quot;: &quot;hybrid&quot;,
+  &quot;lane&quot;: &quot;STR+INT&quot;,
+  &quot;priority&quot;: 779,
+  &quot;requires&quot;: { &quot;if&quot;: [[&quot;STR&quot;, &quot;&gt;&quot;, &quot;INT&quot;], [&quot;INT&quot;, &quot;&gt;&quot;, &quot;WIS&quot;], [&quot;WIS&quot;, &quot;&gt;=&quot;, 1]] }
+}</code></pre>
+<p><code>design/skills.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;paladin&quot;: {
+    &quot;skills&quot;: [
+      { &quot;lvl&quot;: 1, &quot;name&quot;: &quot;Smite&quot;, &quot;ap&quot;: 3, &quot;mp&quot;: 2, &quot;range&quot;: 1, &quot;effect&quot;: &quot;140% P + 50% M&quot; }
+    ],
+    &quot;capstone&quot;: { &quot;lvl&quot;: 12, &quot;name&quot;: &quot;Judgment&quot;, &quot;ap&quot;: 6, &quot;mp&quot;: 8, &quot;range&quot;: 2, &quot;effect&quot;: &quot;...&quot; }
+  }
+}</code></pre>
+<h3 id="5-2-gdscript-port">5.2 GDScript port</h3>
+<pre><code class="language-gdscript"># sim/class_engine.gd
+class_name ClassEngine
+
+const STATS := [&quot;STR&quot;, &quot;DEX&quot;, &quot;INT&quot;, &quot;VIT&quot;, &quot;WIS&quot;, &quot;LUK&quot;]
+
+static func derive_lane(stats: Dictionary) -&gt; String:
+    var ranked := []
+    for i in STATS.size():
+        ranked.append({&quot;stat&quot;: STATS[i], &quot;value&quot;: int(stats[STATS[i]])})
+    ranked.sort_custom(func(a, b):
+        if a.value != b.value: return a.value &gt; b.value
+        return STATS.find(a.stat) &lt; STATS.find(b.stat))
+    var first: Dictionary = ranked[0]
+    var second: Dictionary = ranked[1]
+    if first.value &gt;= 6 and second.value &lt;= 2:
+        return &quot;PURE_%s&quot; % first.stat
+    var pair := [first.stat, second.stat]
+    pair.sort_custom(func(a, b): return STATS.find(a) &lt; STATS.find(b))
+    return &quot;%s+%s&quot; % [pair[0], pair[1]]
+
+static func classify(stats: Dictionary, classes: Array) -&gt; Dictionary:
+    var ordered := classes.duplicate()
+    ordered.sort_custom(func(a, b): return a.priority &gt; b.priority)
+    for cls in ordered:
+        if cls.has(&quot;lane&quot;): continue
+        if _matches(cls.requires, stats): return cls
+    var lane := derive_lane(stats)
+    for cls in ordered:
+        if cls.get(&quot;lane&quot;, &quot;&quot;) != lane: continue
+        if _matches(cls.requires, stats): return cls
+    push_error(&quot;No lane catch-all for %s&quot; % lane)
+    return {}</code></pre>
+<p>The GDScript version must not &quot;improve&quot; the algorithm. The lane model and tie-break are part of the design.</p>
+<h3 id="5-3-class-test">5.3 Class test</h3>
+<p><code>tests/class_matrix_test.gd</code>:</p>
+<ol><li>Enumerate all 3,003 compositions (same recursion as <code>tools/class-engine.mjs</code>).</li><li>Classify each.</li><li>Assert: exactly one result, every class reachable, golden cases pass, and the full classification table matches the JS output.</li><li>Fail the build on any drift.</li></ol>
+<p>This test runs in CI on every commit and takes &lt; 50 ms.</p>
+<h3 id="5-4-skill-tree-construction">5.4 Skill tree construction</h3>
+<p>At runtime, a class kit becomes a 12-node tree:</p>
+<ul><li>4 actives from <code>skills.json</code> at levels 1/4/8/12.</li><li>4 discipline passives generated from <code>role</code> + <code>archetype</code> (data table in <code>design/passives.json</code>, next).</li><li>4 mastery nodes (+HP/+ATK/+utility) from a shared template.</li></ul>
+<p>The tree is data, not code. A validator checks 12 nodes, strict level order, no duplicate ids, and that each active has AP/MP/range/effect.</p>
+<hr>
+<h2 id="6-data-schemas">6. Data schemas</h2>
+<h3 id="6-1-save-and-echo">6.1 Save and Echo</h3>
+<p><code>design/save.schema.json</code> is the contract. Key decisions:</p>
+<ul><li><strong>One Echo per file:</strong> <code>user://echoes/ech_&lt;id&gt;.json</code>. A corrupted run save cannot destroy the graveyard.</li><li><strong>Index:</strong> <code>user://echoes/index.json</code> holds lightweight entries (id, name, class, floor, state, corruption). It is rebuildable by scanning the folder.</li><li><strong>Envelope:</strong> <code>user://saves/profile.json</code> references Echo ids, never embeds them.</li><li><strong>Validation:</strong> schema checked in CI with <code>ajv</code> (or Python <code>jsonschema</code>); runtime checks only the fields it mutates.</li><li><strong>Versioning:</strong> <code>schemaVersion</code> integer; migrations are pure functions <code>v1→v2→…</code>; the original file is backed up once before migration.</li></ul>
+<h3 id="6-2-item-and-enemy-data-next">6.2 Item and enemy data (next)</h3>
+<pre><code class="language-json">// design/items.json
+{
+  &quot;bases&quot;: [
+    { &quot;id&quot;: &quot;rusty_sword&quot;, &quot;slot&quot;: &quot;weapon&quot;, &quot;tier&quot;: 1, &quot;pAtk&quot;: 4, &quot;durability&quot;: 60, &quot;tags&quot;: [&quot;blade&quot;] }
+  ],
+  &quot;affixes&quot;: [
+    { &quot;id&quot;: &quot;of_ember&quot;, &quot;stat&quot;: &quot;mAtk&quot;, &quot;min&quot;: 1, &quot;max&quot;: 3, &quot;tags&quot;: [&quot;fire&quot;] }
+  ]
+}</code></pre>
+<p>Enemies use the same stat block as the player plus <code>cost</code>, <code>aiRole</code>, <code>skills</code>, <code>lootTable</code>, <code>resistances</code>. This lets the combat resolver treat players, Echoes, and monsters uniformly.</p>
+<h3 id="6-3-runtime-dtos">6.3 Runtime DTOs</h3>
+<p>Use <code>RefCounted</code> classes with typed fields, not <code>Dictionary</code> soup, at the boundaries. JSON is converted once at load into DTOs; the sim works on DTOs. Serialization back to JSON happens only at save boundaries.</p>
+<hr>
+<h2 id="7-dungeon-generation">7. Dungeon generation</h2>
+<h3 id="7-1-inputs">7.1 Inputs</h3>
+<pre><code>seed       = PCG32(mix(runSeed, floor, GEN_VERSION))
+band       = floor_band(floor)            # 1-10, 11-30, 31-60, 61-90, 91-100
+theme      = band_theme(band)
+budget     = 10 + floor * 2.2 + echo_count(floor) * 8
+roomTarget = clamp(6 + floor / 12, 7, 11)</code></pre>
+<h3 id="7-2-algorithm-floors-11-90">7.2 Algorithm (floors 11–90)</h3>
+<ol><li><strong>Room placement</strong><ol><li>Warrens: cellular automata cave, then room carving.</li><li>Depths: BSP split, 7–11 leaves, min room 4×4.</li><li>Abyss: BSP + one rule mutation (inverted gravity, mirror symmetry, loop corridor).</li></ol></li><li><strong>Connectivity</strong><ol><li>Build a Delaunay graph of room centers, take the MST, then add 15–25% extra edges for loops.</li><li>Pick entrance = room with the smallest <code>y</code>; stairs = room with the greatest graph distance from entrance.</li></ol></li><li><strong>Dressing</strong><ol><li>Hazard tiles by theme (fire vents, water, void).</li><li>Trap budget <code>floor / 8</code>, max 6; never on the only path without a disarm option.</li><li>Chests 1–3; shrine 0–1; secret room 0–1 (WIS check).</li></ol></li><li><strong>Encounters</strong><ol><li>Spend <code>budget</code> on enemy templates; at least one non-trivial encounter; no spawn within 6 tiles of the entrance.</li><li>Elites from floor 31; miniboss every 5 floors from 35.</li></ol></li><li><strong>Echo override</strong><ol><li>Persisted Echo positions replace the spawn tile in that room. Add 1–4 mourners and a &quot;dread&quot; aura.</li><li>If the stored tile is no longer walkable (layout version change), snap to the nearest walkable tile in the same room.</li></ol></li><li><strong>Validation</strong><ol><li>Entrance→stairs path exists; every chest/secret reachable; no trap on the only path; budget within ±10%; no enemy in a wall.</li><li>Retry up to 20 times with <code>seed + attempt</code>; if all fail, load a handcrafted fallback template for the band and log telemetry.</li></ol></li></ol>
+<p>Floors 1–10 and 91–100 are handcrafted JSON scenes; 91–99 use procedural connectors between set pieces. Floor 100 is a fixed arena.</p>
+<h3 id="7-3-persistence-model">7.3 Persistence model</h3>
+<p>Store <strong>seeds and diffs</strong>, not full maps:</p>
+<pre><code class="language-json">{
+  &quot;floor&quot;: 37,
+  &quot;theme&quot;: &quot;depths&quot;,
+  &quot;seed&quot;: 9918273,
+  &quot;layoutVersion&quot;: 4,
+  &quot;discovered&quot;: &quot;base64-rle&quot;,
+  &quot;disarmedTraps&quot;: [&quot;trap_12&quot;, &quot;trap_19&quot;],
+  &quot;shortcuts&quot;: [&quot;lift_31_40&quot;],
+  &quot;echoes&quot;: [&quot;ech_a1b2c3d4&quot;],
+  &quot;bossDefeated&quot;: false
+}</code></pre>
+<p>On entry: regenerate from <code>seed + layoutVersion</code>, apply diffs, spawn Echoes. This keeps saves tiny (&lt; 8 KB) and makes bug reproduction possible from a seed.</p>
+<h3 id="7-4-performance">7.4 Performance</h3>
+<ul><li>Generation is CPU-only, &lt; 120 ms p95; run it on a worker thread with a loading interstitial, never during combat.</li><li>Cache the last 3 generated floors in memory; evict beyond that.</li><li>Pre-bake navigation and line-of-sight blockers into packed arrays.</li></ul>
+<hr>
+<h2 id="8-combat-engine">8. Combat engine</h2>
+<h3 id="8-1-core-types">8.1 Core types</h3>
+<pre><code class="language-gdscript">class_name CombatUnit
+var id: String
+var team: int                  # 0 player + summons, 1 enemy side (Echo + mourners)
+var is_echo: bool              # true for the Echo commander
+var is_summon: bool
+var summoner_id: String        # empty for non-summons
+var stats: Dictionary          # six primaries
+var derived: Dictionary        # hp, atk, def, acc, eva, crit, spd
+var hp: int
+var mp: int
+var ap: int
+var facing: Vector2i
+var statuses: Array[StatusInstance]
+var skills: Array[SkillInstance]
+var equipment: Dictionary
+var ai: AiProfile</code></pre>
+<p>Summons are <code>team 0</code> units with <code>is_summon = true</code>; they act immediately after their summoner and do not join initiative. Echo mourners are <code>team 1</code>; the Echo is also <code>team 1</code> with <code>is_echo = true</code>.</p>
+<h3 id="8-2-turn-pipeline">8.2 Turn pipeline</h3>
+<ol><li><code>begin_round()</code>: tick statuses, apply damage-over-time, expire buffs, recompute SPD, sort initiative.</li><li>Active unit: AI or player submits an action.</li><li><code>resolve()</code>: validate → pay AP/MP → roll hit → roll crit → compute damage → apply status → emit events → check deaths.</li><li>End turn: facing update, AP reset to 6, next unit.</li><li>Combat end: survivors, loot, XP, Echo state update.</li></ol>
+<h3 id="8-3-geometry">8.3 Geometry</h3>
+<ul><li>Movement: 8-way (orthogonal 1, diagonal 1.5; accumulate as fixed-point halves to avoid float drift).</li><li>LoS: Bresenham supercover; walls and smoke block.</li><li>AoE: data-driven masks (<code>single</code>, <code>cross</code>, <code>line</code>, <code>cone</code>, <code>radius_1</code>, <code>radius_2</code>).</li><li>Flanking: attacker and a second hostile unit adjacent to the target on opposite sides. The player has no party; only a summon (totem, mirror image, echo-copy) can create a player-side flank. Enemy Echoes can use mourners.</li><li>Push/pull: step-by-step, stop at walls/units, 1 damage per blocked tile.</li></ul>
+<h3 id="8-4-damage">8.4 Damage</h3>
+<pre><code class="language-gdscript">static func resolve_damage(attacker: CombatUnit, defender: CombatUnit, skill: SkillInstance) -&gt; DamageResult:
+    var hit := clampf(attacker.derived.acc - defender.derived.eva + skill.acc_mod, 15, 95)
+    if rng.roll_percent() &gt; hit:
+        return DamageResult.miss()
+    var crit := rng.roll_percent() &lt;= clampf(attacker.derived.crit - defender.derived.crit_resist, 0, 75)
+    var atk := attacker.derived.p_atk if skill.is_physical else attacker.derived.m_atk
+    var raw := atk * skill.multiplier
+    var defense := defender.derived.p_def if skill.is_physical else defender.derived.m_def
+    var dmg := raw * 100.0 / (100.0 + defense)
+    dmg *= rng.range_float(0.90, 1.10)
+    if crit: dmg *= 1.75
+    dmg *= element_multiplier(skill.element, defender)
+    dmg *= position_multiplier(attacker, defender)
+    var cap := defender.derived.max_hp * (1.0 if defender.is_boss else 0.7)
+    dmg = minf(dmg, cap)
+    return DamageResult.hit(maxi(1, roundi(dmg)), crit)</code></pre>
+<p>All randomness goes through the combat RNG; the number of draws is part of the action record. If a draw order changes, bump <code>COMBAT_VERSION</code> and invalidate replays.</p>
+<h3 id="8-5-auto-battle">8.5 Auto-battle</h3>
+<ul><li>Runs the same <code>CombatSession</code> headlessly.</li><li>AI profile: conservative (heals earlier, avoids hazards, never uses consumables above rarity 2).</li><li>UI plays the event log at 1×/2×/3×; simulation runs at 20× in batches of 10 turns.</li><li>Abort conditions: HP &lt; 35%, Echo present, boss, new item, level-up, floor exit, 60 s wall-clock.</li><li>Auto-battle cannot be enabled on a floor with an active Echo (checked before the session starts, and again on spawn).</li></ul>
+<hr>
+<h2 id="9-echo-service">9. Echo service</h2>
+<h3 id="9-1-lifecycle">9.1 Lifecycle</h3>
+<pre><code>create character
+   → descend
+   → death
+       snapshot(character, floor, position, cause)
+       echo = build_echo(snapshot)
+       write echo file (atomic)
+       update index
+       update floor.echoes
+       update run (ended)
+   → new character
+   → reach floor
+       load echoes for floor
+       spawn echo + guardians
+   → combat
+       win  → reclaim(echo)
+       lose → new echo, increment attempts/corruption</code></pre>
+<h3 id="9-2-snapshot-rules">9.2 Snapshot rules</h3>
+<ul><li>Derived stats are recomputed from primaries + level + gear at death and stored, so a balance patch cannot silently buff old Echoes.</li><li>Store <code>balanceVersion</code>; when loading an Echo from an older version, apply a <strong>one-time normalization</strong> to the current stat curve (documented, no gear changes).</li><li>Store the full skill list with ranks. <code>memoryEligible</code> is true for all except skills flagged <code>noShard</code> (design reserves this for transformation/quest skills).</li><li>Store AI profile at death; do not recompute from the current class table.</li></ul>
+<h3 id="9-3-atomic-write">9.3 Atomic write</h3>
+<pre><code class="language-gdscript">func write_atomic(path: String, data: Dictionary) -&gt; Error:
+    var tmp := path + &quot;.tmp&quot;
+    var f := FileAccess.open(tmp, FileAccess.WRITE)
+    if f == null: return FileAccess.get_open_error()
+    f.store_string(JSON.stringify(data, &quot;&quot;, false))
+    f.flush()
+    f.close()
+    return DirAccess.rename_absolute(tmp, path)</code></pre>
+<ul><li>Keep one <code>.bak</code> of the previous file.</li><li>The index is rewritten after the echo file; on load, if the index is stale, scan <code>echoes/*.json</code> and rebuild.</li><li>A reclaim is a <strong>transaction</strong>: mark echo <code>reclaimed</code>, write echo, apply rewards to run, write run. If the run write fails, roll back the echo state and retry.</li><li>Idempotency: reclaiming an already-<code>reclaimed</code> echo returns the stored result, never duplicates loot.</li></ul>
+<h3 id="9-4-overflow-and-fading">9.4 Overflow and fading</h3>
+<ul><li>Per-floor cap 6; on the 7th, the oldest becomes <code>wailing</code> (state change, not deletion) with +30% stats and a modifier.</li><li>Global cap 600 files. Above 500, faded/reclaimed files older than 30 days are compacted into a <code>memorial.json</code> ledger (name, class, floor, epitaph) and removed. The Codex keeps the name.</li><li><code>Fade</code> after 8 descents: convert to a banked shard, state <code>faded</code>, keep the memorial.</li></ul>
+<h3 id="9-5-ai">9.5 AI</h3>
+<p>The Echo uses the same <code>UtilityAi</code> as enemies, with role weights from <code>aiProfile</code> and ±5% seeded noise. See GDD §8. Telemetry records each Echo encounter's win rate, average turns, and which skill killed the player most; use it to tune corruption.</p>
+<hr>
+<h2 id="10-persistence-and-migrations">10. Persistence and migrations</h2>
+<h3 id="10-1-files">10.1 Files</h3>
+<pre><code>user://saves/profile.json          # envelope: profile, settings, stash, codex, run
+user://saves/profile.json.bak
+user://echoes/index.json
+user://echoes/ech_&lt;id&gt;.json
+user://echoes/ech_&lt;id&gt;.json.bak
+user://memorial.json               # compacted faded echoes</code></pre>
+<h3 id="10-2-integrity">10.2 Integrity</h3>
+<ul><li>Canonical JSON (sorted keys, no whitespace) for hashing.</li><li>Store <code>sha256</code> of the payload in a sidecar or header; verify on load.</li><li>If the envelope fails: load <code>.bak</code>; if that fails, rebuild the run from Echo index + Stash backup and tell the player exactly what was recovered.</li><li>Never block startup on a single corrupt Echo file; mark it <code>recovered: false</code> and continue.</li></ul>
+<h3 id="10-3-migrations">10.3 Migrations</h3>
+<ul><li><code>schemaVersion</code> gates a chain of pure functions.</li><li>Each migration has a fixture (<code>tests/fixtures/v1_echo.json</code>) and a round-trip test.</li><li>Migrations run on a copy; the original is preserved as <code>.pre_v2.bak</code>.</li><li>A downgrade is never supported; the store may reject older clients.</li></ul>
+<h3 id="10-4-cloud-sync">10.4 Cloud sync</h3>
+<ul><li>Optional: Game Center / Google Play Games.</li><li>Conflict policy: union Echoes by <code>echoId</code> (immutable except state); run save = higher <code>playtimeSeconds</code>; stash = item-level union with <code>instanceId</code> dedupe, then capacity enforcement.</li><li>A conflict screen shows &quot;3 Echoes recovered from another device&quot; rather than silently merging.</li></ul>
+<hr>
+<h2 id="11-mobile-implementation">11. Mobile implementation</h2>
+<h3 id="11-1-display">11.1 Display</h3>
+<ul><li>Project stretch mode <code>canvas_items</code>, aspect <code>expand</code>, base 1080×1920.</li><li>Respect <code>DisplayServer.get_display_safe_area()</code> for notches and gesture bars.</li><li>Render at device resolution but cap 1080p internally on low-tier devices; upscale UI.</li><li>Pixel snap: enable <code>rendering/2d/snap/snap_2d_transforms_to_pixel</code> and <code>snap_2d_vertices_to_pixel</code>; avoid fractional camera zoom.</li></ul>
+<h3 id="11-2-input">11.2 Input</h3>
+<ul><li>Tap: <code>InputEventScreenTouch</code> with &lt; 12 px movement and &lt; 250 ms.</li><li>Drag: path preview, AP cost, release to commit; cancel by dragging back to origin.</li><li>Swipe up: skill wheel; swipe left/right: target cycle; two-finger tap: overlay toggle.</li><li>Long press: inspect; haptics on invalid action (optional, toggle).</li><li>All gestures have visible buttons; no gesture is the only way to do something.</li></ul>
+<h3 id="11-3-ui-performance">11.3 UI performance</h3>
+<ul><li>One <code>CanvasLayer</code> for HUD, one for modal screens.</li><li>Use <code>Control</code> anchors + containers; no per-frame <code>queue_redraw</code> unless animating.</li><li>Pool damage numbers and status icons; cap 40 concurrent.</li><li>Font atlases pre-generated for Latin + UI glyphs; no runtime font rasterization during combat.</li><li>Localize by string keys from day one; leave 35% expansion room in buttons.</li></ul>
+<h3 id="11-4-audio">11.4 Audio</h3>
+<ul><li>OGG Vorbis, 96 kbps mono for SFX, 128 kbps stereo for music.</li><li>Bus layout: Master → Music / SFX / UI / Voice; duck music −4 dB during Echo spawn and boss intro.</li><li>Suspend audio on focus loss; resume with a 200 ms fade.</li></ul>
+<h3 id="11-5-export">11.5 Export</h3>
+<ul><li>Android: AAB, min SDK 28, target latest, ARM64 + ARMv7, ASTC 6×6 with ETC2 fallback.</li><li>iOS: Metal, arm64, no JIT; test on a physical device before content lock.</li><li>Texture memory: atlas per band ≤ 2048²; evict previous band on transition; keep hub atlas resident.</li><li>Install size: base + band 1 ≤ 80 MB; each additional band ≤ 18 MB; total ≤ 150 MB.</li></ul>
+<hr>
+<h2 id="12-testing-and-ci">12. Testing and CI</h2>
+<h3 id="12-1-test-pyramid">12.1 Test pyramid</h3>
+<div class="table-scroll"><table><thead><tr><th>Layer</th><th>What</th><th>Tool</th><th>Gate</th></tr></thead><tbody><tr><td>Design invariants</td><td>3,003 builds, 50 classes, 21 lanes, golden cases</td><td><code>node tools/validate-classes.mjs --strict</code></td><td>Every commit</td></tr><tr><td>Schema</td><td>Echo/save JSON validity, migration fixtures</td><td><code>ajv</code> / <code>jsonschema</code></td><td>Every commit</td></tr><tr><td>Unit</td><td>Damage, AP, status stacking, class lane</td><td>GUT (Godot Unit Test)</td><td>Every commit</td></tr><tr><td>Property</td><td>Damage ≥ 1, AP never negative, statuses expire, no NaN</td><td>GUT + generated inputs</td><td>Nightly</td></tr><tr><td>Determinism</td><td>Same seed+actions → same hash</td><td>GUT replay test</td><td>Every commit</td></tr><tr><td>Dungeon fuzz</td><td>10,000 seeds: connectivity, reachability, budget</td><td>Headless script</td><td>Nightly</td></tr><tr><td>Echo lifecycle</td><td>death→save→load→fight→reclaim→idempotent</td><td>GUT + temp dir</td><td>Every commit</td></tr><tr><td>Save corruption</td><td>truncate, bit-flip, missing file, stale index</td><td>GUT</td><td>Nightly</td></tr><tr><td>Soak</td><td>1,000 deaths, 600 Echoes, 8 h simulated</td><td>Headless</td><td>Weekly</td></tr><tr><td>Device</td><td>6 devices, 30 min session, thermal + battery</td><td>Manual + Firebase Test Lab</td><td>Per milestone</td></tr></tbody></table></div>
+<h3 id="12-2-ci-pipeline">12.2 CI pipeline</h3>
+<pre><code class="language-yaml">- node tools/validate-classes.mjs --strict --matrix docs/CLASS_MATRIX.md
+- python3 tools/validate-save-schema.py  # Echo example + all schema $defs compile
+- godot --headless --import
+- godot --headless -s tests/run_tests.gd
+- godot --headless -s tests/dungeon_fuzz.gd -- --seeds=2000
+- godot --headless --export-release &quot;Android&quot; build/game.aab
+- check size &lt; 150 MB
+- upload artifact + class matrix diff</code></pre>
+<p>The class matrix diff is posted on the PR. A rule change that silently steals builds from another class is visible before review.</p>
+<h3 id="12-3-definition-of-done-vertical-slice">12.3 Definition of done (vertical slice)</h3>
+<ul><li>6 classes, 10 handcrafted floors, 1 boss.</li><li>Death creates an Echo file; a new hero can reclaim it.</li><li>Reclaim grants gear + XP + one of 3 shard skills.</li><li>Save/quit/resume works mid-combat and mid-floor.</li><li>60 fps on iPhone 11 and Pixel 5; 30 fps on Redmi 9.</li><li>Zero known save-corruption paths in the test suite.</li><li>5 external players complete death→reclaim without help.</li></ul>
+<hr>
+<h2 id="13-telemetry">13. Telemetry</h2>
+<p>Offline-first, opt-in, batched. Events are anonymous; no PII.</p>
+<div class="table-scroll"><table><thead><tr><th>Event</th><th>Fields</th><th>Question</th></tr></thead><tbody><tr><td><code>run_start</code></td><td>gate, class, level, echo_count</td><td>Which builds/gates are popular?</td></tr><tr><td><code>death</code></td><td>floor, cause, class, level, echo_id, time_since_start</td><td>Where does difficulty spike?</td></tr><tr><td><code>echo_spawn</code></td><td>echo_class, floor, corruption, guards</td><td>Are Echoes too common/rare?</td></tr><tr><td><code>echo_attempt</code></td><td>echo_id, result, turns, damage_taken, resonance</td><td>Is the recovery loop fair?</td></tr><tr><td><code>reclaim</code></td><td>echo_id, attempts, shard_choice, time_to_reclaim</td><td>Which shards are auto-picked?</td></tr><tr><td><code>floor_clear</code></td><td>floor, time, hp_left, auto_battle</td><td>Pacing and auto-battle usage</td></tr><tr><td><code>class_created</code></td><td>class_id, allocation, lane</td><td>Matrix health; detect dead classes</td></tr><tr><td><code>shop</code> / <code>cosmetic</code></td><td>sku, price</td><td>Monetization (if enabled)</td></tr><tr><td><code>perf</code></td><td>fps_p1, memory_mb, load_ms, device_tier</td><td>Device regressions</td></tr></tbody></table></div>
+<p>Dashboards: death heatmap by floor, Echo reclaim funnel, class pick/win rate, session length, crash-free rate.</p>
+<hr>
+<h2 id="14-roadmap">14. Roadmap</h2>
+<p>Assumes 1 engineer + 1 artist + part-time composer/QA. A solo developer should multiply by ~1.8.</p>
+<h3 id="phase-0-rules-and-sandbox-weeks-1-3">Phase 0 — Rules and sandbox (weeks 1–3)</h3>
+<ul><li>Lock class lane model and 50 rules (done in this repo).</li><li>Port class engine to GDScript; pass the 3,003-build golden test.</li><li>Build the combat sandbox: 9×9 grid, AP, one enemy, damage pipeline, event log.</li><li><strong>Exit:</strong> deterministic replay of a 10-turn fight; class test green in CI.</li></ul>
+<h3 id="phase-1-vertical-slice-weeks-4-8">Phase 1 — Vertical slice (weeks 4–8)</h3>
+<ul><li>Echo snapshot/save/load/reclaim.</li><li>Guild Hall, character creation, one 10-floor handcrafted band.</li><li>6 classes, 12 enemies, 20 items, 1 boss.</li><li>Portrait UI, tap/drag movement, skill wheel.</li><li><strong>Exit:</strong> 5 external players complete the death→reclaim loop; save/resume mid-combat.</li></ul>
+<h3 id="phase-2-systems-weeks-9-15">Phase 2 — Systems (weeks 9–15)</h3>
+<ul><li>Procedural generation for floors 11–40; themes and hazards.</li><li>24 classes, full skill trees, Memory Shards, durability, forge.</li><li>Echo AI, corruption, Wailing overflow, Requiem/Fade.</li><li>Auto-battle + deterministic playback.</li><li><strong>Exit:</strong> 40 floors playable; 30-minute soak with 50 Echoes; p95 gen &lt; 120 ms.</li></ul>
+<h3 id="phase-3-content-and-balance-weeks-16-23">Phase 3 — Content and balance (weeks 16–23)</h3>
+<ul><li>Floors 41–100, bands 3–5, 6 bosses including the final boss composite.</li><li>50 classes; balance pass via simulation (10k fights per class pair).</li><li>Art: 5 bands, Echo VFX, UI polish; audio: 5 band layers + Echo motif.</li><li><strong>Exit:</strong> content lock; 8–12 h first clear in playtest; crash-free &gt; 99%.</li></ul>
+<h3 id="phase-4-beta-and-ship-weeks-24-28">Phase 4 — Beta and ship (weeks 24–28)</h3>
+<ul><li>Device matrix, thermal/battery, install size, localization (EN/FR/DE/ES/PT-BR/JP/KR/ZH).</li><li>Store pages, achievements, cloud save, accessibility audit.</li><li><strong>Exit:</strong> 99.5% crash-free, &lt; 3 s cold start, certification build.</li></ul>
+<h3 id="scope-tiers">Scope tiers</h3>
+<div class="table-scroll"><table><thead><tr><th>Tier</th><th style="text-align:right">Classes</th><th style="text-align:right">Floors</th><th>Purpose</th></tr></thead><tbody><tr><td>Vertical slice</td><td style="text-align:right">6</td><td style="text-align:right">10</td><td>Prove the loop</td></tr><tr><td>Alpha</td><td style="text-align:right">24</td><td style="text-align:right">40</td><td>Prove retention</td></tr><tr><td>Beta</td><td style="text-align:right">50</td><td style="text-align:right">80</td><td>Content lock</td></tr><tr><td>1.0</td><td style="text-align:right">50</td><td style="text-align:right">100</td><td>Ship</td></tr></tbody></table></div>
+<hr>
+<h2 id="15-technical-risks">15. Technical risks</h2>
+<div class="table-scroll"><table><thead><tr><th>Risk</th><th>Signal</th><th>Mitigation</th></tr></thead><tbody><tr><td><strong>Determinism drift</strong></td><td>Replay hash mismatch after a patch</td><td>Versioned combat rules; golden replays; no unordered iteration; fixed RNG streams</td></tr><tr><td><strong>Save corruption</strong></td><td>Stale index, truncated JSON</td><td>Per-Echo files, atomic rename, <code>.bak</code>, checksums, rebuild index by scan</td></tr><tr><td><strong>Schema migration debt</strong></td><td>Old Echoes break after balance patches</td><td><code>balanceVersion</code> + one-time normalization; fixtures per version</td></tr><tr><td><strong>Godot mobile quirks</strong></td><td>Android export/audio/thermal issues</td><td>Device tests from week 4; avoid exotic plugins; budget 15% schedule slack</td></tr><tr><td><strong>Generation soft-locks</strong></td><td>Unreachable stairs/chest</td><td>Validator + 20 retries + handcrafted fallback; fuzz 10k seeds nightly</td></tr><tr><td><strong>Echo data growth</strong></td><td>600 files slow load</td><td>Index + lazy load; compact faded into memorial; cap 600</td></tr><tr><td><strong>UI overdraw</strong></td><td>FPS drops in combat</td><td>Atlas per band, pooled numbers, no per-frame layout, profile on device</td></tr><tr><td><strong>Content cost</strong></td><td>50 kits × 12 nodes</td><td>4 authored actives per class + generated passives; template review</td></tr><tr><td><strong>Balance explosion</strong></td><td>50×50 matchups</td><td>Role-based simulation; ban outliers; tune items first, classes second</td></tr><tr><td><strong>Cloud conflicts</strong></td><td>Duplicated/lost loot</td><td>Echo union by id; stash dedupe by instanceId; show a conflict report</td></tr></tbody></table></div>
+<hr>
+<h2 id="16-appendices">16. Appendices</h2>
+<h3 id="a-class-matrix-commands">A. Class-matrix commands</h3>
+<pre><code class="language-bash">node tools/validate-classes.mjs                 # structural + exhaustive test; all 50 kits required
+node tools/validate-classes.mjs --strict        # CI alias; same checks, accepted for compatibility
+node tools/validate-classes.mjs --matrix docs/CLASS_MATRIX.md</code></pre>
+<h3 id="b-echo-file-example">B. Echo file example</h3>
+<p>See <code>design/examples/echo.example.json</code>. Every field is required by <code>design/save.schema.json</code>; the file is intentionally small enough to inspect in a bug report.</p>
+<h3 id="c-status-pipeline-order">C. Status pipeline order</h3>
+<ol><li>Shields absorb.</li><li>Flat reduction.</li><li>Percentage reduction.</li><li>Elemental multiplier.</li><li>HP subtraction.</li><li>On-hit triggers (Hex, Bleed application, Echo passives).</li><li>Death check.</li></ol>
+<p>Order is fixed and tested; changing it is a <code>COMBAT_VERSION</code> bump.</p>
+<h3 id="d-balance-simulation-harness">D. Balance simulation harness</h3>
+<ul><li>Generate up to 200 builds per class from the lane's valid allocations; for rare classes, reuse the available builds with different fight seeds.</li><li>Run 50 fights per build against a floor-appropriate enemy set.</li><li>Report win rate, turns, damage taken, AP efficiency.</li><li>Flag classes outside 35–65% win rate or 2× median turn count.</li><li>Run nightly; a class change requires a before/after report.</li></ul>
+<h3 id="e-accessibility-test-checklist">E. Accessibility test checklist</h3>
+<ul><li>All status icons readable in protanopia/deuteranopia/tritanopia modes.</li><li>Text at 1.4× does not clip any button or tooltip.</li><li>Screen shake can be fully disabled.</li><li>All gestures have button equivalents.</li><li>No audio-only telegraph.</li><li>Combat undo works after animation completes.</li></ul>
+<hr>
+<p><strong>Next build step:</strong> scaffold the Godot 4.4 project with <code>sim/class_engine.gd</code>, port <code>tools/class-engine.mjs</code>, and wire the golden test. The design is only real when the 3,003-build test passes in the engine that ships.</p>
+    <nav class="doc-footer" aria-label="Document navigation">
+      <a href="index.html">← All documents</a>
+      <a href="classes.html">The 50-Class Matrix →</a>
+    </nav>
+  </article>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <p>Echoes of the 100th Floor · design dossier v1.0 · 3,003 legal builds, 50 callings</p>
+    <div class="footer-links">
+      <a href="gdd.html">GDD</a>
+      <a href="tech.html">Tech plan</a>
+      <a href="classes.html">Class matrix</a>
+      <a href="design/classes.json">classes.json</a>
+    </div>
+  </div>
+</footer>
+<script src="assets/app.js" defer></script>
+</body>
+</html>

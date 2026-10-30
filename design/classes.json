@@ -1,0 +1,642 @@
+{
+  "meta": {
+    "title": "Echoes of the 100th Floor",
+    "system": "Stat-Lock class derivation (lane model)",
+    "version": "1.1.0",
+    "totalPoints": 10,
+    "stats": ["STR", "DEX", "INT", "VIT", "WIS", "LUK"],
+    "laneRule": "Global secret callings are checked first. Otherwise the two highest stats select a lane (PURE_<STAT> when top >= 6 and second <= 2, else the canonical pair). Within a lane, classes are checked by descending priority; the final class in each lane is an unconditional catch-all.",
+    "tieBreak": "Ties are broken by canonical stat order: STR > DEX > INT > VIT > WIS > LUK."
+  },
+  "classes": [
+    {
+      "id": "equilibrium",
+      "name": "The Equilibrium",
+      "epithet": "Six hungers, one perfect stillness.",
+      "archetype": "secret",
+      "priority": 900,
+      "requires": { "multiset": [2, 2, 2, 2, 1, 1] },
+      "role": "Adaptive generalist",
+      "passive": "Perfect Balance: the first skill you use each combat costs 0 AP."
+    },
+    {
+      "id": "gambler",
+      "name": "The Gambler",
+      "epithet": "Luck is not a stat. It is a debt.",
+      "archetype": "secret",
+      "priority": 890,
+      "requires": {
+        "if": [
+          ["LUK", ">=", 6],
+          ["DEX", ">=", 2],
+          ["LUK", ">", "DEX"],
+          ["STR", "<=", 1],
+          ["INT", "<=", 1],
+          ["VIT", "<=", 1],
+          ["WIS", "<=", 1]
+        ]
+      },
+      "role": "High-variance ranged striker",
+      "passive": "House Edge: critical hits refund 1 AP; critical misses deal 1 damage to self."
+    },
+    {
+      "id": "berserker",
+      "name": "The Berserker",
+      "epithet": "Eight parts fury. Two parts meat. No defense.",
+      "archetype": "secret",
+      "priority": 880,
+      "requires": {
+        "if": [
+          ["STR", ">=", 8],
+          ["VIT", "<=", 2],
+          ["INT", "<=", 1],
+          ["WIS", "==", 0]
+        ]
+      },
+      "role": "All-in melee executioner",
+      "passive": "No Defense: cannot equip armor or shields. Gains +1 AP while below 50% HP."
+    },
+    {
+      "id": "oathbreaker",
+      "name": "The Oathbreaker",
+      "epithet": "Three vows, broken in perfect measure.",
+      "archetype": "secret",
+      "priority": 870,
+      "requires": {
+        "if": [
+          ["STR", "==", "INT"],
+          ["INT", "==", "WIS"],
+          ["STR", ">=", 2]
+        ]
+      },
+      "role": "Tri-stat skirmisher",
+      "passive": "Broken Word: enemies adjacent to you lose 10% of their magic resistance."
+    },
+    {
+      "id": "ascetic",
+      "name": "The Ascetic",
+      "epithet": "No body to wound. No fortune to steal.",
+      "archetype": "secret",
+      "priority": 860,
+      "requires": {
+        "if": [
+          ["VIT", "==", 0],
+          ["LUK", "==", 0],
+          ["WIS", ">=", 3],
+          ["STR", "<=", 4],
+          ["DEX", "<=", 4],
+          ["INT", "<=", 4]
+        ]
+      },
+      "role": "Evasion mystic",
+      "passive": "Empty Vessel: immune to Bleed and Poison. Max HP is halved, but evasion is doubled."
+    },
+    {
+      "id": "blind_prophet",
+      "name": "The Blind Prophet",
+      "epithet": "The dungeon shows them everything. That is the problem.",
+      "archetype": "secret",
+      "priority": 850,
+      "requires": {
+        "if": [
+          ["WIS", ">=", 6],
+          ["DEX", "==", 0],
+          ["LUK", "<=", 1]
+        ]
+      },
+      "role": "Support caster / trap oracle",
+      "passive": "Unseen Sight: all traps and secret doors on the floor are revealed on entry."
+    },
+    {
+      "id": "heretic",
+      "name": "The Heretic",
+      "epithet": "Faith is a resource. He spends it.",
+      "archetype": "secret",
+      "priority": 840,
+      "requires": {
+        "if": [
+          ["INT", ">=", 5],
+          ["WIS", "==", 0],
+          ["STR", ">=", 2],
+          ["VIT", ">=", 2]
+        ]
+      },
+      "role": "Melee warlock",
+      "passive": "Profane Fuel: spells may be paid with HP instead of MP at 2 HP per 1 MP."
+    },
+    {
+      "id": "martyr",
+      "name": "The Martyr",
+      "epithet": "The body is the only offering the dungeon accepts.",
+      "archetype": "secret",
+      "priority": 830,
+      "requires": {
+        "if": [
+          ["VIT", ">=", 7],
+          ["STR", "==", 0],
+          ["DEX", "==", 0]
+        ]
+      },
+      "role": "Sacrificial tank",
+      "passive": "Offering: when you die, your Echo spawns with -20% HP and grants double Memory Shards."
+    },
+    {
+      "id": "thing_that_waits",
+      "name": "The Thing That Waits",
+      "epithet": "It has been on the 100th floor longer than the floor has existed.",
+      "archetype": "secret",
+      "priority": 820,
+      "requires": {
+        "if": [
+          ["STR", ">=", 1],
+          ["DEX", ">=", 1],
+          ["INT", ">=", 1],
+          ["VIT", ">=", 1],
+          ["WIS", ">=", 1],
+          ["LUK", ">=", 1],
+          ["STR", "<=", 3],
+          ["DEX", "<=", 3],
+          ["INT", "<=", 3],
+          ["VIT", "<=", 3],
+          ["WIS", "<=", 3],
+          ["LUK", "<=", 3]
+        ]
+      },
+      "role": "Attrition horror",
+      "passive": "Patience: at the start of your third consecutive turn in combat, gain +2 AP."
+    },
+    {
+      "id": "singularity",
+      "name": "The Singularity",
+      "epithet": "One number. Ten points. No remainder.",
+      "archetype": "secret",
+      "priority": 810,
+      "requires": { "multiset": [10, 0, 0, 0, 0, 0] },
+      "role": "Perfect specialization",
+      "passive": "Absolute: +25% to your highest stat's derived effects; all other stats count as 0 for requirements."
+    },
+
+    {
+      "id": "muscle_wizard",
+      "name": "The Muscle Wizard",
+      "epithet": "Arcane theory, physical delivery.",
+      "archetype": "pure",
+      "lane": "PURE_STR",
+      "priority": 790,
+      "requires": {
+        "if": [
+          ["STR", ">=", 7],
+          ["INT", ">=", 2]
+        ]
+      },
+      "role": "Unarmed burst",
+      "passive": "Fist of the Fifth Circle: unarmed strikes scale with STR and ignore 20% of DEF."
+    },
+    {
+      "id": "colossus",
+      "name": "The Colossus",
+      "epithet": "Strength, with just enough sense to keep swinging.",
+      "archetype": "pure",
+      "lane": "PURE_STR",
+      "priority": 690,
+      "requires": {},
+      "role": "Heavy melee",
+      "passive": "Unstoppable: overkill damage carries to the next enemy in an adjacent tile."
+    },
+    {
+      "id": "ghost",
+      "name": "The Ghost",
+      "epithet": "Armor is a confession that you intend to be hit.",
+      "archetype": "pure",
+      "lane": "PURE_DEX",
+      "priority": 789,
+      "requires": {
+        "if": [
+          ["DEX", ">=", 8],
+          ["VIT", "<=", 1]
+        ]
+      },
+      "role": "Evasion assassin",
+      "passive": "Untouchable: +15% evasion while wearing no armor."
+    },
+    {
+      "id": "duelist",
+      "name": "The Duelist",
+      "epithet": "One blade. One opening. One hundred floors.",
+      "archetype": "pure",
+      "lane": "PURE_DEX",
+      "priority": 689,
+      "requires": {},
+      "role": "Single-target finesse",
+      "passive": "Riposte: the first melee attack that misses you each turn is countered for 50% damage."
+    },
+    {
+      "id": "glass_cannon",
+      "name": "The Glass Cannon",
+      "epithet": "One perfect spell. One fatal mistake.",
+      "archetype": "pure",
+      "lane": "PURE_INT",
+      "priority": 788,
+      "requires": { "if": [["INT", ">=", 8]] },
+      "role": "Ranged nuker",
+      "passive": "Fragile Genius: +30% spell damage, -30% max HP."
+    },
+    {
+      "id": "archivist",
+      "name": "The Archivist",
+      "epithet": "Every floor is a page. She is cataloguing them all.",
+      "archetype": "pure",
+      "lane": "PURE_INT",
+      "priority": 688,
+      "requires": {},
+      "role": "Control caster",
+      "passive": "Marginalia: status effects you apply last one extra turn."
+    },
+    {
+      "id": "wall",
+      "name": "The Wall",
+      "epithet": "Some doors are made of people.",
+      "archetype": "pure",
+      "lane": "PURE_VIT",
+      "priority": 787,
+      "requires": { "if": [["VIT", ">=", 8]] },
+      "role": "Anchor tank",
+      "passive": "Immovable: cannot be pushed, pulled, or knocked back."
+    },
+    {
+      "id": "hearth",
+      "name": "The Hearth",
+      "epithet": "A fire that does not go out, no matter how deep the dark.",
+      "archetype": "pure",
+      "lane": "PURE_VIT",
+      "priority": 786,
+      "requires": { "if": [["WIS", ">=", 2]] },
+      "role": "Sustain tank",
+      "passive": "Warmth: regenerate 3% max HP at the start of each turn; adjacent summons regenerate 3% as well."
+    },
+    {
+      "id": "anchor",
+      "name": "The Anchor",
+      "epithet": "Some heroes hold the line. He is the line.",
+      "archetype": "tank",
+      "lane": "PURE_VIT",
+      "priority": 687,
+      "requires": {},
+      "role": "Pure bodyguard",
+      "passive": "Ballast: cannot be moved. You and adjacent summons gain +15% physical resistance."
+    },
+    {
+      "id": "oracle",
+      "name": "The Oracle",
+      "epithet": "She has already seen the floor. She is not impressed.",
+      "archetype": "pure",
+      "lane": "PURE_WIS",
+      "priority": 686,
+      "requires": {},
+      "role": "Support / reveal",
+      "passive": "Prescience: once per floor, reroll a failed trap check or a lethal hit."
+    },
+    {
+      "id": "fool",
+      "name": "The Fool",
+      "epithet": "The dungeon has killed wiser heroes than you. That is the joke.",
+      "archetype": "pure",
+      "lane": "PURE_LUK",
+      "priority": 685,
+      "requires": {},
+      "role": "Loot-driven wildcard",
+      "passive": "Fortune's Fool: 25% chance to completely negate any damage instance."
+    },
+
+    {
+      "id": "monk",
+      "name": "The Monk",
+      "epithet": "The body is a weapon. The mind is the sheath.",
+      "archetype": "hybrid",
+      "lane": "STR+DEX",
+      "priority": 780,
+      "requires": { "if": [["STR", ">=", "DEX"]] },
+      "role": "Mobile bruiser",
+      "passive": "Flowing Form: moving 2+ tiles before an attack grants +1 AP next turn."
+    },
+    {
+      "id": "buccaneer",
+      "name": "The Buccaneer",
+      "epithet": "Fast hands, faster exit.",
+      "archetype": "hybrid",
+      "lane": "STR+DEX",
+      "priority": 680,
+      "requires": {},
+      "role": "Hit-and-run duelist",
+      "passive": "Sea Legs: no movement penalty on hazard tiles; disengage costs 0 AP once per turn."
+    },
+    {
+      "id": "paladin",
+      "name": "The Paladin",
+      "epithet": "Strength above intellect. Intellect above faith. Faith above all.",
+      "archetype": "hybrid",
+      "lane": "STR+INT",
+      "priority": 779,
+      "requires": {
+        "if": [
+          ["STR", ">", "INT"],
+          ["INT", ">", "WIS"],
+          ["WIS", ">=", 1]
+        ]
+      },
+      "role": "Holy frontline",
+      "passive": "Aegis: you and adjacent summons take 10% less damage."
+    },
+    {
+      "id": "hexblade",
+      "name": "The Hexblade",
+      "epithet": "The sword is cursed. So is the hand.",
+      "archetype": "hybrid",
+      "lane": "STR+INT",
+      "priority": 679,
+      "requires": {},
+      "role": "Cursed melee",
+      "passive": "Hex: enemies you hit take +15% damage from all sources until your next turn."
+    },
+    {
+      "id": "crusader",
+      "name": "The Crusader",
+      "epithet": "The body is a ram. The faith is the fuse.",
+      "archetype": "tank",
+      "lane": "STR+VIT",
+      "priority": 778,
+      "requires": { "if": [["WIS", ">=", 2]] },
+      "role": "Holy bruiser",
+      "passive": "Zeal: below 50% HP, gain +20% damage and +10% damage reduction."
+    },
+    {
+      "id": "bruiser",
+      "name": "The Bruiser",
+      "epithet": "The plan is to still be standing.",
+      "archetype": "hybrid",
+      "lane": "STR+VIT",
+      "priority": 777,
+      "requires": { "if": [["STR", ">=", "VIT"]] },
+      "role": "Frontline brawler",
+      "passive": "Second Wind: the first time you drop below 30% HP each combat, heal 15% max HP."
+    },
+    {
+      "id": "juggernaut",
+      "name": "The Juggernaut",
+      "epithet": "Momentum is a form of armor.",
+      "archetype": "tank",
+      "lane": "STR+VIT",
+      "priority": 677,
+      "requires": {},
+      "role": "Charging tank",
+      "passive": "Momentum: each tile moved in a straight line adds +5% damage to your next attack (max +30%)."
+    },
+    {
+      "id": "warpriest",
+      "name": "The Warpriest",
+      "epithet": "The sermon is short. The hammer is long.",
+      "archetype": "hybrid",
+      "lane": "STR+WIS",
+      "priority": 676,
+      "requires": {},
+      "role": "Battle support",
+      "passive": "Litany: healing also grants the target +10% damage for one turn."
+    },
+    {
+      "id": "reaver",
+      "name": "The Reaver",
+      "epithet": "Luck is what you take from the corpse.",
+      "archetype": "hybrid",
+      "lane": "STR+LUK",
+      "priority": 775,
+      "requires": { "if": [["STR", ">", "LUK"]] },
+      "role": "Crit-fishing bruiser",
+      "passive": "Bloodlust: killing an enemy restores 2 AP and 5% max HP."
+    },
+    {
+      "id": "corsair",
+      "name": "The Corsair",
+      "epithet": "The dungeon owes her money. She intends to collect.",
+      "archetype": "hybrid",
+      "lane": "STR+LUK",
+      "priority": 675,
+      "requires": {},
+      "role": "Loot-driven duelist",
+      "passive": "Plunder: +20% gold and a 10% chance to steal an enemy's equipped item on kill."
+    },
+    {
+      "id": "spellblade",
+      "name": "The Spellblade",
+      "epithet": "Six parts theory. Four parts violence.",
+      "archetype": "hybrid",
+      "lane": "DEX+INT",
+      "priority": 774,
+      "requires": { "if": [["INT", ">", "DEX"]] },
+      "role": "Magic melee",
+      "passive": "Enchanted Edge: basic attacks deal +25% of your magic damage as elemental damage."
+    },
+    {
+      "id": "spellthief",
+      "name": "The Spellthief",
+      "epithet": "Your magic. Her hands. No receipt.",
+      "archetype": "hybrid",
+      "lane": "DEX+INT",
+      "priority": 773,
+      "requires": {
+        "if": [
+          ["DEX", ">", "INT"],
+          ["DEX", ">=", 5]
+        ]
+      },
+      "role": "Anti-caster disruptor",
+      "passive": "Siphon: damaging an enemy with a spell steals 2 MP from them."
+    },
+    {
+      "id": "nightblade",
+      "name": "The Nightblade",
+      "epithet": "She learned magic to become harder to see.",
+      "archetype": "hybrid",
+      "lane": "DEX+INT",
+      "priority": 673,
+      "requires": {},
+      "role": "Stealth caster",
+      "passive": "Umbral Step: teleport up to 3 tiles once per combat; next attack is a guaranteed critical."
+    },
+    {
+      "id": "bulwark",
+      "name": "The Bulwark",
+      "epithet": "The safest place on the floor is behind him. Usually.",
+      "archetype": "tank",
+      "lane": "DEX+VIT",
+      "priority": 772,
+      "requires": { "if": [["VIT", ">=", 6]] },
+      "role": "Shield tank",
+      "passive": "Shield Wall: block chance +25% when you did not move last turn."
+    },
+    {
+      "id": "skirmisher",
+      "name": "The Skirmisher",
+      "epithet": "Hold the line? She would rather move it.",
+      "archetype": "hybrid",
+      "lane": "DEX+VIT",
+      "priority": 771,
+      "requires": { "if": [["DEX", ">=", "VIT"]] },
+      "role": "Mobile frontline",
+      "passive": "Harrier: +1 AP on any turn in which you both move and attack."
+    },
+    {
+      "id": "ironclad",
+      "name": "The Ironclad",
+      "epithet": "Plate, patience, and a very large hammer.",
+      "archetype": "tank",
+      "lane": "DEX+VIT",
+      "priority": 671,
+      "requires": {},
+      "role": "Defensive brawler",
+      "passive": "Iron Skin: physical damage taken is reduced by 2 flat per hit."
+    },
+    {
+      "id": "ranger",
+      "name": "The Ranger",
+      "epithet": "Every floor has a trail. Most of them end badly.",
+      "archetype": "hybrid",
+      "lane": "DEX+WIS",
+      "priority": 770,
+      "requires": { "if": [["LUK", ">=", 2]] },
+      "role": "Ranged scout",
+      "passive": "Trailcraft: reveal adjacent rooms on entry and gain +1 tile attack range."
+    },
+    {
+      "id": "stalker",
+      "name": "The Stalker",
+      "epithet": "The dungeon is loud. She is not.",
+      "archetype": "hybrid",
+      "lane": "DEX+WIS",
+      "priority": 670,
+      "requires": {},
+      "role": "Scout / ranged control",
+      "passive": "Hunter's Patience: attacks from fog of war or flanking deal +20% damage."
+    },
+    {
+      "id": "trickster",
+      "name": "The Trickster",
+      "epithet": "The trap was never for you. It was for the thing behind you.",
+      "archetype": "hybrid",
+      "lane": "DEX+LUK",
+      "priority": 669,
+      "requires": {},
+      "role": "Debuff skirmisher",
+      "passive": "Misdirection: the first attack each combat targets the nearest enemy instead of you."
+    },
+    {
+      "id": "necrophage",
+      "name": "The Necrophage",
+      "epithet": "The dungeon keeps its dead. He keeps them closer.",
+      "archetype": "tank",
+      "lane": "INT+VIT",
+      "priority": 668,
+      "requires": { "if": [["LUK", ">=", 2]] },
+      "role": "Corpse-fed tank",
+      "passive": "Carrion Feast: killing an enemy heals 10% max HP and restores 1 MP."
+    },
+    {
+      "id": "warlock",
+      "name": "The Warlock",
+      "epithet": "The patron asked for a body. He brought his own.",
+      "archetype": "tank",
+      "lane": "INT+VIT",
+      "priority": 667,
+      "requires": {},
+      "role": "Drain tank",
+      "passive": "Pact: spell damage heals you for 15% of the damage dealt."
+    },
+    {
+      "id": "theurge",
+      "name": "The Theurge",
+      "epithet": "Two heavens, one argument.",
+      "archetype": "hybrid",
+      "lane": "INT+WIS",
+      "priority": 666,
+      "requires": { "if": [["INT", ">=", "WIS"]] },
+      "role": "Hybrid caster",
+      "passive": "Confluence: spells cost 1 less MP for each summon on the field (max 2); with no summon, gain +1 MP at the start of each turn."
+    },
+    {
+      "id": "inquisitor",
+      "name": "The Inquisitor",
+      "epithet": "Faith first. Questions later. Answers never.",
+      "archetype": "hybrid",
+      "lane": "INT+WIS",
+      "priority": 665,
+      "requires": {},
+      "role": "Anti-magic caster",
+      "passive": "Inquisition: enemies you damage lose 2 MP and cannot heal for one turn."
+    },
+    {
+      "id": "wild_mage",
+      "name": "The Wild Mage",
+      "epithet": "The spell works. The question is how.",
+      "archetype": "hybrid",
+      "lane": "INT+LUK",
+      "priority": 664,
+      "requires": {},
+      "role": "Chaos nuker",
+      "passive": "Wild Surge: every spell has a 20% chance to cost 0 MP and deal +50% damage."
+    },
+    {
+      "id": "shaman",
+      "name": "The Shaman",
+      "epithet": "The spirits are not guests. They are tenants. She collects rent.",
+      "archetype": "tank",
+      "lane": "VIT+WIS",
+      "priority": 663,
+      "requires": { "if": [["LUK", ">=", 2]] },
+      "role": "Totem support",
+      "passive": "Totem: summon a 1 HP totem once per combat that taunts enemies for 2 turns."
+    },
+    {
+      "id": "templar",
+      "name": "The Templar",
+      "epithet": "A shield is a prayer with edges.",
+      "archetype": "tank",
+      "lane": "VIT+WIS",
+      "priority": 662,
+      "requires": { "if": [["VIT", ">=", "WIS"]] },
+      "role": "Protection tank",
+      "passive": "Bulwark: you take 10% less damage. 20% of damage taken by adjacent summons is redirected to you."
+    },
+    {
+      "id": "sentinel",
+      "name": "The Sentinel",
+      "epithet": "She does not guard the door. She is the door.",
+      "archetype": "tank",
+      "lane": "VIT+WIS",
+      "priority": 661,
+      "requires": {},
+      "role": "Magic-defense tank",
+      "passive": "Ward: you and summons within 2 tiles gain +20% magic resistance."
+    },
+    {
+      "id": "gravewarden",
+      "name": "The Gravewarden",
+      "epithet": "Someone has to count the dead. Someone has to feed them.",
+      "archetype": "hybrid",
+      "lane": "VIT+LUK",
+      "priority": 660,
+      "requires": {},
+      "role": "Necrotic tank",
+      "passive": "Grave Tithe: each Echo you defeat grants +10% max HP for the rest of the run."
+    },
+    {
+      "id": "pilgrim",
+      "name": "The Pilgrim",
+      "epithet": "Faith is a lantern you carry into places that hate light.",
+      "archetype": "hybrid",
+      "lane": "WIS+LUK",
+      "priority": 659,
+      "requires": {},
+      "role": "Support / utility",
+      "passive": "Wayfarer: shrines and healing fountains restore 50% more."
+    }
+  ]
+}

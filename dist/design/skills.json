@@ -1,0 +1,404 @@
+{
+  "equilibrium": {
+    "skills": [
+      { "lvl": 1, "name": "Even Hand", "ap": 3, "mp": 2, "range": 1, "effect": "Deal 100% P damage. If your AP is exactly 3 after paying, refund the AP cost." },
+      { "lvl": 4, "name": "Sixfold Stance", "ap": 2, "mp": 0, "range": 0, "effect": "Gain 1 AP for each pair of stats whose values are equal (max 3)." },
+      { "lvl": 8, "name": "Perfect Circle", "ap": 4, "mp": 4, "range": 2, "effect": "Deal 30% M damage per stat at 2 or higher to all enemies in a 1-tile radius." }
+    ],
+    "capstone": { "lvl": 12, "name": "Still Point", "ap": 5, "mp": 8, "range": 0, "effect": "Reset AP to 6 and end your turn. Next turn you gain +3 AP and act first." }
+  },
+  "gambler": {
+    "skills": [
+      { "lvl": 1, "name": "Coin Flip", "ap": 2, "mp": 0, "range": 4, "effect": "50% chance: 200% P damage. 50% chance: 0 damage and refund 1 AP." },
+      { "lvl": 4, "name": "Loaded Dice", "ap": 3, "mp": 2, "range": 0, "effect": "Next 3 attacks gain +50% critical chance." },
+      { "lvl": 8, "name": "All In", "ap": 4, "mp": 0, "range": 0, "effect": "Lose 50% current HP. Gain +100% damage for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "Jackpot", "ap": 6, "mp": 6, "range": 3, "effect": "Roll one of six outcomes weighted by LUK: 300% damage, full heal, +3 AP, Stun all, summon 100 gold, or instant death of a non-boss enemy." }
+  },
+  "berserker": {
+    "skills": [
+      { "lvl": 1, "name": "Reckless Swing", "ap": 3, "mp": 0, "range": 1, "effect": "180% P damage. Lose 10% of your current HP." },
+      { "lvl": 4, "name": "Blood Howl", "ap": 2, "mp": 0, "range": 0, "effect": "Gain +2 AP and -10% DEF for 2 turns." },
+      { "lvl": 8, "name": "Execute", "ap": 4, "mp": 0, "range": 1, "effect": "250% P damage. Doubled against enemies below 30% HP." }
+    ],
+    "capstone": { "lvl": 12, "name": "Deathless Rage", "ap": 5, "mp": 0, "range": 0, "effect": "For 3 turns you cannot drop below 1 HP. At the end, you collapse and lose 50% max HP." }
+  },
+  "oathbreaker": {
+    "skills": [
+      { "lvl": 1, "name": "Broken Vow", "ap": 3, "mp": 2, "range": 1, "effect": "Deal 70% P + 70% M damage. Both scale with your highest stat." },
+      { "lvl": 4, "name": "Triple Edict", "ap": 4, "mp": 3, "range": 1, "effect": "Three hits of 60%. Apply Bleed, Blind, then Confuse, one per hit." },
+      { "lvl": 8, "name": "Pariah's Mark", "ap": 2, "mp": 2, "range": 4, "effect": "Mark an enemy for 2 turns. You and your summons deal +20% damage to it." }
+    ],
+    "capstone": { "lvl": 12, "name": "All Oaths at Once", "ap": 6, "mp": 8, "range": 3, "effect": "Replay the last three skills used by any combatant this battle, at 70% power." }
+  },
+  "ascetic": {
+    "skills": [
+      { "lvl": 1, "name": "Empty Palm", "ap": 2, "mp": 1, "range": 1, "effect": "100% damage using WIS instead of STR. Ignores armor." },
+      { "lvl": 4, "name": "Stillness", "ap": 2, "mp": 2, "range": 0, "effect": "Gain +40% evasion until the start of your next turn." },
+      { "lvl": 8, "name": "Denial", "ap": 3, "mp": 3, "range": 0, "effect": "Cleanse all debuffs from yourself. Heal 10% max HP per debuff removed." }
+    ],
+    "capstone": { "lvl": 12, "name": "No-Self", "ap": 5, "mp": 8, "range": 0, "effect": "For 2 turns you cannot be targeted or damaged, but cannot act." }
+  },
+  "blind_prophet": {
+    "skills": [
+      { "lvl": 1, "name": "Foreseen Blow", "ap": 3, "mp": 2, "range": 3, "effect": "Guaranteed hit for 130% M damage. +50% if the target is in fog of war." },
+      { "lvl": 4, "name": "Reveal", "ap": 2, "mp": 2, "range": 5, "effect": "Reveal a 5x5 area and mark all traps and enemies inside for 2 turns." },
+      { "lvl": 8, "name": "Prophetic Ward", "ap": 3, "mp": 3, "range": 0, "effect": "Gain one guaranteed dodge against the next attack and +20% evasion for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "The Unseen Floor", "ap": 6, "mp": 10, "range": 0, "effect": "Reveal the entire floor. All enemies suffer -20% accuracy for 3 turns." }
+  },
+  "heretic": {
+    "skills": [
+      { "lvl": 1, "name": "Profane Bolt", "ap": 3, "mp": 2, "range": 4, "effect": "160% M damage. If MP is below the cost, pay the difference in HP." },
+      { "lvl": 4, "name": "Desecrate", "ap": 3, "mp": 4, "range": 4, "effect": "Consecrate a tile for 3 turns. Enemies starting there take 40% M damage and lose 1 MP." },
+      { "lvl": 8, "name": "Blood Tithe", "ap": 2, "mp": 0, "range": 0, "effect": "Convert 20% of your current HP into twice that amount of MP." }
+    ],
+    "capstone": { "lvl": 12, "name": "Excommunicate", "ap": 5, "mp": 8, "range": 3, "effect": "Deal 350% M damage. You cannot be healed for 3 turns." }
+  },
+  "martyr": {
+    "skills": [
+      { "lvl": 1, "name": "Offering", "ap": 2, "mp": 0, "range": 0, "effect": "Lose 25% of your current HP; gain a shield equal to 50% of the HP lost." },
+      { "lvl": 4, "name": "Via Dolorosa", "ap": 3, "mp": 2, "range": 0, "effect": "Taunt all adjacent enemies. Gain +30% DEF for 2 turns." },
+      { "lvl": 8, "name": "Last Rites", "ap": 4, "mp": 4, "range": 0, "effect": "When you next fall below 20% HP, heal 30% max HP and cleanse Bleed." }
+    ],
+    "capstone": { "lvl": 12, "name": "The Final Gift", "ap": 5, "mp": 0, "range": 0, "effect": "Once per run, when you would die, survive at 1 HP, heal to full, and gain +50% damage for 3 turns. Your Echo is weakened by 20%." }
+  },
+  "thing_that_waits": {
+    "skills": [
+      { "lvl": 1, "name": "Linger", "ap": 0, "mp": 0, "range": 0, "effect": "Delay your turn. Gain +2 AP on your next turn. Once per combat." },
+      { "lvl": 4, "name": "Unsettle", "ap": 3, "mp": 3, "range": 3, "effect": "Apply Confuse and Blind for 2 turns." },
+      { "lvl": 8, "name": "From Below", "ap": 4, "mp": 2, "range": 4, "effect": "Pull an enemy up to 2 tiles toward you and deal 150% P damage." }
+    ],
+    "capstone": { "lvl": 12, "name": "It Was Always Here", "ap": 6, "mp": 8, "range": 2, "effect": "Summon a copy of yourself with 30% HP for 3 turns. It acts on your turn." }
+  },
+  "singularity": {
+    "skills": [
+      { "lvl": 1, "name": "Perfect Strike", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 200% damage using your highest stat as the attack stat." },
+      { "lvl": 4, "name": "Zero Point", "ap": 2, "mp": 0, "range": 1, "effect": "Deal 80% damage and push all adjacent enemies 2 tiles." },
+      { "lvl": 8, "name": "All or Nothing", "ap": 0, "mp": 0, "range": 1, "effect": "Consume all remaining AP. Deal 100% damage plus 25% per AP spent." }
+    ],
+    "capstone": { "lvl": 12, "name": "Singularity", "ap": 6, "mp": 0, "range": 2, "effect": "Deal 400% damage in a 3x3 area. You are Stunned for 1 turn." }
+  },
+
+  "muscle_wizard": {
+    "skills": [
+      { "lvl": 1, "name": "Haymaker", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 120% P damage. +40% if unarmed." },
+      { "lvl": 4, "name": "Arcane Flex", "ap": 2, "mp": 2, "range": 0, "effect": "Gain +30% STR for 3 turns. Flexing is a free action." },
+      { "lvl": 8, "name": "Fifth Circle Punch", "ap": 4, "mp": 3, "range": 1, "effect": "Deal 220% P damage. Splash 80% M damage to adjacent enemies." }
+    ],
+    "capstone": { "lvl": 12, "name": "Muscle Meteor", "ap": 6, "mp": 6, "range": 3, "effect": "Leap up to 3 tiles and deal 300% P damage in a 1-tile radius, knocking enemies back 1." }
+  },
+  "colossus": {
+    "skills": [
+      { "lvl": 1, "name": "Cleave", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 130% P damage to the target and 60% to adjacent enemies." },
+      { "lvl": 4, "name": "Brace", "ap": 2, "mp": 0, "range": 0, "effect": "Gain +50% DEF. Your next attack refunds 1 AP." },
+      { "lvl": 8, "name": "Ground Slam", "ap": 4, "mp": 2, "range": 0, "effect": "Deal 160% P damage to all adjacent enemies and Stun them for 1 turn." }
+    ],
+    "capstone": { "lvl": 12, "name": "Titan's Fall", "ap": 6, "mp": 4, "range": 3, "effect": "Deal 350% P damage in a line up to 4 tiles. Destroys breakable walls." }
+  },
+  "ghost": {
+    "skills": [
+      { "lvl": 1, "name": "Ghost Step", "ap": 2, "mp": 1, "range": 3, "effect": "Teleport up to 3 tiles. Your next attack deals +30% damage." },
+      { "lvl": 4, "name": "Phase Cut", "ap": 3, "mp": 2, "range": 1, "effect": "Deal 150% P damage, ignoring 50% of the target's DEF." },
+      { "lvl": 8, "name": "Vanishing", "ap": 3, "mp": 3, "range": 0, "effect": "Become untargetable for 1 turn. Your next attack is a guaranteed critical." }
+    ],
+    "capstone": { "lvl": 12, "name": "Haunt", "ap": 6, "mp": 8, "range": 5, "effect": "Mark a target. At the start of its next 2 turns, teleport adjacent and strike for 250% P damage." }
+  },
+  "duelist": {
+    "skills": [
+      { "lvl": 1, "name": "Lunge", "ap": 2, "mp": 0, "range": 2, "effect": "Move 1 tile toward the target and deal 120% P damage." },
+      { "lvl": 4, "name": "Parry", "ap": 2, "mp": 1, "range": 0, "effect": "Block the next melee attack and counter for 100% P damage." },
+      { "lvl": 8, "name": "Thousand Cuts", "ap": 4, "mp": 2, "range": 1, "effect": "Five hits of 50%. Each critical hit adds +10% to the remaining hits." }
+    ],
+    "capstone": { "lvl": 12, "name": "Perfect Opening", "ap": 5, "mp": 4, "range": 1, "effect": "Deal 500% P damage. Only usable if the target is below 50% HP." }
+  },
+  "glass_cannon": {
+    "skills": [
+      { "lvl": 1, "name": "Meteor Shard", "ap": 4, "mp": 4, "range": 5, "effect": "Deal 200% M damage to one target." },
+      { "lvl": 4, "name": "Overcharge", "ap": 2, "mp": 2, "range": 0, "effect": "Your next spell deals +80% damage and costs double MP." },
+      { "lvl": 8, "name": "Chain Lightning", "ap": 5, "mp": 6, "range": 5, "effect": "Deal 140% M damage to up to 3 targets. Damage falls 15% per jump." }
+    ],
+    "capstone": { "lvl": 12, "name": "Kill Screen", "ap": 6, "mp": 10, "range": 5, "effect": "Deal 400% M damage in a 3x3 area. Lose 30% of your current HP." }
+  },
+  "archivist": {
+    "skills": [
+      { "lvl": 1, "name": "Ink Blot", "ap": 2, "mp": 2, "range": 4, "effect": "Deal 80% M damage and apply Blind for 2 turns." },
+      { "lvl": 4, "name": "Footnote", "ap": 2, "mp": 3, "range": 4, "effect": "Extend all debuffs on the target by 2 turns." },
+      { "lvl": 8, "name": "Forbidden Chapter", "ap": 4, "mp": 5, "range": 4, "effect": "Deal 180% M damage and apply a random debuff for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "Errata", "ap": 5, "mp": 8, "range": 5, "effect": "Cancel the target's last action and Stun it for 1 turn. Draw a new skill for this combat." }
+  },
+  "wall": {
+    "skills": [
+      { "lvl": 1, "name": "Shield Bash", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 100% P damage and push the target 1 tile." },
+      { "lvl": 4, "name": "Fortify", "ap": 2, "mp": 2, "range": 0, "effect": "Gain +40% DEF and immunity to push/pull for 2 turns." },
+      { "lvl": 8, "name": "Taunt", "ap": 2, "mp": 0, "range": 3, "effect": "All enemies within 3 tiles must target you next turn." }
+    ],
+    "capstone": { "lvl": 12, "name": "Unbreakable", "ap": 5, "mp": 6, "range": 0, "effect": "For 2 turns, any damage you take is capped at 10% of your max HP per hit." }
+  },
+  "hearth": {
+    "skills": [
+      { "lvl": 1, "name": "Warm Light", "ap": 3, "mp": 3, "range": 0, "effect": "Heal yourself for 20% max HP and cleanse Burn." },
+      { "lvl": 4, "name": "Ember Ward", "ap": 2, "mp": 2, "range": 0, "effect": "Gain +15% fire resistance for 3 turns. Adjacent summons gain it too." },
+      { "lvl": 8, "name": "Bonfire", "ap": 4, "mp": 5, "range": 3, "effect": "Create a 3x3 zone for 3 turns. You and your summons heal 10% per turn; enemies take 60% M damage." }
+    ],
+    "capstone": { "lvl": 12, "name": "Homefire", "ap": 6, "mp": 10, "range": 0, "effect": "Heal yourself for 40% max HP. The next lethal hit on you or a summon leaves that unit at 1 HP instead." }
+  },
+  "anchor": {
+    "skills": [
+      { "lvl": 1, "name": "Hold Fast", "ap": 2, "mp": 0, "range": 0, "effect": "Root yourself. Gain +60% DEF until you move." },
+      { "lvl": 4, "name": "Anchor Chain", "ap": 3, "mp": 2, "range": 3, "effect": "Pull an enemy adjacent and deal 120% P damage." },
+      { "lvl": 8, "name": "Ballast", "ap": 2, "mp": 0, "range": 0, "effect": "You and adjacent summons gain +20% physical resistance for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "Dead Weight", "ap": 5, "mp": 4, "range": 0, "effect": "For 2 turns you cannot die. Adjacent enemies suffer -50% speed." }
+  },
+  "oracle": {
+    "skills": [
+      { "lvl": 1, "name": "Foresight", "ap": 2, "mp": 2, "range": 0, "effect": "Gain +30% evasion for 2 turns." },
+      { "lvl": 4, "name": "Scry", "ap": 2, "mp": 2, "range": 6, "effect": "Reveal a 7x7 area. Mark one enemy, increasing damage it takes by 20%." },
+      { "lvl": 8, "name": "Doom", "ap": 4, "mp": 5, "range": 5, "effect": "After 2 turns, the target takes 250% M damage. Cannot be avoided." }
+    ],
+    "capstone": { "lvl": 12, "name": "Inevitable", "ap": 6, "mp": 10, "range": 0, "effect": "At the end of the next turn, all enemies take 100% M damage. Cannot be prevented." }
+  },
+  "fool": {
+    "skills": [
+      { "lvl": 1, "name": "Trip", "ap": 2, "mp": 0, "range": 1, "effect": "Deal 80% P damage and Stun the target for 1 turn." },
+      { "lvl": 4, "name": "Lucky Find", "ap": 2, "mp": 0, "range": 0, "effect": "Generate one random consumable. It vanishes at the end of the floor." },
+      { "lvl": 8, "name": "Pratfall", "ap": 3, "mp": 0, "range": 0, "effect": "Dodge the next attack and counter for 150% P damage." }
+    ],
+    "capstone": { "lvl": 12, "name": "The Punchline", "ap": 6, "mp": 0, "range": 2, "effect": "50% chance to instantly kill a non-boss enemy. Otherwise deal 300% P damage." }
+  },
+
+  "monk": {
+    "skills": [
+      { "lvl": 1, "name": "Flurry", "ap": 3, "mp": 1, "range": 1, "effect": "Three hits of 60%. If all hit, refund 1 AP." },
+      { "lvl": 4, "name": "Counter Stance", "ap": 2, "mp": 1, "range": 0, "effect": "Counter the next melee attack for 120% P damage." },
+      { "lvl": 8, "name": "Pressure Point", "ap": 4, "mp": 2, "range": 1, "effect": "Deal 180% P damage and Stun the target for 1 turn." }
+    ],
+    "capstone": { "lvl": 12, "name": "Hundred Fists", "ap": 6, "mp": 5, "range": 1, "effect": "Eight hits of 70% split among adjacent enemies. Each kill refunds 1 AP." }
+  },
+  "buccaneer": {
+    "skills": [
+      { "lvl": 1, "name": "Saber Slash", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 130% P damage. Gain 1 free tile of movement." },
+      { "lvl": 4, "name": "Pistol Whip", "ap": 2, "mp": 0, "range": 2, "effect": "Deal 90% P damage and Blind the target for 2 turns." },
+      { "lvl": 8, "name": "Boarding Action", "ap": 4, "mp": 2, "range": 3, "effect": "Dash up to 3 tiles, dealing 180% P damage to every enemy you pass." }
+    ],
+    "capstone": { "lvl": 12, "name": "Captain's Due", "ap": 5, "mp": 4, "range": 1, "effect": "Deal 300% P damage and steal one positive buff from the target." }
+  },
+  "paladin": {
+    "skills": [
+      { "lvl": 1, "name": "Smite", "ap": 3, "mp": 2, "range": 1, "effect": "Deal 140% P + 50% M damage." },
+      { "lvl": 4, "name": "Lay on Hands", "ap": 3, "mp": 3, "range": 0, "effect": "Heal yourself for 25% max HP." },
+      { "lvl": 8, "name": "Divine Aegis", "ap": 3, "mp": 4, "range": 0, "effect": "Gain a shield equal to 30% of your max HP." }
+    ],
+    "capstone": { "lvl": 12, "name": "Judgment", "ap": 6, "mp": 8, "range": 2, "effect": "Deal 350% M damage to undead and demons; other enemies are Blinded for 2 turns." }
+  },
+  "hexblade": {
+    "skills": [
+      { "lvl": 1, "name": "Cursed Edge", "ap": 3, "mp": 1, "range": 1, "effect": "Deal 150% P damage and apply Hex for 2 turns." },
+      { "lvl": 4, "name": "Soul Tithe", "ap": 2, "mp": 2, "range": 1, "effect": "Deal 80% M damage and heal for 50% of damage dealt." },
+      { "lvl": 8, "name": "Hex Bolt", "ap": 3, "mp": 3, "range": 4, "effect": "Deal 130% M damage and apply Hex for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "All Debts Come Due", "ap": 6, "mp": 8, "range": 4, "effect": "Detonate Hex on all enemies, dealing 200% M damage per debuff on them." }
+  },
+  "crusader": {
+    "skills": [
+      { "lvl": 1, "name": "Shield Charge", "ap": 3, "mp": 1, "range": 2, "effect": "Move up to 2 tiles. Deal 130% P damage and Stun for 1 turn." },
+      { "lvl": 4, "name": "Consecrate", "ap": 3, "mp": 4, "range": 3, "effect": "Create a 3x3 zone for 3 turns: you and your summons heal 5%, enemies take 50% M damage per turn." },
+      { "lvl": 8, "name": "Zealotry", "ap": 2, "mp": 2, "range": 0, "effect": "Gain +30% damage and -20% DEF for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "Crusade", "ap": 6, "mp": 8, "range": 0, "effect": "For 5 turns, gain +2 AP and +25% damage; your summons gain +10% damage." }
+  },
+  "bruiser": {
+    "skills": [
+      { "lvl": 1, "name": "Body Blow", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 140% P damage and reduce the target's DEF by 20% for 2 turns." },
+      { "lvl": 4, "name": "Grit", "ap": 2, "mp": 0, "range": 0, "effect": "Heal 15% max HP and gain +20% DEF for 2 turns." },
+      { "lvl": 8, "name": "Bonebreaker", "ap": 4, "mp": 0, "range": 1, "effect": "Deal 220% P damage. Lose 10% of your current HP." }
+    ],
+    "capstone": { "lvl": 12, "name": "Still Standing", "ap": 5, "mp": 4, "range": 0, "effect": "The next time you would die, survive at 1 HP, heal 50% max HP, and gain +50% damage for 3 turns." }
+  },
+  "juggernaut": {
+    "skills": [
+      { "lvl": 1, "name": "Ram", "ap": 3, "mp": 0, "range": 2, "effect": "Move up to 2 tiles, deal 130% P damage, and push the target 1 tile." },
+      { "lvl": 4, "name": "Unstoppable", "ap": 2, "mp": 2, "range": 0, "effect": "Immune to Stun, Blind, Confuse, push, and pull for 2 turns." },
+      { "lvl": 8, "name": "Crushing Grip", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 120% P damage and root the target for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "Rolling Thunder", "ap": 6, "mp": 4, "range": 4, "effect": "Charge in a line up to 4 tiles. Deal 300% P damage and knock enemies back 2 tiles." }
+  },
+  "warpriest": {
+    "skills": [
+      { "lvl": 1, "name": "War Hymn", "ap": 2, "mp": 2, "range": 0, "effect": "You and your summons within 3 tiles gain +15% damage for 2 turns." },
+      { "lvl": 4, "name": "Healing Word", "ap": 3, "mp": 3, "range": 0, "effect": "Heal yourself for 20% max HP and gain +10% damage for 1 turn." },
+      { "lvl": 8, "name": "Hammer of Faith", "ap": 4, "mp": 2, "range": 1, "effect": "Deal 180% P damage and Stun the target for 1 turn." }
+    ],
+    "capstone": { "lvl": 12, "name": "Final Sermon", "ap": 6, "mp": 8, "range": 0, "effect": "Refill your AP and your summons' AP. All enemies are Stunned for 1 turn." }
+  },
+  "reaver": {
+    "skills": [
+      { "lvl": 1, "name": "Rend", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 140% P damage and apply Bleed for 3 turns." },
+      { "lvl": 4, "name": "Blood for Blood", "ap": 2, "mp": 0, "range": 0, "effect": "Lose 10% current HP. Gain +30% critical chance for 2 turns." },
+      { "lvl": 8, "name": "Killing Blow", "ap": 4, "mp": 0, "range": 1, "effect": "Deal 200% P damage. Instantly execute enemies below 25% HP." }
+    ],
+    "capstone": { "lvl": 12, "name": "Crimson Harvest", "ap": 6, "mp": 4, "range": 1, "effect": "Deal 250% P damage to all adjacent enemies. Each kill heals 15% max HP." }
+  },
+  "corsair": {
+    "skills": [
+      { "lvl": 1, "name": "Cutlass", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 130% P damage. Gain 10% bonus gold from this kill." },
+      { "lvl": 4, "name": "Dirty Trick", "ap": 2, "mp": 0, "range": 2, "effect": "Blind the target for 2 turns and steal 1 AP from it." },
+      { "lvl": 8, "name": "Broadside", "ap": 4, "mp": 2, "range": 2, "effect": "Deal 160% P damage in a 3-tile cone." }
+    ],
+    "capstone": { "lvl": 12, "name": "Claim the Wreck", "ap": 5, "mp": 3, "range": 1, "effect": "Deal 300% P damage. If this kills the target, it always drops its equipment." }
+  },
+  "spellblade": {
+    "skills": [
+      { "lvl": 1, "name": "Arcane Slash", "ap": 3, "mp": 2, "range": 1, "effect": "Deal 120% P + 80% M damage." },
+      { "lvl": 4, "name": "Enchant", "ap": 2, "mp": 2, "range": 0, "effect": "Your weapon deals +25% elemental damage for 3 turns." },
+      { "lvl": 8, "name": "Blink Strike", "ap": 4, "mp": 3, "range": 2, "effect": "Teleport up to 2 tiles and deal 180% P damage." }
+    ],
+    "capstone": { "lvl": 12, "name": "Sword of Six Colors", "ap": 6, "mp": 8, "range": 1, "effect": "Six hits of 80%, one per element. Each hit applies its element's status." }
+  },
+  "spellthief": {
+    "skills": [
+      { "lvl": 1, "name": "Mana Siphon", "ap": 2, "mp": 1, "range": 2, "effect": "Deal 80% M damage and steal 3 MP." },
+      { "lvl": 4, "name": "Mirror Cast", "ap": 3, "mp": 3, "range": 4, "effect": "Copy the last spell cast by an enemy and cast it at 80% power." },
+      { "lvl": 8, "name": "Arcane Pickpocket", "ap": 3, "mp": 2, "range": 2, "effect": "Steal one positive buff from the target and deal 100% M damage." }
+    ],
+    "capstone": { "lvl": 12, "name": "Grand Larceny", "ap": 6, "mp": 8, "range": 3, "effect": "Steal all positive buffs from all enemies and deal 250% M damage to one target." }
+  },
+  "nightblade": {
+    "skills": [
+      { "lvl": 1, "name": "Umbral Cut", "ap": 3, "mp": 1, "range": 1, "effect": "Deal 150% P damage. +50% if you were unseen at the start of the turn." },
+      { "lvl": 4, "name": "Smoke", "ap": 2, "mp": 2, "range": 1, "effect": "Blind adjacent enemies and gain +30% evasion for 2 turns." },
+      { "lvl": 8, "name": "Shadow Step", "ap": 3, "mp": 3, "range": 3, "effect": "Teleport up to 3 tiles. Your next attack is a guaranteed critical." }
+    ],
+    "capstone": { "lvl": 12, "name": "Nightfall", "ap": 6, "mp": 8, "range": 0, "effect": "All enemies are Blinded for 2 turns. One target takes 300% P damage." }
+  },
+  "bulwark": {
+    "skills": [
+      { "lvl": 1, "name": "Shield Wall", "ap": 2, "mp": 0, "range": 0, "effect": "Gain +50% block chance for 2 turns. Requires a shield." },
+      { "lvl": 4, "name": "Bash", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 110% P damage and Stun the target for 1 turn." },
+      { "lvl": 8, "name": "Cover", "ap": 2, "mp": 0, "range": 0, "effect": "The next attack against you or an adjacent summon is redirected to you and reduced by 30%." }
+    ],
+    "capstone": { "lvl": 12, "name": "Fortress", "ap": 6, "mp": 6, "range": 0, "effect": "For 3 turns, you and adjacent summons take 0 damage from the first hit each turn." }
+  },
+  "skirmisher": {
+    "skills": [
+      { "lvl": 1, "name": "Hit and Run", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 120% P damage, then move 1 tile for free." },
+      { "lvl": 4, "name": "Feint", "ap": 2, "mp": 0, "range": 0, "effect": "Gain +40% evasion and +20% damage on your next attack." },
+      { "lvl": 8, "name": "Whirl", "ap": 4, "mp": 2, "range": 1, "effect": "Deal 100% P damage to all adjacent enemies." }
+    ],
+    "capstone": { "lvl": 12, "name": "Blitz", "ap": 6, "mp": 4, "range": 1, "effect": "Make up to 6 move-or-attack actions. Each kill refunds 1 AP and 10% HP." }
+  },
+  "ironclad": {
+    "skills": [
+      { "lvl": 1, "name": "Hammerfall", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 160% P damage. Stuns if you did not move this turn." },
+      { "lvl": 4, "name": "Iron Guard", "ap": 2, "mp": 0, "range": 0, "effect": "Reduce incoming damage by 3 flat per hit for 2 turns." },
+      { "lvl": 8, "name": "Reposition", "ap": 2, "mp": 0, "range": 0, "effect": "Move up to 2 tiles without provoking. Gain +20% DEF for 1 turn." }
+    ],
+    "capstone": { "lvl": 12, "name": "Anvil", "ap": 6, "mp": 4, "range": 1, "effect": "Deal 300% P damage and create a 1-tile wall that blocks movement for 3 turns." }
+  },
+  "warlock": {
+    "skills": [
+      { "lvl": 1, "name": "Drain Life", "ap": 3, "mp": 3, "range": 3, "effect": "Deal 140% M damage and heal for 50% of damage dealt." },
+      { "lvl": 4, "name": "Curse of Agony", "ap": 3, "mp": 3, "range": 4, "effect": "The target takes 60% M damage at the start of its turn for 3 turns." },
+      { "lvl": 8, "name": "Dark Pact", "ap": 2, "mp": 0, "range": 0, "effect": "Gain +40% damage and apply Bleed to yourself for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "Devour", "ap": 6, "mp": 8, "range": 2, "effect": "Deal 350% M damage. If this kills the target, heal to full and gain +2 AP." }
+  },
+  "necrophage": {
+    "skills": [
+      { "lvl": 1, "name": "Carrion Bite", "ap": 3, "mp": 0, "range": 1, "effect": "Deal 140% P damage and heal 10% of damage dealt." },
+      { "lvl": 4, "name": "Grave Mold", "ap": 3, "mp": 3, "range": 3, "effect": "Create a 3x3 poison zone for 3 turns." },
+      { "lvl": 8, "name": "Feast", "ap": 4, "mp": 0, "range": 1, "effect": "Consume a corpse to heal 40% max HP and gain +20% damage for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "The Rot Within", "ap": 6, "mp": 6, "range": 2, "effect": "Deal 300% M damage and apply every debuff you can inflict for 2 turns." }
+  },
+  "theurge": {
+    "skills": [
+      { "lvl": 1, "name": "Twin Bolt", "ap": 3, "mp": 3, "range": 4, "effect": "Deal 100% INT + 100% WIS damage." },
+      { "lvl": 4, "name": "Attunement", "ap": 2, "mp": 0, "range": 0, "effect": "Gain +30% M and +2 MP per turn for 3 turns." },
+      { "lvl": 8, "name": "Conjunction", "ap": 4, "mp": 5, "range": 3, "effect": "Deal 180% M damage in a 1-tile radius. You and your summons inside gain +10% M for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "Two Heavens", "ap": 6, "mp": 10, "range": 4, "effect": "Cast two spells this turn. The second costs 50% less MP." }
+  },
+  "inquisitor": {
+    "skills": [
+      { "lvl": 1, "name": "Brand", "ap": 2, "mp": 2, "range": 4, "effect": "Mark the target for 2 turns. It takes +20% damage from all sources." },
+      { "lvl": 4, "name": "Silence", "ap": 3, "mp": 3, "range": 4, "effect": "Deal 100% M damage and prevent the target from using skills for 1 turn." },
+      { "lvl": 8, "name": "Purge", "ap": 4, "mp": 4, "range": 4, "effect": "Deal 180% M damage and remove all positive buffs from the target." }
+    ],
+    "capstone": { "lvl": 12, "name": "Auto-da-Fe", "ap": 6, "mp": 10, "range": 4, "effect": "Deal 400% M damage to a branded target. It cannot heal for 3 turns." }
+  },
+  "wild_mage": {
+    "skills": [
+      { "lvl": 1, "name": "Chaos Bolt", "ap": 3, "mp": 2, "range": 4, "effect": "Deal 150% M damage of a random element." },
+      { "lvl": 4, "name": "Unstable Concoction", "ap": 2, "mp": 0, "range": 0, "effect": "Gain a random buff or suffer a random debuff for 2 turns." },
+      { "lvl": 8, "name": "Surge", "ap": 4, "mp": 4, "range": 3, "effect": "Deal 200% M damage and apply a random status for 2 turns." }
+    ],
+    "capstone": { "lvl": 12, "name": "Wildstorm", "ap": 6, "mp": 10, "range": 0, "effect": "Cast six random spells at random targets. Each can hit you." }
+  },
+  "shaman": {
+    "skills": [
+      { "lvl": 1, "name": "Totem", "ap": 3, "mp": 3, "range": 2, "effect": "Summon a 1 HP totem that taunts enemies for 2 turns." },
+      { "lvl": 4, "name": "Hex", "ap": 3, "mp": 2, "range": 4, "effect": "Deal 100% M damage and reduce the target's DEF by 20% for 2 turns." },
+      { "lvl": 8, "name": "Spirit Link", "ap": 2, "mp": 3, "range": 4, "effect": "Link with a summon for 3 turns: damage you take is split 50/50. If you have no summon, gain +30% DEF instead." }
+    ],
+    "capstone": { "lvl": 12, "name": "Ancestral Council", "ap": 6, "mp": 10, "range": 0, "effect": "Summon three totems. You and your summons gain +30% damage while any totem lives." }
+  },
+  "templar": {
+    "skills": [
+      { "lvl": 1, "name": "Shield of Faith", "ap": 2, "mp": 2, "range": 0, "effect": "Gain a shield equal to 25% of your max HP." },
+      { "lvl": 4, "name": "Zealous Strike", "ap": 3, "mp": 1, "range": 1, "effect": "Deal 140% P damage and heal yourself for 10% max HP." },
+      { "lvl": 8, "name": "Guardian", "ap": 2, "mp": 0, "range": 0, "effect": "For 2 turns, take 30% less damage and reflect 50% of the prevented damage to the attacker." }
+    ],
+    "capstone": { "lvl": 12, "name": "Martyr's Aegis", "ap": 6, "mp": 8, "range": 0, "effect": "Gain a shield equal to 50% of your max HP and +30% DEF for 2 turns." }
+  },
+  "sentinel": {
+    "skills": [
+      { "lvl": 1, "name": "Ward", "ap": 2, "mp": 2, "range": 0, "effect": "Gain +30% magic resistance for 3 turns." },
+      { "lvl": 4, "name": "Binding Light", "ap": 3, "mp": 3, "range": 4, "effect": "Deal 120% M damage and root the target for 2 turns." },
+      { "lvl": 8, "name": "Dispel", "ap": 2, "mp": 3, "range": 4, "effect": "Remove all positive buffs from an enemy." }
+    ],
+    "capstone": { "lvl": 12, "name": "Sanctum", "ap": 6, "mp": 10, "range": 0, "effect": "Create a 3x3 zone for 2 turns. You and your summons inside are immune to magic damage." }
+  },
+  "gravewarden": {
+    "skills": [
+      { "lvl": 1, "name": "Grave Bolt", "ap": 3, "mp": 2, "range": 4, "effect": "Deal 130% M damage and apply Poison for 3 turns." },
+      { "lvl": 4, "name": "Shroud", "ap": 2, "mp": 2, "range": 0, "effect": "Gain +30% evasion for 2 turns. Undead will not target you." },
+      { "lvl": 8, "name": "Tithe", "ap": 3, "mp": 2, "range": 3, "effect": "Deal 120% M damage. Heal 5% max HP per debuff on the target." }
+    ],
+    "capstone": { "lvl": 12, "name": "Open the Graves", "ap": 6, "mp": 8, "range": 3, "effect": "Raise up to 2 corpses as allied undead with 40% HP for 3 turns." }
+  },
+  "ranger": {
+    "skills": [
+      { "lvl": 1, "name": "Hunter's Mark", "ap": 2, "mp": 2, "range": 5, "effect": "Mark a target for 2 turns. Your attacks against it gain +20% accuracy and +15% damage." },
+      { "lvl": 4, "name": "Snare Arrow", "ap": 3, "mp": 1, "range": 5, "effect": "Deal 120% P damage and root the target for 1 turn." },
+      { "lvl": 8, "name": "Volley", "ap": 4, "mp": 3, "range": 5, "effect": "Deal 110% P damage to up to 3 targets in a 3x3 area." }
+    ],
+    "capstone": { "lvl": 12, "name": "The Long Hunt", "ap": 6, "mp": 6, "range": 6, "effect": "For 3 turns, your ranged attacks gain +2 range, +30% damage, and never miss." }
+  },
+  "stalker": {
+    "skills": [
+      { "lvl": 1, "name": "Silent Shot", "ap": 3, "mp": 1, "range": 5, "effect": "Deal 140% P damage. +50% if the target has not acted yet this combat." },
+      { "lvl": 4, "name": "Pinning Bolt", "ap": 3, "mp": 2, "range": 4, "effect": "Deal 100% P damage and reduce the target's speed by 30% for 2 turns." },
+      { "lvl": 8, "name": "From the Fog", "ap": 3, "mp": 2, "range": 5, "effect": "Teleport 2 tiles. Your next attack deals +40% damage and applies Bleed." }
+    ],
+    "capstone": { "lvl": 12, "name": "No One Saw You", "ap": 6, "mp": 6, "range": 0, "effect": "Become untargetable for 1 turn. Your next 3 attacks are guaranteed criticals." }
+  },
+  "pilgrim": {
+    "skills": [
+      { "lvl": 1, "name": "Lantern", "ap": 2, "mp": 1, "range": 5, "effect": "Reveal a 5x5 area. You and your summons gain +10% accuracy for 2 turns." },
+      { "lvl": 4, "name": "Blessing", "ap": 3, "mp": 3, "range": 0, "effect": "Heal yourself for 20% max HP and cleanse one debuff." },
+      { "lvl": 8, "name": "Pilgrim's Path", "ap": 2, "mp": 0, "range": 0, "effect": "Gain +2 movement and ignore hazard tiles this turn." }
+    ],
+    "capstone": { "lvl": 12, "name": "Sanctuary", "ap": 6, "mp": 8, "range": 3, "effect": "Create a 3x3 safe zone for 3 turns. You and your summons inside heal 20% max HP per turn and cannot be targeted by new enemies." }
+  },
+  "trickster": {
+    "skills": [
+      { "lvl": 1, "name": "Sleight", "ap": 2, "mp": 1, "range": 3, "effect": "Swap positions with an enemy." },
+      { "lvl": 4, "name": "Caltrops", "ap": 3, "mp": 2, "range": 3, "effect": "Create a 3x3 zone for 3 turns. Enemies entering take 60% P damage and Bleed." },
+      { "lvl": 8, "name": "Mirror Image", "ap": 3, "mp": 3, "range": 1, "effect": "Summon a decoy with 1 HP that enemies must target first." }
+    ],
+    "capstone": { "lvl": 12, "name": "Grand Cons", "ap": 6, "mp": 6, "range": 4, "effect": "All enemies are Confused for 2 turns. Steal 2 AP from each." }
+  }
+}

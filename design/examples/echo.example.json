@@ -1,0 +1,206 @@
+{
+  "schemaVersion": 1,
+  "echoId": "ech_a1b2c3d4e5",
+  "runId": "run_7f3c91a2",
+  "balanceVersion": 1,
+  "character": {
+    "name": "Sera Vane",
+    "classId": "paladin",
+    "className": "The Paladin",
+    "level": 14,
+    "xp": 4200
+  },
+  "floor": 37,
+  "diedAt": "2026-10-29T21:14:08Z",
+  "cause": "enemy",
+  "position": { "x": 12, "y": 8 },
+  "stats": { "STR": 5, "DEX": 0, "INT": 3, "VIT": 0, "WIS": 2, "LUK": 0 },
+  "derived": {
+    "maxHp": 68,
+    "maxMp": 38,
+    "pAtk": 20.6,
+    "mAtk": 17.4,
+    "pDef": 7.2,
+    "mDef": 9.0,
+    "acc": 80,
+    "eva": 5,
+    "crit": 5,
+    "spd": 10,
+    "trapSense": 18
+  },
+  "equipment": {
+    "weapon": {
+      "instanceId": "itm_9f2c1a7b",
+      "baseId": "oathkeeper_blade",
+      "name": "Oathkeeper Blade",
+      "slot": "weapon",
+      "rarity": "relic",
+      "itemLevel": 35,
+      "durability": { "current": 41, "max": 60 },
+      "affixes": [{ "id": "of_radiance", "value": 3 }],
+      "boundToEcho": "ech_a1b2c3d4e5",
+      "value": 420
+    },
+    "offhand": {
+      "instanceId": "itm_3b8d0c2e",
+      "baseId": "cathedral_shield",
+      "name": "Cathedral Shield",
+      "slot": "offhand",
+      "rarity": "masterwork",
+      "itemLevel": 32,
+      "durability": { "current": 45, "max": 50 },
+      "affixes": [{ "id": "of_warding", "value": 2 }],
+      "boundToEcho": "ech_a1b2c3d4e5",
+      "value": 260
+    },
+    "head": null,
+    "body": {
+      "instanceId": "itm_5a7e4d1f",
+      "baseId": "penitent_mail",
+      "name": "Penitent Mail",
+      "slot": "body",
+      "rarity": "masterwork",
+      "itemLevel": 34,
+      "durability": { "current": 62, "max": 80 },
+      "affixes": [{ "id": "of_vitality", "value": 2 }],
+      "boundToEcho": "ech_a1b2c3d4e5",
+      "value": 310
+    },
+    "hands": null,
+    "feet": null,
+    "ring1": null,
+    "ring2": null,
+    "amulet": null
+  },
+  "inventory": [
+    {
+      "instanceId": "itm_0c9b8a7d",
+      "baseId": "sunwater_flask",
+      "name": "Sunwater Flask",
+      "slot": "consumable",
+      "rarity": "common",
+      "itemLevel": 30,
+      "durability": { "current": 1, "max": 1 },
+      "affixes": [],
+      "boundToEcho": "ech_a1b2c3d4e5",
+      "value": 40
+    },
+    {
+      "instanceId": "itm_7e6f5d4c",
+      "baseId": "cracked_emberstone",
+      "name": "Cracked Emberstone",
+      "slot": "material",
+      "rarity": "common",
+      "itemLevel": 30,
+      "durability": { "current": 1, "max": 1 },
+      "affixes": [],
+      "boundToEcho": "ech_a1b2c3d4e5",
+      "value": 15
+    }
+  ],
+  "skills": [
+    {
+      "id": "smite",
+      "name": "Smite",
+      "sourceClassId": "paladin",
+      "rank": 2,
+      "ap": 3,
+      "mp": 2,
+      "range": 1,
+      "memoryEligible": true
+    },
+    {
+      "id": "lay_on_hands",
+      "name": "Lay on Hands",
+      "sourceClassId": "paladin",
+      "rank": 1,
+      "ap": 3,
+      "mp": 3,
+      "range": 0,
+      "memoryEligible": true
+    },
+    {
+      "id": "divine_aegis",
+      "name": "Divine Aegis",
+      "sourceClassId": "paladin",
+      "rank": 1,
+      "ap": 3,
+      "mp": 4,
+      "range": 0,
+      "memoryEligible": true
+    },
+    {
+      "id": "judgment",
+      "name": "Judgment",
+      "sourceClassId": "paladin",
+      "rank": 1,
+      "ap": 6,
+      "mp": 8,
+      "range": 2,
+      "memoryEligible": true,
+      "isCapstone": true
+    }
+  ],
+  "aiProfile": {
+    "role": "tank",
+    "aggression": 0.55,
+    "preferredRange": 1,
+    "targetPriority": "healer_first",
+    "canHeal": true,
+    "fleeThreshold": 0.15
+  },
+  "corruption": {
+    "tier": 1,
+    "kills": 2,
+    "modifiers": [{ "id": "stat_mult", "value": 0.1 }]
+  },
+  "guardians": {
+    "count": 2,
+    "enemyPool": ["iron_penitent", "bone_choir"]
+  },
+  "state": "active",
+  "encountered": {
+    "attempts": 1,
+    "playerDeaths": 0,
+    "lastAttemptAt": "2026-10-30T09:02:44Z"
+  },
+  "reclaim": {
+    "xp": 2520,
+    "gold": 340,
+    "shardChoices": [
+      {
+        "id": "smite",
+        "name": "Smite",
+        "sourceClassId": "paladin",
+        "rank": 2,
+        "ap": 3,
+        "mp": 2,
+        "range": 1,
+        "memoryEligible": true
+      },
+      {
+        "id": "lay_on_hands",
+        "name": "Lay on Hands",
+        "sourceClassId": "paladin",
+        "rank": 1,
+        "ap": 3,
+        "mp": 3,
+        "range": 0,
+        "memoryEligible": true
+      },
+      {
+        "id": "judgment",
+        "name": "Judgment",
+        "sourceClassId": "paladin",
+        "rank": 1,
+        "ap": 6,
+        "mp": 8,
+        "range": 2,
+        "memoryEligible": true,
+        "isCapstone": true
+      }
+    ],
+    "shardClaimed": null
+  },
+  "epitaph": "She held the stair until the stair held her."
+}

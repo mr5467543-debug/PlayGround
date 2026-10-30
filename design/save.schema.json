@@ -1,0 +1,403 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://echoes100.example/schemas/save.schema.json",
+  "title": "Echoes of the 100th Floor - Save & Echo Schema",
+  "description": "Versioned persistence contract. Echoes are stored one file per dead character (user://echoes/<echoId>.json) so a corrupt run save can never destroy the graveyard. The envelope references echoes by id.",
+  "type": "object",
+  "required": ["schemaVersion", "profile", "settings", "stash", "codex", "run"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "savedAt": { "type": "string", "format": "date-time" },
+    "profile": { "$ref": "#/$defs/Profile" },
+    "settings": { "$ref": "#/$defs/Settings" },
+    "stash": { "$ref": "#/$defs/Stash" },
+    "codex": { "$ref": "#/$defs/Codex" },
+    "run": { "$ref": "#/$defs/RunState" },
+    "echoIndex": {
+      "type": "array",
+      "description": "Lightweight index. Full Echo documents live in separate files.",
+      "items": { "$ref": "#/$defs/EchoIndexEntry" },
+      "maxItems": 600
+    }
+  },
+  "$defs": {
+    "StatBlock": {
+      "type": "object",
+      "required": ["STR", "DEX", "INT", "VIT", "WIS", "LUK"],
+      "additionalProperties": false,
+      "properties": {
+        "STR": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "DEX": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "INT": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "VIT": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "WIS": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "LUK": { "type": "integer", "minimum": 0, "maximum": 10 }
+      }
+    },
+    "DerivedStats": {
+      "type": "object",
+      "required": ["maxHp", "maxMp", "pAtk", "mAtk", "pDef", "mDef", "acc", "eva", "crit", "spd", "trapSense"],
+      "additionalProperties": false,
+      "properties": {
+        "maxHp": { "type": "integer", "minimum": 1 },
+        "maxMp": { "type": "integer", "minimum": 0 },
+        "pAtk": { "type": "number", "minimum": 0 },
+        "mAtk": { "type": "number", "minimum": 0 },
+        "pDef": { "type": "number", "minimum": 0 },
+        "mDef": { "type": "number", "minimum": 0 },
+        "acc": { "type": "number", "minimum": 0 },
+        "eva": { "type": "number", "minimum": 0 },
+        "crit": { "type": "number", "minimum": 0, "maximum": 100 },
+        "spd": { "type": "number", "minimum": 1 },
+        "trapSense": { "type": "number", "minimum": 0 }
+      }
+    },
+    "ItemInstance": {
+      "type": "object",
+      "required": ["instanceId", "baseId", "name", "slot", "rarity", "itemLevel", "durability", "affixes", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "instanceId": { "type": "string", "pattern": "^itm_[a-zA-Z0-9]{8,24}$" },
+        "baseId": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "name": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "slot": {
+          "enum": ["weapon", "offhand", "head", "body", "hands", "feet", "ring1", "ring2", "amulet", "consumable", "material"]
+        },
+        "rarity": { "enum": ["common", "masterwork", "relic", "echo_bound"] },
+        "itemLevel": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "durability": {
+          "type": "object",
+          "required": ["current", "max"],
+          "additionalProperties": false,
+          "properties": {
+            "current": { "type": "integer", "minimum": 0 },
+            "max": { "type": "integer", "minimum": 1, "maximum": 100 }
+          }
+        },
+        "affixes": {
+          "type": "array",
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "required": ["id", "value"],
+            "additionalProperties": false,
+            "properties": {
+              "id": { "type": "string" },
+              "value": { "type": "number" }
+            }
+          }
+        },
+        "boundToEcho": { "type": "string", "description": "echoId while the item sits on a corpse; empty when reclaimed." },
+        "value": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "SkillRef": {
+      "type": "object",
+      "required": ["id", "name", "sourceClassId", "rank", "ap", "mp", "range", "memoryEligible"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "name": { "type": "string" },
+        "sourceClassId": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "rank": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "ap": { "type": "integer", "minimum": 0, "maximum": 10 },
+        "mp": { "type": "integer", "minimum": 0, "maximum": 99 },
+        "range": { "type": "integer", "minimum": 0, "maximum": 12 },
+        "memoryEligible": { "type": "boolean" },
+        "isCapstone": { "type": "boolean", "default": false }
+      }
+    },
+    "Echo": {
+      "type": "object",
+      "required": [
+        "schemaVersion",
+        "echoId",
+        "runId",
+        "balanceVersion",
+        "character",
+        "floor",
+        "diedAt",
+        "cause",
+        "position",
+        "stats",
+        "derived",
+        "equipment",
+        "inventory",
+        "skills",
+        "aiProfile",
+        "corruption",
+        "state",
+        "encountered",
+        "reclaim"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": { "const": 1 },
+        "echoId": { "type": "string", "pattern": "^ech_[a-zA-Z0-9]{8,32}$" },
+        "runId": { "type": "string" },
+        "balanceVersion": { "type": "integer", "minimum": 1, "description": "Stat/curve version at death; used for one-time normalization." },
+        "character": {
+          "type": "object",
+          "required": ["name", "classId", "className", "level", "xp"],
+          "additionalProperties": false,
+          "properties": {
+            "name": { "type": "string", "minLength": 1, "maxLength": 24 },
+            "classId": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+            "className": { "type": "string" },
+            "level": { "type": "integer", "minimum": 1, "maximum": 30 },
+            "xp": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "floor": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "diedAt": { "type": "string", "format": "date-time" },
+        "cause": {
+          "enum": ["enemy", "echo", "trap", "hazard", "boss", "starvation", "unknown"]
+        },
+        "position": {
+          "type": "object",
+          "required": ["x", "y"],
+          "additionalProperties": false,
+          "properties": {
+            "x": { "type": "integer", "minimum": 0 },
+            "y": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "stats": { "$ref": "#/$defs/StatBlock" },
+        "derived": { "$ref": "#/$defs/DerivedStats" },
+        "equipment": {
+          "type": "object",
+          "required": ["weapon", "offhand", "head", "body", "hands", "feet", "ring1", "ring2", "amulet"],
+          "additionalProperties": false,
+          "properties": {
+            "weapon": { "oneOf": [{ "$ref": "#/$defs/ItemInstance" }, { "type": "null" }] },
+            "offhand": { "oneOf": [{ "$ref": "#/$defs/ItemInstance" }, { "type": "null" }] },
+            "head": { "oneOf": [{ "$ref": "#/$defs/ItemInstance" }, { "type": "null" }] },
+            "body": { "oneOf": [{ "$ref": "#/$defs/ItemInstance" }, { "type": "null" }] },
+            "hands": { "oneOf": [{ "$ref": "#/$defs/ItemInstance" }, { "type": "null" }] },
+            "feet": { "oneOf": [{ "$ref": "#/$defs/ItemInstance" }, { "type": "null" }] },
+            "ring1": { "oneOf": [{ "$ref": "#/$defs/ItemInstance" }, { "type": "null" }] },
+            "ring2": { "oneOf": [{ "$ref": "#/$defs/ItemInstance" }, { "type": "null" }] },
+            "amulet": { "oneOf": [{ "$ref": "#/$defs/ItemInstance" }, { "type": "null" }] }
+          }
+        },
+        "inventory": {
+          "type": "array",
+          "maxItems": 24,
+          "items": { "$ref": "#/$defs/ItemInstance" }
+        },
+        "skills": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 16,
+          "items": { "$ref": "#/$defs/SkillRef" }
+        },
+        "aiProfile": {
+          "type": "object",
+          "required": ["role", "aggression", "preferredRange", "targetPriority", "canHeal", "fleeThreshold"],
+          "additionalProperties": false,
+          "properties": {
+            "role": {
+              "enum": ["bruiser", "assassin", "caster", "healer", "tank", "controller", "skirmisher"]
+            },
+            "aggression": { "type": "number", "minimum": 0, "maximum": 1 },
+            "preferredRange": { "type": "integer", "minimum": 1, "maximum": 8 },
+            "targetPriority": {
+              "enum": ["nearest", "lowest_hp", "highest_threat", "healer_first", "lowest_defense", "marked"]
+            },
+            "canHeal": { "type": "boolean" },
+            "fleeThreshold": { "type": "number", "minimum": 0, "maximum": 1 }
+          }
+        },
+        "corruption": {
+          "type": "object",
+          "required": ["tier", "kills", "modifiers"],
+          "additionalProperties": false,
+          "properties": {
+            "tier": { "type": "integer", "minimum": 0, "maximum": 3 },
+            "kills": { "type": "integer", "minimum": 0 },
+            "modifiers": {
+              "type": "array",
+              "maxItems": 4,
+              "items": {
+                "type": "object",
+                "required": ["id", "value"],
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "enum": ["stat_mult", "extra_resist", "echo_art", "life_steal", "death_ward"]
+                  },
+                  "value": { "type": "number" }
+                }
+              }
+            }
+          }
+        },
+        "guardians": {
+          "type": "object",
+          "required": ["count", "enemyPool"],
+          "additionalProperties": false,
+          "properties": {
+            "count": { "type": "integer", "minimum": 0, "maximum": 6 },
+            "enemyPool": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "state": {
+          "enum": ["dormant", "active", "defeated", "reclaimed", "faded", "wailing"]
+        },
+        "encountered": {
+          "type": "object",
+          "required": ["attempts", "playerDeaths"],
+          "additionalProperties": false,
+          "properties": {
+            "attempts": { "type": "integer", "minimum": 0 },
+            "playerDeaths": { "type": "integer", "minimum": 0 },
+            "lastAttemptAt": { "type": "string", "format": "date-time" }
+          }
+        },
+        "reclaim": {
+          "type": "object",
+          "required": ["xp", "gold", "shardChoices"],
+          "additionalProperties": false,
+          "properties": {
+            "xp": { "type": "integer", "minimum": 0 },
+            "gold": { "type": "integer", "minimum": 0 },
+            "shardChoices": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 4,
+              "items": { "$ref": "#/$defs/SkillRef" }
+            },
+            "shardClaimed": { "type": ["string", "null"] }
+          }
+        },
+        "epitaph": { "type": "string", "maxLength": 120 }
+      }
+    },
+    "EchoIndexEntry": {
+      "type": "object",
+      "required": ["echoId", "name", "className", "floor", "diedAt", "state", "corruptionTier"],
+      "additionalProperties": false,
+      "properties": {
+        "echoId": { "type": "string", "pattern": "^ech_[a-zA-Z0-9]{8,32}$" },
+        "name": { "type": "string" },
+        "className": { "type": "string" },
+        "floor": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "diedAt": { "type": "string", "format": "date-time" },
+        "state": { "enum": ["dormant", "active", "defeated", "reclaimed", "faded", "wailing"] },
+        "corruptionTier": { "type": "integer", "minimum": 0, "maximum": 3 }
+      }
+    },
+    "ActiveCharacter": {
+      "type": "object",
+      "required": ["name", "classId", "className", "level", "xp", "stats", "derived", "hp", "mp", "equipment", "inventory", "skills"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "classId": { "type": "string" },
+        "className": { "type": "string" },
+        "level": { "type": "integer", "minimum": 1, "maximum": 30 },
+        "xp": { "type": "integer", "minimum": 0 },
+        "stats": { "$ref": "#/$defs/StatBlock" },
+        "derived": { "$ref": "#/$defs/DerivedStats" },
+        "hp": { "type": "integer", "minimum": 0 },
+        "mp": { "type": "integer", "minimum": 0 },
+        "equipment": { "type": "object" },
+        "inventory": { "type": "array", "items": { "$ref": "#/$defs/ItemInstance" } },
+        "skills": { "type": "array", "items": { "$ref": "#/$defs/SkillRef" } },
+        "memoryShards": { "type": "array", "items": { "type": "string" } },
+        "depthPoints": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "FloorState": {
+      "type": "object",
+      "required": ["floor", "theme", "seed", "layoutVersion", "bossDefeated", "discovered", "echoes"],
+      "additionalProperties": false,
+      "properties": {
+        "floor": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "theme": { "type": "string" },
+        "seed": { "type": "integer", "minimum": 0 },
+        "layoutVersion": { "type": "integer", "minimum": 1 },
+        "bossDefeated": { "type": "boolean" },
+        "clearedThisRun": { "type": "boolean" },
+        "discovered": {
+          "type": "string",
+          "description": "Base64 RLE bitmask of explored tiles, row-major.",
+          "contentEncoding": "base64"
+        },
+        "disarmedTraps": { "type": "array", "items": { "type": "string" } },
+        "shortcuts": { "type": "array", "items": { "type": "string" } },
+        "echoes": { "type": "array", "items": { "type": "string" }, "maxItems": 6 },
+        "lastVisitedAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "RunState": {
+      "type": "object",
+      "required": ["active", "seed", "descent", "deepestFloor", "floors"],
+      "additionalProperties": false,
+      "properties": {
+        "active": { "type": "boolean" },
+        "seed": { "type": "integer", "minimum": 0 },
+        "descent": { "type": "integer", "minimum": 0 },
+        "deepestFloor": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "currentFloor": { "type": "integer", "minimum": 1, "maximum": 100 },
+        "character": { "oneOf": [{ "$ref": "#/$defs/ActiveCharacter" }, { "type": "null" }] },
+        "floors": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/FloorState" }
+        },
+        "startedAt": { "type": "string", "format": "date-time" },
+        "pendingCombat": { "type": ["object", "null"] }
+      }
+    },
+    "Profile": {
+      "type": "object",
+      "required": ["guildName", "createdAt", "playtimeSeconds", "renown", "deepestFloor", "descents"],
+      "additionalProperties": false,
+      "properties": {
+        "guildName": { "type": "string", "minLength": 1, "maxLength": 24 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "playtimeSeconds": { "type": "integer", "minimum": 0 },
+        "renown": { "type": "integer", "minimum": 0 },
+        "deepestFloor": { "type": "integer", "minimum": 0, "maximum": 100 },
+        "descents": { "type": "integer", "minimum": 0 },
+        "totalDeaths": { "type": "integer", "minimum": 0 },
+        "totalReclaims": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "Settings": {
+      "type": "object",
+      "required": ["music", "sfx", "screenShake", "autoBattleSpeed", "colorblindMode", "textScale"],
+      "additionalProperties": false,
+      "properties": {
+        "music": { "type": "number", "minimum": 0, "maximum": 1 },
+        "sfx": { "type": "number", "minimum": 0, "maximum": 1 },
+        "screenShake": { "type": "boolean" },
+        "autoBattleSpeed": { "enum": [1, 2, 3] },
+        "colorblindMode": { "enum": ["off", "protanopia", "deuteranopia", "tritanopia"] },
+        "textScale": { "type": "number", "minimum": 0.8, "maximum": 1.4 }
+      }
+    },
+    "Stash": {
+      "type": "object",
+      "required": ["gold", "capacity", "items"],
+      "additionalProperties": false,
+      "properties": {
+        "gold": { "type": "integer", "minimum": 0 },
+        "capacity": { "type": "integer", "minimum": 12, "maximum": 120 },
+        "items": { "type": "array", "items": { "$ref": "#/$defs/ItemInstance" } }
+      }
+    },
+    "Codex": {
+      "type": "object",
+      "required": ["unlockedClasses", "discoveredItems", "lore"],
+      "additionalProperties": false,
+      "properties": {
+        "unlockedClasses": { "type": "array", "items": { "type": "string" } },
+        "discoveredItems": { "type": "array", "items": { "type": "string" } },
+        "lore": { "type": "array", "items": { "type": "string" } },
+        "bossesDefeated": { "type": "array", "items": { "type": "integer" } }
+      }
+    }
+  }
+}

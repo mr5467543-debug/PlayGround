@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark">
+<title>Game Design Document · Echoes of the 100th Floor</title>
+<meta name="description" content="The complete game design for Echoes of the 100th Floor: Echo loop, Stat-Lock classes, 100 floors, combat, mobile UX, art, audio, and balance.">
+<meta property="og:title" content="Game Design Document · Echoes of the 100th Floor">
+<meta property="og:description" content="The complete game design for Echoes of the 100th Floor: Echo loop, Stat-Lock classes, 100 floors, combat, mobile UX, art, audio, and balance.">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body class="doc-page">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="shell">
+    <a class="brand" href="index.html"><span class="brand-mark" aria-hidden="true">E</span>Echoes of the 100th Floor</a>
+    <nav class="site-nav" aria-label="Primary">
+      <a href="index.html">Overview</a>
+      <a href="gdd.html" aria-current="page">Game design</a>
+      <a href="tech.html">Technical plan</a>
+      <a href="classes.html">Class matrix</a>
+    </nav>
+    <span class="version-tag">Dossier v1.0</span>
+  </div>
+</header>
+<main id="main">
+
+<section class="doc-hero">
+  <div class="shell">
+    <a class="back" href="index.html">← Overview</a>
+    <p class="eyebrow" style="margin-top:1rem">Document 01 · design dossier</p>
+    <h1>Echoes of the 100th Floor</h1>
+    <p>Game Design Document v1.0</p>
+  </div>
+</section>
+<div class="shell doc-layout">
+  <aside class="doc-toc" data-toc aria-label="On this page">
+    <p class="toc-label">On this page</p>
+    <ol><li><a href="#1-pillars">1. Pillars</a><ol><li><a href="#1-1-audience-and-positioning">1.1 Audience and positioning</a></li><li><a href="#1-2-design-pillars">1.2 Design pillars</a></li><li><a href="#1-3-anti-pillars">1.3 Anti-pillars</a></li><li><a href="#1-4-solo-play-contract">1.4 Solo-play contract</a></li></ol></li><li><a href="#2-core-loops">2. Core loops</a><ol><li><a href="#2-1-moment-loop-10-60-s">2.1 Moment loop (10–60 s)</a></li><li><a href="#2-2-floor-loop-3-7-min">2.2 Floor loop (3–7 min)</a></li><li><a href="#2-3-descent-loop-25-40-min">2.3 Descent loop (25–40 min)</a></li><li><a href="#2-4-legacy-loop-the-game">2.4 Legacy loop (the game)</a></li></ol></li><li><a href="#3-the-echo-system">3. The Echo system</a><ol><li><a href="#3-1-death-sequence-target-8-seconds-to-agency">3.1 Death sequence (target: &lt; 8 seconds to agency)</a></li><li><a href="#3-2-what-the-echo-keeps">3.2 What the Echo keeps</a></li><li><a href="#3-3-echo-combat-behaviour">3.3 Echo combat behaviour</a></li><li><a href="#3-4-reclaim">3.4 Reclaim</a></li><li><a href="#3-5-failure-while-reclaiming">3.5 Failure while reclaiming</a></li><li><a href="#3-6-anti-softlock-valves">3.6 Anti-softlock valves</a></li><li><a href="#3-7-echo-economy">3.7 Echo economy</a></li></ol></li><li><a href="#4-character-creation-the-stat-lock-engine">4. Character creation: the Stat-Lock engine</a><ol><li><a href="#4-1-input">4.1 Input</a></li><li><a href="#4-2-derivation-implemented-and-exhaustively-tested">4.2 Derivation (implemented and exhaustively tested)</a></li><li><a href="#4-3-the-50-class-matrix">4.3 The 50-class matrix</a></li><li><a href="#4-4-derived-stats">4.4 Derived stats</a></li><li><a href="#4-5-skill-trees">4.5 Skill trees</a></li></ol></li><li><a href="#5-the-guild-hall-hub">5. The Guild Hall (hub)</a></li><li><a href="#6-the-dungeon-100-floors">6. The dungeon: 100 floors</a><ol><li><a href="#6-1-bands">6.1 Bands</a></li><li><a href="#6-2-floor-structure">6.2 Floor structure</a></li><li><a href="#6-3-persistence-vs-respawn">6.3 Persistence vs respawn</a></li><li><a href="#6-4-fog-of-war">6.4 Fog of war</a></li><li><a href="#6-5-traps-and-hazards">6.5 Traps and hazards</a></li><li><a href="#6-6-loot-and-durability">6.6 Loot and durability</a></li><li><a href="#6-7-economy">6.7 Economy</a></li></ol></li><li><a href="#7-combat">7. Combat</a><ol><li><a href="#7-1-grid-and-turn-order">7.1 Grid and turn order</a></li><li><a href="#7-2-ap-economy">7.2 AP economy</a></li><li><a href="#7-3-resolution-formulas">7.3 Resolution formulas</a></li><li><a href="#7-4-level-and-depth-gating">7.4 Level and depth gating</a></li><li><a href="#7-5-descent-gates">7.5 Descent Gates</a></li><li><a href="#7-6-status-effects">7.6 Status effects</a></li><li><a href="#7-7-worked-turn">7.7 Worked turn</a></li></ol></li><li><a href="#8-echo-ai-implementation-facing">8. Echo AI (implementation-facing)</a><ol><li><a href="#8-1-utility-scoring">8.1 Utility scoring</a></li><li><a href="#8-2-role-overrides">8.2 Role overrides</a></li><li><a href="#8-3-corruption">8.3 Corruption</a></li></ol></li><li><a href="#9-ux-and-mobile">9. UX and mobile</a><ol><li><a href="#9-1-screen-layout-portrait-1080-1920-reference">9.1 Screen layout (portrait, 1080×1920 reference)</a></li><li><a href="#9-2-readability">9.2 Readability</a></li><li><a href="#9-3-auto-battle">9.3 Auto-battle</a></li><li><a href="#9-4-save-resume">9.4 Save/resume</a></li></ol></li><li><a href="#10-art-direction">10. Art direction</a><ol><li><a href="#10-1-specs">10.1 Specs</a></li><li><a href="#10-2-palette">10.2 Palette</a></li><li><a href="#10-3-typography">10.3 Typography</a></li><li><a href="#10-4-echo-visual-language">10.4 Echo visual language</a></li><li><a href="#10-5-audio">10.5 Audio</a></li></ol></li><li><a href="#11-narrative-light-touch">11. Narrative (light touch)</a></li><li><a href="#12-accessibility">12. Accessibility</a></li><li><a href="#13-monetization-and-live-operations">13. Monetization and live operations</a></li><li><a href="#14-balance-targets-and-kpis">14. Balance targets and KPIs</a><ol><li><a href="#14-1-balance">14.1 Balance</a></li><li><a href="#14-2-kpis">14.2 KPIs</a></li></ol></li><li><a href="#15-risks-and-mitigations">15. Risks and mitigations</a></li><li><a href="#16-scope-and-mvp-cut">16. Scope and MVP cut</a></li><li><a href="#17-glossary">17. Glossary</a></li></ol>
+  </aside>
+  <article class="prose">
+<p><strong>Genre:</strong> Turn-based tactical RPG roguelike<br>
+<strong>Platform:</strong> iOS / Android, portrait, offline-first<br>
+<strong>Business model:</strong> Premium ($6.99) + cosmetic Echo skins; no ads, no pay-to-win<br>
+<strong>Target session:</strong> 6–12 minutes; 25–40 minutes per descent<br>
+<strong>Team target:</strong> 1 designer-engineer, 1 pixel artist, 1 composer (part-time), QA</p>
+<blockquote><p><strong>Design thesis:</strong> Every death must cost something the player can see, name, and eventually take back. The dungeon is not a level select; it is a graveyard with a floor plan.</p></blockquote>
+<h3 id="related-documents">Related documents</h3>
+<ul><li><a href="tech.html"><code>TECH_PLAN.md</code></a> — engine, architecture, persistence, generation, roadmap</li><li><a href="classes.html"><code>CLASS_MATRIX.md</code></a> — generated 50-class table</li><li><a href="design/classes.json"><code>../design/classes.json</code></a> — class rules (source of truth)</li><li><a href="design/skills.json"><code>../design/skills.json</code></a> — 50 class kits</li><li><a href="design/save.schema.json"><code>../design/save.schema.json</code></a> — Echo / save contract</li><li><a href="tools/validate-classes.mjs"><code>../tools/validate-classes.mjs</code></a> — exhaustive class-matrix test</li></ul>
+<hr>
+<h2 id="1-pillars">1. Pillars</h2>
+<h3 id="1-1-audience-and-positioning">1.1 Audience and positioning</h3>
+<p><strong>Core audience:</strong> 25–45, mobile players who want a &quot;real&quot; RPG in 10-minute sessions; fans of <em>Slay the Spire</em>, <em>Darkest Dungeon</em>, <em>Crown Trick</em>, <em>Hades</em>, and <em>Loop Hero</em>.</p>
+<p><strong>Positioning:</strong> the tactical depth of a desktop roguelike with the death loop of a soulslike, designed thumb-first. The hook is not &quot;another 100-floor dungeon&quot;; it is <strong>your own corpse as the boss</strong>.</p>
+<p><strong>Unique selling points</strong></p>
+<ol><li>Every death creates a persistent, named enemy built from your exact kit.</li><li>50 classes derived from 10 points — no class select, no respec, high replay.</li><li>A graveyard that is also a progression system: your failures become loot, skills, and a final boss.</li></ol>
+<p><strong>Win condition:</strong> reach floor 100 and defeat The First Echo. <strong>Loss condition:</strong> none at the account level. A character dies; the account continues. The only true loss is the time you choose not to spend.</p>
+<h3 id="1-2-design-pillars">1.2 Design pillars</h3>
+<ol><li><strong>Death is a place, not a reset.</strong> A dead hero becomes a location on the map with a name, a build, and a grudge.</li><li><strong>Builds are discovered, not selected.</strong> Ten points make a calling; the player learns the matrix by experimenting, not by reading a wiki.</li><li><strong>Every turn is legible.</strong> No hidden rolls that decide a run. Damage, hit chance, intent, and threat are visible before commitment.</li><li><strong>The dungeon remembers.</strong> Layouts, bosses, traps, and corpses persist. Only the living respawn.</li><li><strong>Short sessions, long memory.</strong> A phone-sized loop (one floor, one fight, one decision) feeding a 100-floor obsession.</li></ol>
+<h3 id="1-3-anti-pillars">1.3 Anti-pillars</h3>
+<ul><li>No party management. You are one hero; your old heroes are the enemies.</li><li>No stat respec. A character is a commitment; the next character is the reset.</li><li>No energy timers, no gacha, no rewarded ads.</li><li>No procedural sameness: each 20-floor band changes a rule, not just a tileset.</li></ul>
+<h3 id="1-4-solo-play-contract">1.4 Solo-play contract</h3>
+<ul><li>The player controls exactly <strong>one hero</strong>. There is no persistent party, companion, or co-op.</li><li><strong>&quot;Ally&quot; means the hero or a summon the hero controls.</strong> Single-target ally effects may target the hero.</li><li><strong>Summons are temporary combat units</strong> created by skills or class passives (totem, mirror image, echo-copy). They act on the hero's turn, have their own HP, and vanish at combat end. An effect that needs an adjacent ally can use a summon; its self-only portion still applies when no summon exists.</li><li>Enemy Echoes may fight alongside <strong>mourners</strong>. &quot;Ally&quot; in AI rules means another unit on the same side; this never gives the player a party.</li></ul>
+<hr>
+<h2 id="2-core-loops">2. Core loops</h2>
+<h3 id="2-1-moment-loop-10-60-s">2.1 Moment loop (10–60 s)</h3>
+<p>Move → read intent → spend AP → resolve → read new intent.</p>
+<h3 id="2-2-floor-loop-3-7-min">2.2 Floor loop (3–7 min)</h3>
+<p>Enter → reveal fog → choose route (loot / shrine / stairs / Echo) → fight 2–4 encounters → descend or extract.</p>
+<h3 id="2-3-descent-loop-25-40-min">2.3 Descent loop (25–40 min)</h3>
+<p>Guild Hall → allocate stats → pick a Descent Gate → clear a band → reach target floor → reclaim an Echo → extract alive with loot, or die and create a new one.</p>
+<h3 id="2-4-legacy-loop-the-game">2.4 Legacy loop (the game)</h3>
+<p>Die → Echo registered → new hero → Heirloom XP → descend → defeat the Echo → Memory Shard → cross-class build → push deeper → die again.</p>
+<p><strong>Extraction rule:</strong> loot only reaches the Stash if you return to the Guild alive or use a <strong>Vault Rune</strong> (rare consumable). This makes every descent a risk decision, not a loot conveyor.</p>
+<hr>
+<h2 id="3-the-echo-system">3. The Echo system</h2>
+<h3 id="3-1-death-sequence-target-8-seconds-to-agency">3.1 Death sequence (target: &lt; 8 seconds to agency)</h3>
+<ol><li>HP reaches 0. Time slows; the death tile is highlighted.</li><li>The character's equipment silhouette is stamped onto the floor.</li><li>A short card: <strong>NAME — CLASS — FLOOR — &quot;LAST WORDS&quot;</strong>.</li><li><code>echo_&lt;id&gt;.json</code> is written atomically. The floor state records the Echo id.</li><li>The run ends. The player returns to the Guild Hall. A new character can be created immediately.</li></ol>
+<p>No confirmation dialog, no lost-run pop-up, no ad.</p>
+<h3 id="3-2-what-the-echo-keeps">3.2 What the Echo keeps</h3>
+<div class="table-scroll"><table><thead><tr><th>Kept</th><th>Lost</th></tr></thead><tbody><tr><td>All six stats and derived stats</td><td>Current HP/MP (spawns at 100%, unless a class modifier says otherwise)</td></tr><tr><td>All equipped gear (durability as at death)</td><td>Stash items (always safe)</td></tr><tr><td>Full inventory</td><td>Gold carried (50% drops on the Echo, 50% is lost)</td></tr><tr><td>Every unlocked class skill + Memory skills</td><td>Active buffs, consumables used</td></tr><tr><td>AI profile derived from its kit</td><td>Player control</td></tr></tbody></table></div>
+<h3 id="3-3-echo-combat-behaviour">3.3 Echo combat behaviour</h3>
+<p>The Echo is an elite AI unit on its death tile, guarded by 1–4 &quot;mourners&quot; drawn from the floor's enemy pool. It uses the exact skills, gear, and stats it had, with an AI profile generated at death:</p>
+<div class="table-scroll"><table><thead><tr><th>Build signal</th><th>AI profile</th><th>Behaviour</th></tr></thead><tbody><tr><td>Healing skill + WIS ≥ 5</td><td>Healer</td><td>Heals itself below 60%; never frontlines</td></tr><tr><td>INT ≥ 6 and max HP &lt; 40% of floor average</td><td>Glass nuker</td><td>Stays at max range; targets the player's lowest resistance</td></tr><tr><td>STR ≥ 6, VIT ≥ 4</td><td>Bruiser</td><td>Charges the nearest target; uses AoE when 2+ cluster</td></tr><tr><td>DEX ≥ 6, LUK ≥ 4</td><td>Assassin</td><td>Flanks with mourners, targets the lowest-DEF unit, disengages below 30% HP</td></tr><tr><td>VIT ≥ 6, WIS ≥ 4</td><td>Tank</td><td>Taunts, body-blocks corridors, protects wounded mourners</td></tr><tr><td>Capstone unlocked</td><td>Any</td><td>Opens with the capstone if 2+ targets are valid</td></tr></tbody></table></div>
+<p><strong>Fairness rule:</strong> the Echo's next action is telegraphed with an icon and a target line. The player always gets one turn of information. Echoes cannot be auto-battled.</p>
+<h3 id="3-4-reclaim">3.4 Reclaim</h3>
+<p>Defeat the Echo in combat to receive:</p>
+<ul><li><strong>100% of equipped gear</strong> and inventory (durability unchanged).</li><li><strong>60% of the XP</strong> it had earned (applied to the current hero, can level them mid-run).</li><li><strong>The 50% of carried gold that dropped on it</strong>.</li><li><strong>One Memory Shard</strong>, with 3–4 skill choices drawn from the Echo's kit (capstone weighted 2×).</li></ul>
+<p>The Memory Shard is an item. It can be banked. Using it teaches one skill to the current character <strong>regardless of class</strong>, at rank 1, using the current character's stats. Memory skills occupy <strong>Memory slots</strong>: 3 base, +1 at floors 30/60/90. A capstone costs 2 slots.</p>
+<h3 id="3-5-failure-while-reclaiming">3.5 Failure while reclaiming</h3>
+<p>If the new hero dies before reclaiming:</p>
+<ul><li>The old Echo remains.</li><li>The new death creates a second Echo, possibly on a different floor.</li><li>The floor now has 2 Echoes. Each additional Echo adds <strong>+1 enemy</strong> (max +5) and <strong>+10% loot quality</strong> to that floor.</li></ul>
+<p><strong>Echo cap:</strong> 6 per floor. The 7th converts the oldest Echo into a <strong>Wailing Echo</strong>: +30% stats, an extra corruption modifier, double shard value, and a floor-wide hazard aura. Nothing is deleted.</p>
+<h3 id="3-6-anti-softlock-valves">3.6 Anti-softlock valves</h3>
+<p>The design must never trap a player behind their own corpse.</p>
+<div class="table-scroll"><table><thead><tr><th>Valve</th><th>Rule</th></tr></thead><tbody><tr><td><strong>Resonance</strong></td><td>Each failed attempt against a specific Echo grants +5% damage vs it (max +50%) and reveals one more skill in its kit. Resets on reclaim.</td></tr><tr><td><strong>Requiem</strong></td><td>After 3 failed attempts, the Guild offers a ritual: pay gold equal to 50% of the Echo's gear value to put it to rest. You receive 30% XP and one random shard, not the gear.</td></tr><tr><td><strong>Fade</strong></td><td>An Echo untouched for 8 descents fades into a banked Memory Shard at the Guild. The gear is lost.</td></tr><tr><td><strong>Depth Ward</strong></td><td>You cannot enter a band whose minimum level exceeds your character level (see §7.4), so a new hero cannot stumble into a level-40 Echo at level 3.</td></tr><tr><td><strong>Descent Gates</strong></td><td>Start at the deepest unlocked gate that is not deeper than the Echo you are hunting (§7.5).</td></tr></tbody></table></div>
+<h3 id="3-7-echo-economy">3.7 Echo economy</h3>
+<p>Echoes are the best loot source in the game, by design:</p>
+<ul><li>Echo gear is <strong>Echo-Bound</strong> until reclaimed: it cannot be stashed or sold, and defeating the Echo is the only way to release it.</li><li>Echo kill: guaranteed one item at the Echo's rarity, +1 rarity roll per corruption tier.</li><li>Echo floors cannot be auto-battled, so the risk stays manual.</li><li>The <strong>Gravewarden</strong> class gains +10% max HP per Echo defeated in the run; the <strong>Martyr</strong> creates weaker Echoes with double shards. Classes interact with the legacy loop, not just combat.</li></ul>
+<hr>
+<h2 id="4-character-creation-the-stat-lock-engine">4. Character creation: the Stat-Lock engine</h2>
+<h3 id="4-1-input">4.1 Input</h3>
+<ul><li>Pool: <strong>10 points</strong>, each stat 0–10, total must equal 10.</li><li>Six stats: STR, DEX, INT, VIT, WIS, LUK.</li><li>The UI previews the derived class in real time, with the lane (&quot;Your two strongest callings: STR + VIT&quot;) and the exact class name.</li><li>Confirmation is final. There is no respec; a new character is the reset.</li></ul>
+<h3 id="4-2-derivation-implemented-and-exhaustively-tested">4.2 Derivation (implemented and exhaustively tested)</h3>
+<p>The old threshold-only approach left most builds classless. The shipped model is <strong>lane-based</strong>:</p>
+<ol><li><strong>Secret callings</strong> are checked first, globally (10 classes; e.g. 7 LUK / 3 DEX = The Gambler).</li><li>Otherwise, rank the six stats. Ties break canonically: <strong>STR &gt; DEX &gt; INT &gt; VIT &gt; WIS &gt; LUK</strong>.</li><li>If the top stat is <strong>≥ 6</strong> and the second is <strong>≤ 2</strong>, the lane is <code>PURE_&lt;STAT&gt;</code>.</li><li>Otherwise the lane is the canonical pair of the top two stats (e.g. <code>STR+VIT</code>).</li><li>Within the lane, classes are checked by priority; the last class in every lane is an unconditional catch-all.</li></ol>
+<p>This guarantees that <strong>all 3,003 legal builds</strong> resolve to exactly one of the 50 classes. The validator enumerates every build and fails CI on any gap, overlap, or unreachable class.</p>
+<p><strong>Named cases from the brief (golden tests):</strong></p>
+<div class="table-scroll"><table><thead><tr><th>Allocation</th><th>Class</th></tr></thead><tbody><tr><td>5 STR / 5 VIT</td><td>The Bruiser</td></tr><tr><td>6 INT / 4 DEX</td><td>The Spellblade</td></tr><tr><td>7 LUK / 3 DEX</td><td>The Gambler</td></tr><tr><td>8 STR / 2 VIT</td><td>The Berserker</td></tr><tr><td>5 STR / 3 INT / 2 WIS</td><td>The Paladin</td></tr><tr><td>4 STR / 6 DEX</td><td>The Buccaneer</td></tr><tr><td>8 INT / 2 VIT</td><td>The Glass Cannon</td></tr><tr><td>10 LUK</td><td>The Singularity</td></tr><tr><td>9 LUK / 1 INT</td><td>The Fool</td></tr></tbody></table></div>
+<p>The full table, lane coverage, and build-space distribution are generated in <a href="classes.html"><code>CLASS_MATRIX.md</code></a>.</p>
+<h3 id="4-3-the-50-class-matrix">4.3 The 50-class matrix</h3>
+<div class="table-scroll"><table><thead><tr><th>Archetype</th><th>Count</th><th style="text-align:right">Examples</th><th>Design job</th></tr></thead><tbody><tr><td>Pure</td><td>10</td><td style="text-align:right">Muscle Wizard, Ghost, Glass Cannon, Wall, Oracle, Fool</td><td>Teach the extreme; one stat defines the run</td></tr><tr><td>Hybrid</td><td>20</td><td style="text-align:right">Monk, Spellblade, Paladin, Trickster, Reaver, Pilgrim</td><td>Two-stat tension; most &quot;planned&quot; builds land here</td></tr><tr><td>Tank</td><td>10</td><td style="text-align:right">Juggernaut, Warlock, Templar, Bulwark, Shaman</td><td>Convert VIT/WIS into self/summon utility and survival</td></tr><tr><td>Secret</td><td>10</td><td style="text-align:right">Gambler, Berserker, Oathbreaker, Equilibrium, Singularity</td><td>Rewards system mastery; odd shapes with unique rules</td></tr></tbody></table></div>
+<p>Secret classes are not stronger, just stranger. The Singularity (10/0/0/0/0/0) has one absurd number and five zeroes.</p>
+<h3 id="4-4-derived-stats">4.4 Derived stats</h3>
+<div class="table-scroll"><table><thead><tr><th>Stat</th><th>Formula (character level L)</th></tr></thead><tbody><tr><td>Max HP</td><td><code>25 + 7×VIT + 3×STR + 2×L</code></td></tr><tr><td>Max MP</td><td><code>8 + 4×INT + 2×WIS + 1×L</code></td></tr><tr><td>P.ATK</td><td><code>4 + 2.2×STR + 0.6×DEX + 0.4×L</code></td></tr><tr><td>M.ATK</td><td><code>4 + 2.2×INT + 0.6×WIS + 0.4×L</code></td></tr><tr><td>P.DEF</td><td><code>1.5×VIT + 0.6×STR + 0.3×L</code></td></tr><tr><td>M.DEF</td><td><code>1.5×WIS + 0.6×INT + 0.3×L</code></td></tr><tr><td>SPD</td><td><code>10 + 1.5×DEX + 0.3×LUK</code></td></tr><tr><td>ACC</td><td><code>80 + 2.5×DEX + 1.0×LUK + weapon</code></td></tr><tr><td>EVA</td><td><code>5 + 1.8×DEX + 1.2×LUK − armor penalty</code></td></tr><tr><td>CRIT</td><td><code>5 + 1.5×LUK + 0.5×DEX</code> (cap 75)</td></tr><tr><td>Trap Sense</td><td><code>10 + 4×WIS + 1×LUK + light radius</code></td></tr><tr><td>Carry</td><td><code>12 + 1×STR</code> inventory slots (max 22)</td></tr></tbody></table></div>
+<p><strong>Level growth:</strong> levels 2–30 grant <strong>Depth Points</strong> and unlock the class tree's nodes. The flat HP/MP growth per level is already in the formulas above. Depth Points buy flat Mastery bonuses (Power / Guile / Faith), never the six primary stats, so a class can never drift.</p>
+<h3 id="4-5-skill-trees">4.5 Skill trees</h3>
+<p>Every class has a 12-node tree:</p>
+<ul><li>4 <strong>actives</strong> at levels 1, 4, 8, 12 (the capstone).</li><li>4 <strong>discipline passives</strong> at levels 2, 5, 9, 11.</li><li>4 <strong>stat/mastery nodes</strong> at levels 3, 6, 7, 10.</li></ul>
+<p>Only the current class tree is available. On death, unlocked tree skills are frozen on the Echo. Reclaiming the Echo can return one of them as a Memory skill. Memory slots are the only way to mix class kits.</p>
+<p>The four actives for all 50 classes are specified in <code>design/skills.json</code>; the innate passive is in <code>design/classes.json</code>. The discipline passives are generated from the class's role tag and reviewed by design.</p>
+<hr>
+<h2 id="5-the-guild-hall-hub">5. The Guild Hall (hub)</h2>
+<p>A single static, atmospheric screen with seven interactive stations. No walking required; tap a station.</p>
+<div class="table-scroll"><table><thead><tr><th>Station</th><th>Function</th></tr></thead><tbody><tr><td><strong>The Survivor</strong></td><td>Create a new character after death. Shows the Reincarnation board.</td></tr><tr><td><strong>The Reincarnation Board</strong></td><td>Allocate 10 points; live class preview; confirm once.</td></tr><tr><td><strong>The Stash</strong></td><td>Shared account inventory. 24 slots base, +8 per band boss. Items are safe here.</td></tr><tr><td><strong>The Forge</strong></td><td>Repair durability, dismantle gear into Residuum, craft affixes.</td></tr><tr><td><strong>The Echo Registry</strong></td><td>Every Echo, floor, class, corruption tier, and estimated power. Set a &quot;revenge target&quot; that highlights the floor.</td></tr><tr><td><strong>The Gate</strong></td><td>Choose a Descent Gate, inspect the band modifier, descend.</td></tr><tr><td><strong>The Codex</strong></td><td>Unlocked classes, item catalogue, lore. Account-wide, never lost.</td></tr></tbody></table></div>
+<p><strong>Renown</strong> (account progression) comes from first-time floor clears, boss kills, and Echo reclaims. It unlocks: stash slots, auto-battle speed, Echo intel (see loadout before committing), cosmetic skins, and Requiem cost reductions. Requiem itself is always available after 3 failed attempts, so Renown never gates an anti-softlock valve. Renown never grants raw combat power.</p>
+<hr>
+<h2 id="6-the-dungeon-100-floors">6. The dungeon: 100 floors</h2>
+<h3 id="6-1-bands">6.1 Bands</h3>
+<div class="table-scroll"><table><thead><tr><th>Floors</th><th>Band</th><th>Theme</th><th>New rule</th><th>Enemies</th><th>Boss</th></tr></thead><tbody><tr><td>1–10</td><td>The Threshold</td><td>Collapsed guild barracks, moss, candlelight</td><td>Tutorial: AP, flanking, traps, extraction</td><td>Rats, husks, deserters</td><td><strong>The Gatekeeper</strong> (10)</td></tr><tr><td>11–30</td><td>The Warrens</td><td>Flooded tunnels, fungus, fire vents</td><td>Elemental hazards; WIS trap detection matters</td><td>Broodlings, bog witches, miners</td><td><strong>The Flood</strong> (20), <strong>The Brood Mother</strong> (30)</td></tr><tr><td>31–60</td><td>The Depths</td><td>Black masonry, forges, bone cathedrals</td><td>Elites; mini-bosses every 5; durability pressure</td><td>Iron penitents, flesh sculptors, wardens</td><td><strong>The Forge Saint</strong> (40), <strong>The Choir</strong> (50), <strong>The Warden</strong> (60)</td></tr><tr><td>61–90</td><td>The Abyss</td><td>Inverted rooms, starless voids, mirror halls</td><td>Reality rules per floor (gravity, mirrors, loops)</td><td>Void echoes, paradox hounds, the Unmade</td><td><strong>The Mirror</strong> (70), <strong>The Hollow King</strong> (80), <strong>The Unmade</strong> (90)</td></tr><tr><td>91–100</td><td>The Zenith</td><td>Gold, white marble, impossible light</td><td>Fixed gauntlet; no extraction until 100</td><td>Your echoes, saints, the First</td><td><strong>The First Echo</strong> (100)</td></tr></tbody></table></div>
+<h3 id="6-2-floor-structure">6.2 Floor structure</h3>
+<ul><li><strong>Floors 1–10:</strong> handcrafted. Teach one mechanic per floor; floor 10 is a boss arena.</li><li><strong>Floors 11–90:</strong> procedural layout within a fixed theme. 7–11 rooms, one entrance, one stairs, 1–3 optional treasure rooms, 0–1 shrine, 0–1 secret room (WIS).</li><li><strong>Floors 91–99:</strong> handcrafted set pieces connected by short procedural corridors. Each is a puzzle-boss hybrid.</li><li><strong>Floor 100:</strong> fixed arena. The final boss is <strong>The First Echo</strong>, a composite of up to three of your highest-corruption Echoes, using their skills and gear. If you have no Echoes, it uses the Guild's founder build.</li></ul>
+<h3 id="6-3-persistence-vs-respawn">6.3 Persistence vs respawn</h3>
+<p>The dungeon is persistent in <strong>shape</strong>, not in <strong>population</strong>:</p>
+<ul><li>Layout, secrets found, shortcuts, boss kills, and Echoes persist forever.</li><li>Regular enemies respawn on every descent (&quot;the dungeon refills&quot;).</li><li>Cleared floors can be auto-battled <em>except</em> floors with an active Echo, a boss, or a reality rule.</li></ul>
+<p>This preserves the recovery run (you still fight down) without forcing a 60-floor walking simulator.</p>
+<h3 id="6-4-fog-of-war">6.4 Fog of war</h3>
+<ul><li>Vision radius: 4 tiles + 1 per 4 WIS, blocked by walls.</li><li>Explored tiles stay dimly visible; enemies in fog are hidden.</li><li><strong>Listen</strong> (free action, once per floor): reveals enemy positions in a 6-tile radius but not their identity.</li><li>Traps are invisible until Trap Sense succeeds (roll <code>d100 ≤ Trap Sense</code> within 2 tiles) or triggered.</li><li>Secret doors: <code>d100 ≤ Trap Sense − 20</code> when adjacent.</li></ul>
+<h3 id="6-5-traps-and-hazards">6.5 Traps and hazards</h3>
+<div class="table-scroll"><table><thead><tr><th>Trap</th><th>Trigger</th><th>Effect</th><th>Counter</th></tr></thead><tbody><tr><td>Spike</td><td>Step</td><td>15% max HP, Bleed</td><td>WIS detect, DEX disarm</td></tr><tr><td>Flame vent</td><td>Step / every 2 turns</td><td>Burn 3 turns</td><td>INT resist, water tiles</td></tr><tr><td>Alarm</td><td>Step</td><td>Spawns 2 enemies</td><td>WIS detect, LUK disarm</td></tr><tr><td>Pit</td><td>Step</td><td>20% HP, drops to lower room</td><td>DEX save, rope item</td></tr><tr><td>Rune</td><td>Line of sight</td><td>Elemental AoE</td><td>Dispel, WIS detect</td></tr><tr><td>Gravity flip (Abyss)</td><td>Floor rule</td><td>Movement directions invert</td><td>Map reading; no counter</td></tr></tbody></table></div>
+<h3 id="6-6-loot-and-durability">6.6 Loot and durability</h3>
+<ul><li><strong>Chests:</strong> 1–3 per floor; quality scales with floor, LUK, and Echo count.</li><li><strong>Drops:</strong> 35% base, +2% per LUK; elites 100%.</li><li><strong>Durability:</strong> weapons 60, armor 80, shields 50. A hit or skill use costs 1; a critical costs 3. At 0 the item is <strong>Broken</strong> (kept, no stats) and can be repaired at the Forge for 30% of value.</li><li><strong>Extraction:</strong> only items in the Stash survive death. A <strong>Vault Rune</strong> sends one item to the Stash instantly.</li><li><strong>Gold:</strong> 50% of carried gold drops on the Echo; the other 50% is lost. Reclaiming the Echo returns the dropped half.</li></ul>
+<p><strong>Item budget:</strong> a floor-appropriate item has stat value ≈ <code>6 + floor × 0.8</code>. Rarity multipliers: common ×1.0, masterwork ×1.35, relic ×1.8, echo-bound ×2.2. No item may grant more than +3 to a primary stat.</p>
+<h3 id="6-7-economy">6.7 Economy</h3>
+<div class="table-scroll"><table><thead><tr><th>Currency</th><th>Source</th><th>Sink</th><th>Notes</th></tr></thead><tbody><tr><td><strong>Gold</strong></td><td>Kills, chests, Echo reclaim, selling</td><td>Forge repair, Requiem, consumables</td><td>50% drops on death; the other 50% is lost</td></tr><tr><td><strong>Residuum</strong></td><td>Dismantling gear</td><td>Crafting affixes, re-rolling a single affix</td><td>Never lost on death (account currency)</td></tr><tr><td><strong>Renown</strong></td><td>First clears, bosses, reclaims</td><td>Unlocks convenience and cosmetics</td><td>No combat power</td></tr><tr><td><strong>Memory Shards</strong></td><td>Echo reclaim, Fade</td><td>Learning cross-class skills</td><td>Stored in the Guild, never lost</td></tr></tbody></table></div>
+<p><strong>Sinks are deliberate.</strong> Repair is the main gold sink; it punishes hoarding broken gear but never hard-locks a run (a broken weapon still does 1 damage and can be replaced by floor loot). Residuum gives duplicate loot a use. Renown gives long-term goals without invalidating the hardcore premise. There is no inflation-prone vendor trash: common items dismantle into Residuum and disappear.</p>
+<hr>
+<h2 id="7-combat">7. Combat</h2>
+<h3 id="7-1-grid-and-turn-order">7.1 Grid and turn order</h3>
+<ul><li><strong>9×9 tactical grid</strong>, 32 px logical tiles (rendered 3× on 1080p), eight-way movement: orthogonal costs 1, diagonal costs 1.5 (rounded down after total).</li><li>Initiative: each round, units act in descending <strong>SPD</strong>; ties go player-first, then unit id.</li><li>Haste/Slow modify SPD by ±30% for the round.</li><li><strong>Facing matters.</strong> Backstab (attack from behind): +25% damage and +15% crit. Flanking requires a second hostile unit on the opposite side (+10% damage); for the player that unit must be a summon. If both apply, use backstab, not both.</li></ul>
+<h3 id="7-2-ap-economy">7.2 AP economy</h3>
+<div class="table-scroll"><table><thead><tr><th>Action</th><th style="text-align:right">AP</th></tr></thead><tbody><tr><td>Move 1 tile</td><td style="text-align:right">1</td></tr><tr><td>Basic attack</td><td style="text-align:right">3</td></tr><tr><td>Skill</td><td style="text-align:right">2–6 (per kit)</td></tr><tr><td>Use item</td><td style="text-align:right">2</td></tr><tr><td>Wait / guard</td><td style="text-align:right">0 (refunds 2, +20% DEF until next turn)</td></tr><tr><td>Disengage</td><td style="text-align:right">2 (0 for Buccaneer once per turn)</td></tr></tbody></table></div>
+<p>Base AP is <strong>6</strong>. Unspent AP does not carry over unless a skill says so. This makes &quot;move + attack&quot; or &quot;skill + reposition&quot; the default turn, not &quot;do everything&quot;.</p>
+<h3 id="7-3-resolution-formulas">7.3 Resolution formulas</h3>
+<pre><code>Hit%      = clamp(ACC − EVA + statusMod, 15, 95)
+Crit%     = clamp(CRIT − targetCritResist, 0, 75)
+Raw       = ATK × skillMultiplier
+Mitigated = Raw × 100 / (100 + DEF)
+Damage    = max(1, Mitigated × variance(0.90..1.10)
+                        × crit(1.75) × element(0.5/1.0/1.5) × position(1.0/1.10/1.25))</code></pre>
+<ul><li>Elemental resistance is capped at 75%; weakness at −50%.</li><li>Crit and backstab multiply. <code>position</code> is 1.10 for flank and 1.25 for backstab; the higher applies. Non-boss damage is capped at 70% of the target's max HP per hit to prevent one-shot spikes.</li><li><strong>Deterministic seeds:</strong> the combat RNG stream is seeded per encounter, so replays and auto-battle are reproducible.</li></ul>
+<h3 id="7-4-level-and-depth-gating">7.4 Level and depth gating</h3>
+<div class="table-scroll"><table><thead><tr><th>Band</th><th style="text-align:right">Minimum level to enter</th></tr></thead><tbody><tr><td>1–10</td><td style="text-align:right">1</td></tr><tr><td>11–30</td><td style="text-align:right">5</td></tr><tr><td>31–60</td><td style="text-align:right">15</td></tr><tr><td>61–90</td><td style="text-align:right">25</td></tr><tr><td>91–100</td><td style="text-align:right">30</td></tr></tbody></table></div>
+<p>A new hero gains <strong>Heirloom XP</strong>: +25% XP per unlocked gate, capped at +100%, until they reach the deepest floor minus 10. Recovery runs are fast but not free.</p>
+<h3 id="7-5-descent-gates">7.5 Descent Gates</h3>
+<p>Defeating a band boss unlocks a gate: floors <strong>1, 11, 31, 61, 91</strong>. A new character may start at any unlocked gate <strong>no deeper than their Echo's floor</strong>, so the Echo remains reachable. Starting at a gate (rather than floor 1) grants Guild-issue common gear appropriate to the band; it does not grant loot or skip the Echo. The Gate UI blocks any gate that would skip an active Echo.</p>
+<h3 id="7-6-status-effects">7.6 Status effects</h3>
+<div class="table-scroll"><table><thead><tr><th>Status</th><th>Effect</th><th>Duration</th><th>Stacks</th></tr></thead><tbody><tr><td>Burn</td><td>5% max HP/turn, fire</td><td>3</td><td>2 (refreshes)</td></tr><tr><td>Bleed</td><td>4% max HP when moving or attacking</td><td>3</td><td>3</td></tr><tr><td>Poison</td><td>3% max HP/turn, ignores DEF</td><td>4</td><td>1</td></tr><tr><td>Stun</td><td>Skip turn</td><td>1</td><td>—</td></tr><tr><td>Blind</td><td>−40% accuracy</td><td>2</td><td>—</td></tr><tr><td>Confuse</td><td>50% chance to attack a random adjacent unit</td><td>2</td><td>—</td></tr><tr><td>Root</td><td>Cannot move</td><td>2</td><td>—</td></tr><tr><td>Hex</td><td>+15% damage taken</td><td>2</td><td>—</td></tr><tr><td>Shield</td><td>Absorbs damage before HP</td><td>until broken</td><td>—</td></tr></tbody></table></div>
+<p>Resistances: VIT reduces Bleed duration by 1 at VIT ≥ 6; WIS reduces Confuse/Blind by 1 turn at WIS ≥ 6; INT reduces Burn by 1 turn at INT ≥ 6.</p>
+<h3 id="7-7-worked-turn">7.7 Worked turn</h3>
+<p>A 6 AP Monk at 5 STR / 5 DEX faces a Husk 3 tiles away:</p>
+<ol><li>Move 2 tiles (2 AP) to put a pillar between herself and a second Husk; this breaks line of sight and forces the second enemy to spend a turn repositioning.</li><li><strong>Flurry</strong> (3 AP): three 60% hits. Hit chance 82% → expected 2.46 hits ≈ 148% P damage.</li><li><strong>Pressure Point</strong> is 4 AP, so it is not available this turn. Save 1 AP or <strong>Wait</strong> for +20% DEF.</li><li>The Husk telegraphs a cleave. Next turn: disengage (2 AP) or <strong>Counter Stance</strong> (2 AP) and bait it.</li></ol>
+<p>The tension is AP scarcity, not cooldown timers.</p>
+<hr>
+<h2 id="8-echo-ai-implementation-facing">8. Echo AI (implementation-facing)</h2>
+<h3 id="8-1-utility-scoring">8.1 Utility scoring</h3>
+<p>Each turn, enumerate legal actions. Score:</p>
+<pre><code>score = baseValue
+      + expectedDamage × aggression
+      + healValue × (1 − targetHpRatio) × healerWeight
+      + buffValue × sideUnitCount
+      + controlValue × threatLevel
+      − friendlyFireRisk × 3
+      − apCost × 0.4
+      − distancePenalty(preferredRange)</code></pre>
+<p><code>sideUnitCount</code> is the number of living units on the acting side, including the actor; for the player this is 1 + summons. Pick the highest score; break ties by lower AP cost, then by action id. Add ±5% noise seeded by <code>(echoId, turn)</code> so identical Echoes do not mirror each other.</p>
+<h3 id="8-2-role-overrides">8.2 Role overrides</h3>
+<div class="table-scroll"><table><thead><tr><th>Role</th><th>Hard rule</th></tr></thead><tbody><tr><td>Healer</td><td>If self &lt; 60% HP, healing outranks damage</td></tr><tr><td>Glass nuker</td><td>Never end turn adjacent to an enemy if a ranged tile exists</td></tr><tr><td>Assassin</td><td>Prioritize the lowest-DEF target; disengage below 30% HP</td></tr><tr><td>Tank</td><td>Body-block the shortest path to wounded mourners; taunt on cooldown</td></tr><tr><td>Controller</td><td>Prefer Stun/Blind on the player's highest-ATK unit</td></tr></tbody></table></div>
+<h3 id="8-3-corruption">8.3 Corruption</h3>
+<div class="table-scroll"><table><thead><tr><th>Tier</th><th style="text-align:right">Trigger</th><th>Effect</th></tr></thead><tbody><tr><td>0</td><td style="text-align:right">Fresh death</td><td>Base stats, 80% AI efficiency</td></tr><tr><td>1</td><td style="text-align:right">1 kill</td><td>+10% stats, +1 guard</td></tr><tr><td>2</td><td style="text-align:right">3 kills</td><td>+20% stats, extra resistance, +1 skill</td></tr><tr><td>3</td><td style="text-align:right">6 kills</td><td>+30% stats, Echo Art (floor-themed), double shards</td></tr></tbody></table></div>
+<p>Corruption is displayed on the Echo Registry. A high-corruption Echo is a raid boss, not a chore.</p>
+<hr>
+<h2 id="9-ux-and-mobile">9. UX and mobile</h2>
+<h3 id="9-1-screen-layout-portrait-1080-1920-reference">9.1 Screen layout (portrait, 1080×1920 reference)</h3>
+<pre><code>┌──────────────────────────────┐
+│ Top bar: floor, threat, menu │  ~8%
+├──────────────────────────────┤
+│                              │
+│   9×9 tactical grid          │  ~52%
+│   (camera pans on big rooms) │
+│                              │
+├──────────────────────────────┤
+│ Intent strip: enemy actions  │  ~8%
+├──────────────────────────────┤
+│ Thumb zone: AP pips, skill   │  ~32%
+│ wheel, move/attack/item      │
+└──────────────────────────────┘</code></pre>
+<ul><li><strong>Tap</strong> a tile to move; <strong>drag</strong> to preview path and AP cost; release to commit.</li><li><strong>Swipe up</strong> from the thumb zone opens the skill wheel (radial, 6 slots).</li><li><strong>Swipe left/right</strong> cycles targets; <strong>long-press</strong> inspects any unit or tile.</li><li><strong>Two-finger tap</strong> toggles the grid and threat overlay.</li><li>Every action is undoable <strong>once per combat</strong> (&quot;Rewind&quot;), restoring the pre-action state. This is a learning tool, not a safety net.</li></ul>
+<h3 id="9-2-readability">9.2 Readability</h3>
+<ul><li>Damage numbers: 32 px pixel font, outlined; crits 48 px and shake 8 px / 120 ms.</li><li>Status icons always paired with a letter (B, BL, P, S) for colorblind players.</li><li>Intent icons: sword (attack), flask (heal), shield (buff), eye (debuff), skull (execute).</li><li>Minimum touch target 48×48 dp.</li><li>Text scale 0.8×–1.4×; all layouts reflow.</li></ul>
+<h3 id="9-3-auto-battle">9.3 Auto-battle</h3>
+<ul><li>Unlocked at Renown 3.</li><li>Available only on floors with no active Echo, no boss, and no unresolved reality rule.</li><li>Runs the deterministic sim at 20× and plays back the event log at 1×/2×/3×.</li><li>Stops automatically on: HP &lt; 35%, an Echo spawn, a new item, a level-up, or a floor exit.</li><li>Auto-battle never makes choices a player could not; it uses the same AI as enemies, with a conservative profile.</li></ul>
+<h3 id="9-4-save-resume">9.4 Save/resume</h3>
+<ul><li>Save on every room transition and every combat action (debounced 500 ms).</li><li>Kill the app mid-combat → resume at the start of the current turn.</li><li>One profile per device; cloud sync optional (Game Center / Play Games). Conflicts merge Echoes by id, union stash items by instanceId, then enforce capacity in favor of the higher-playtime profile.</li></ul>
+<hr>
+<h2 id="10-art-direction">10. Art direction</h2>
+<h3 id="10-1-specs">10.1 Specs</h3>
+<ul><li>32×32 tiles; characters 64×64, 4 directions, 8-frame idle/walk, 6-frame attack, 4-frame hurt/death.</li><li>32-bit-era palette discipline: 48 colors per band, 12 reserved for VFX.</li><li>2.5D top-down with Y-sorting and fake height (walls 1.5 tiles tall); isometric projection only for the floor-100 arena.</li><li>2D normal maps + point lights: torches, magic, Echo aura. Light radius is a gameplay stat, not just mood.</li><li>Fog of war shader with dithered edge, not a hard black mask.</li></ul>
+<h3 id="10-2-palette">10.2 Palette</h3>
+<div class="table-scroll"><table><thead><tr><th>Role</th><th>Hex</th></tr></thead><tbody><tr><td>Soot / shadow</td><td><code>#2B2118</code></td></tr><tr><td>Stone</td><td><code>#4A4640</code></td></tr><tr><td>Deep purple</td><td><code>#2E1A3A</code></td></tr><tr><td>Bone</td><td><code>#D8CBB0</code></td></tr><tr><td>Ember</td><td><code>#D46A2C</code></td></tr><tr><td>Arcane blue</td><td><code>#4C7FD6</code></td></tr><tr><td>Blood</td><td><code>#8E2B2B</code></td></tr><tr><td>Poison</td><td><code>#5C8A3A</code></td></tr><tr><td>Gold</td><td><code>#C9A24B</code></td></tr></tbody></table></div>
+<h3 id="10-3-typography">10.3 Typography</h3>
+<ul><li>Display / titles: <strong>Cinzel</strong> (OFL), uppercase, tracked +4%.</li><li>Body / lore: <strong>EB Garamond</strong> (OFL).</li><li>UI stats / numbers: <strong>Inter</strong> (OFL), tabular numerals.</li><li>In-world damage and pickups: <strong>m5x7</strong> pixel font at 2× / 3×.</li></ul>
+<h3 id="10-4-echo-visual-language">10.4 Echo visual language</h3>
+<ul><li>The Echo is the dead hero's sprite, desaturated 40%, with a purple rim light and a floating memory shard.</li><li>Idle animation is the character's idle, slowed to 0.7× and offset by 2 frames — &quot;wrong&quot; without being a new asset.</li><li>On spawn: 0.4 s desaturation pulse, reversed creation chime, and a ring of dust.</li><li>On defeat: the gear silhouette collapses into a shard; the screen briefly shows the death card again.</li></ul>
+<h3 id="10-5-audio">10.5 Audio</h3>
+<ul><li>Exploration: low drone + room-tone layer (dripping, wind, distant hammer).</li><li>Combat: percussion layer enters on initiative; intensity rises with enemy count.</li><li>Echo theme: music box + reversed choir, tempo 0.7× the Guild theme.</li><li>Character creation motif (3 notes) is reversed and pitched down for Echo spawn. The player should feel the recognition before the UI explains it.</li><li>All SFX mono-compatible; no audio essential to gameplay.</li></ul>
+<hr>
+<h2 id="11-narrative-light-touch">11. Narrative (light touch)</h2>
+<p>The Guild has sent heroes into the Tower for 300 years. The Tower does not kill them; it <strong>files</strong> them. Every floor is a shelf. The 100th floor is the archive's index — a creature made of every hero who ever reached it. The final boss uses your own Echoes because it has been waiting for someone with a legacy worth reading.</p>
+<p>Told through:</p>
+<ul><li>Item descriptions (1–2 lines).</li><li>Echo epitaphs (auto-generated from cause of death + class + floor).</li><li>20 lore fragments in the Codex: one per boss, plus ten environmental pieces.</li><li>No cutscenes longer than 10 seconds; no unskippable dialogue.</li></ul>
+<hr>
+<h2 id="12-accessibility">12. Accessibility</h2>
+<ul><li>Colorblind palettes for status icons and elemental damage.</li><li>Screen-shake toggle and intensity slider.</li><li>Text scale 0.8–1.4; high-contrast UI mode.</li><li>Full one-handed layout; no mandatory two-finger gestures (all have buttons).</li><li>Turn undo once per combat; telegraphs are always visible.</li><li>No QTE, no timing-based input, no audio-only cues.</li><li>Difficulty options: <strong>Standard</strong> and <strong>Pilgrim</strong> (Echoes −15% stats, traps telegraphed, no achievement lockout beyond a cosmetic badge).</li></ul>
+<hr>
+<h2 id="13-monetization-and-live-operations">13. Monetization and live operations</h2>
+<ul><li><strong>Premium unlock:</strong> $6.99, full game, no ads, no energy.</li><li><strong>Cosmetics:</strong> $1.99–$3.99 Echo skins (the dead hero's silhouette), Guild Hall themes, alternate damage-number fonts. Cosmetic only.</li><li><strong>Expansion:</strong> &quot;The 101st Floor&quot; — 20 floors, 8 classes, new band rule. $4.99.</li><li><strong>No</strong> loot boxes, no stat boosts, no continues, no ads.</li><li>Seasonal <strong>Echo Hunt</strong> (free): a curated weekly seed with a leaderboard for deepest reclaim. Server optional; offline score card otherwise.</li></ul>
+<hr>
+<h2 id="14-balance-targets-and-kpis">14. Balance targets and KPIs</h2>
+<h3 id="14-1-balance">14.1 Balance</h3>
+<div class="table-scroll"><table><thead><tr><th>Metric</th><th>Target</th></tr></thead><tbody><tr><td>First death</td><td>Floor 6–9, within 20 min</td></tr><tr><td>First successful reclaim</td><td>70% of players within 2 attempts</td></tr><tr><td>First band boss clear</td><td>60% of players within 60 min</td></tr><tr><td>Floor 100 clear (first)</td><td>8–12 h total play</td></tr><tr><td>Class pick rate</td><td>no class &gt; 8% of created characters; no class &lt; 0.5%</td></tr><tr><td>Echo death spiral</td><td>&lt; 5% of players with 3+ unresolved Echoes on one floor</td></tr><tr><td>Combat length</td><td>3–5 rounds normal, 6–10 elite/Echo</td></tr><tr><td>Run length</td><td>25–40 min per descent</td></tr></tbody></table></div>
+<h3 id="14-2-kpis">14.2 KPIs</h3>
+<ul><li>Tutorial completion ≥ 80%.</li><li>D1 ≥ 35%, D7 ≥ 15%, D30 ≥ 6%.</li><li>Median session 8–12 min; 3+ sessions/day for retained players.</li><li>Crash-free sessions ≥ 99.5%.</li><li>Death-to-new-character time &lt; 20 s.</li><li>Auto-battle usage 30–50% of cleared-floor time (not higher; if higher, manual combat is too slow).</li></ul>
+<hr>
+<h2 id="15-risks-and-mitigations">15. Risks and mitigations</h2>
+<div class="table-scroll"><table><thead><tr><th>Risk</th><th>Why it matters</th><th>Mitigation</th></tr></thead><tbody><tr><td><strong>Death spiral</strong></td><td>A weak hero vs a strong Echo feels unfair</td><td>Depth Ward, Resonance, Requiem, Fade, Heirloom XP</td></tr><tr><td><strong>Echo snowball</strong></td><td>Many Echoes make a floor unplayable</td><td>Cap 6/floor; overflow becomes Wailing (loot, not lock); Requiem</td></tr><tr><td><strong>50 classes = 50 balance problems</strong></td><td>Content and QA cost</td><td>Lane data-driven kits; 4 actives each; balance by role, not per-class; automated sim</td></tr><tr><td><strong>Procedural sameness</strong></td><td>100 floors of rooms</td><td>Band rules change movement/vision/economy, not just tiles</td></tr><tr><td><strong>Mobile readability</strong></td><td>9×9 grid + dense UI in portrait</td><td>Thumb zone, intent strip, icon+letter, 48 dp targets, playtest on 5.5&quot;</td></tr><tr><td><strong>Save corruption</strong></td><td>Losing a 20-hour graveyard</td><td>Per-Echo files, atomic writes, checksums, schema migrations, cloud backup</td></tr><tr><td><strong>Grind</strong></td><td>Replaying floors to reach an Echo</td><td>Descent Gates, auto-battle, Heirloom XP</td></tr><tr><td><strong>Echo AI exploits</strong></td><td>Players bait the AI into dumb loops</td><td>Utility + role overrides; telemetry on win rate vs Echo; no pathing through hazards</td></tr><tr><td><strong>Premium ceiling</strong></td><td>Hardcore niche</td><td>Cosmetic skins, expansion, demo at floor 10</td></tr></tbody></table></div>
+<hr>
+<h2 id="16-scope-and-mvp-cut">16. Scope and MVP cut</h2>
+<div class="table-scroll"><table><thead><tr><th>Milestone</th><th>Content</th><th>Purpose</th></tr></thead><tbody><tr><td><strong>Vertical slice</strong></td><td>6 classes, 10 floors, Echo loop, 1 boss</td><td>Prove the death→reclaim loop is fun</td></tr><tr><td><strong>Alpha</strong></td><td>24 classes, 40 floors, 3 bands, items, auto-battle</td><td>Prove retention and build diversity</td></tr><tr><td><strong>Beta</strong></td><td>50 classes, 80 floors, 4 bands, full UX</td><td>Content lock and balance</td></tr><tr><td><strong>1.0</strong></td><td>100 floors, final boss, cosmetics, cloud save</td><td>Ship</td></tr></tbody></table></div>
+<p>The 50-class matrix and 100-floor plan are the 1.0 target, not the first build. The vertical slice must include at least one secret class and one Echo reclaim.</p>
+<hr>
+<h2 id="17-glossary">17. Glossary</h2>
+<ul><li><strong>Echo:</strong> the AI-controlled corpse of a dead player character, on the floor where it died.</li><li><strong>Ally:</strong> the hero or a summon the hero controls; there is no AI companion.</li><li><strong>Summon:</strong> a temporary player-side unit created by a skill or passive; it acts after the hero and vanishes at combat end.</li><li><strong>Mourner:</strong> an enemy from the floor pool that guards an Echo; not a player companion.</li><li><strong>Reclaim:</strong> defeating your Echo to recover gear, XP, gold, and a Memory Shard.</li><li><strong>Memory Shard:</strong> consumable that teaches one skill from a dead class, regardless of current class.</li><li><strong>Lane:</strong> the pair (or pure stat) that selects a class family from the 10-point allocation.</li><li><strong>Descent Gate:</strong> unlocked start point at floors 1/11/31/61/91.</li><li><strong>Depth Ward:</strong> minimum level required to enter a band.</li><li><strong>Wailing Echo:</strong> overflow Echo at 7+ per floor; stronger, richer, still reclaimable.</li><li><strong>Extraction:</strong> returning to the Guild alive (or using a Vault Rune) to keep loot.</li></ul>
+    <nav class="doc-footer" aria-label="Document navigation">
+      <a href="index.html">← All documents</a>
+      <a href="tech.html">Technical Plan →</a>
+    </nav>
+  </article>
+</div>
+</main>
+<footer class="site-footer">
+  <div class="shell">
+    <p>Echoes of the 100th Floor · design dossier v1.0 · 3,003 legal builds, 50 callings</p>
+    <div class="footer-links">
+      <a href="gdd.html">GDD</a>
+      <a href="tech.html">Tech plan</a>
+      <a href="classes.html">Class matrix</a>
+      <a href="design/classes.json">classes.json</a>
+    </div>
+  </div>
+</footer>
+<script src="assets/app.js" defer></script>
+</body>
+</html>
